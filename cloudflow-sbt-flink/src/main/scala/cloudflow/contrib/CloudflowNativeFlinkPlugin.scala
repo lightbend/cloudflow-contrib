@@ -47,15 +47,14 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
 
   override lazy val projectSettings = Seq(
     flinkNativeCloudflowDeps :=
-      Seq(
-        "com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
+      Seq("com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
         "com.lightbend.cloudflow.contrib" %% "cloudflow-flink-testkit" % contribVersion % "test"),
     flinkNativeCloudflowDockerInstructions := {
       val appDir: File = stage.value
       val appJarsDir: File = new File(appDir, AppJarsDir)
       val depJarsDir: File = new File(appDir, DepJarsDir)
 
-      val flinkEntrypoint = (ThisProject / target).value / "cloudflow" / "flink" / "native" / "docker-entrypoint.sh"
+      val flinkEntrypoint = (ThisProject / target).value / "cloudflow-flink" / "docker-entrypoint.sh"
       IO.write(flinkEntrypoint, flinkEntrypointContent)
 
       val scalaVersion = (ThisProject / scalaBinaryVersion).value
