@@ -1,3 +1,5 @@
+ThisBuild / dynverSeparator := "-"
+
 lazy val flink =
   Project(id = "cloudflow-flink", base = file("cloudflow-flink"))
     .enablePlugins(ScalafmtPlugin)
@@ -29,3 +31,36 @@ lazy val flinkTests =
       scalafmtOnCompile := true,
       (sourceGenerators in Test) += (avroScalaGenerateSpecific in Test).taskValue,
       parallelExecution in Test := false)
+
+lazy val flinkSbtPlugin =
+  Project(id = "cloudflow-sbt-flink", base = file("cloudflow-sbt-flink"))
+    .settings(name := "sbt-cloudflow-contrib-flink")
+    .enablePlugins(BuildInfoPlugin, ScalafmtPlugin, SbtPlugin)
+    // .settings(Dependencies.cloudflowSbtPlugin)
+    .settings(
+      scalaVersion := Dependencies.Scala212,
+      scalafmtOnCompile := true,
+      sbtPlugin := true,
+      crossSbtVersions := Vector("1.4.9"),
+      buildInfoKeys := Seq[BuildInfoKey](version),
+      addSbtPlugin("se.marcuslonnberg" % "sbt-docker" % "1.8.0"),
+      addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.25"),
+      // addSbtPlugin("com.cavorite" % "sbt-avro-1-8" % "1.1.9"),
+      // addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % Dependencies.Versions.akkaGrpc),
+      // addSbtPlugin("com.julianpeeters" % "sbt-avrohugger" % "2.0.0-RC18"),
+      // addSbtPlugin("com.lightbend.sbt" % "sbt-javaagent" % "0.1.5"),
+      // addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.2.0"),
+      scriptedLaunchOpts := {
+        scriptedLaunchOpts.value ++
+        Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+      },
+      scriptedBufferLog := false)
+
+lazy val root = Project(id = "root", base = file("."))
+  .settings(name := "root", skip in publish := true, scalafmtOnCompile := true, crossScalaVersions := Seq())
+  .withId("root")
+  .aggregate(
+    flink,
+    flinkTestkit,
+    flinkTests,
+    flinkSbtPlugin)
