@@ -43,9 +43,9 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
 
   import autoImport._
 
-  override def trigger = noTriggers
+  override def trigger = noTrigger
 
-  override lazy val buildSettings = Seq(
+  override lazy val projectSettings = Seq(
     flinkNativeCloudflowDeps :=
       Seq(
         "com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
