@@ -118,7 +118,7 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
 
   private lazy val flinkEntrypointContent =
     scala.io.Source
-      .fromResource("runtimes/flink/native/docker-entrypoint.sh", getClass().getClassLoader())
+      .fromResource("docker-entrypoint.sh", getClass().getClassLoader())
       .getLines
       .mkString("\n")
 
