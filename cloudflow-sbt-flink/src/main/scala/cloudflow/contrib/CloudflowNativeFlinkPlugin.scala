@@ -47,7 +47,8 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
 
   override lazy val projectSettings = Seq(
     flinkNativeCloudflowDeps :=
-      Seq("com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
+      Seq(
+        "com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
         "com.lightbend.cloudflow.contrib" %% "cloudflow-flink-testkit" % contribVersion % "test"),
     flinkNativeCloudflowDockerInstructions := {
       val appDir: File = stage.value
