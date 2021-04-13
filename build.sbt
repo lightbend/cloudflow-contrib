@@ -1,11 +1,11 @@
 ThisBuild / dynverSeparator := "-"
-ThisBuild / sonatypeProfileName := "com.lightbend.cloudflow"
 
 lazy val flink =
   Project(id = "cloudflow-flink", base = file("cloudflow-flink"))
     .enablePlugins(ScalafmtPlugin)
     .settings(Dependencies.flinkStreamlet)
     .settings(
+      name := "contrib-flink",
       scalaVersion := Dependencies.Scala212,
       crossScalaVersions := Vector(Dependencies.Scala212),
       scalafmtOnCompile := true,
@@ -17,6 +17,7 @@ lazy val flinkTestkit =
     .enablePlugins(ScalafmtPlugin)
     .dependsOn(flink)
     .settings(
+      name := "contrib-flink-testkit",
       scalaVersion := Dependencies.Scala212,
       crossScalaVersions := Vector(Dependencies.Scala212),
       scalafmtOnCompile := true)
@@ -27,6 +28,7 @@ lazy val flinkTests =
     .dependsOn(flinkTestkit)
     .settings(Dependencies.flinkTests)
     .settings(
+      name := "contrib-flink-tests",
       scalaVersion := Dependencies.Scala212,
       crossScalaVersions := Vector(Dependencies.Scala212),
       scalafmtOnCompile := true,
@@ -38,6 +40,7 @@ lazy val flinkSbtPlugin =
     .settings(name := "sbt-cloudflow-contrib-flink")
     .enablePlugins(BuildInfoPlugin, ScalafmtPlugin, SbtPlugin)
     .settings(
+      name := "contrib-sbt-flink",
       scalaVersion := Dependencies.Scala212,
       scalafmtOnCompile := true,
       sbtPlugin := true,

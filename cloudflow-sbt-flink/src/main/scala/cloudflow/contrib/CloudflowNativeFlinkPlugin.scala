@@ -41,8 +41,8 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
 
     val flinkNativeCloudflowDeps =
       Seq(
-        "com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
-        "com.lightbend.cloudflow.contrib" %% "cloudflow-flink-testkit" % contribVersion % "test")
+        "com.lightbend.cloudflow" %% "contrib-flink" % contribVersion,
+        "com.lightbend.cloudflow" %% "contrib-flink-testkit" % contribVersion % "test")
 
     def fixFlinkNativeCloudflowDeps(ld: Seq[ModuleID]): Seq[ModuleID] = {
       ld.filter { dep =>

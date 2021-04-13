@@ -13,7 +13,7 @@ object Common extends AutoPlugin {
 
   override def globalSettings =
     Seq(
-      organization := "com.lightbend.cloudflow.contrib",
+      organization := "com.lightbend.cloudflow",
       organizationName := "Lightbend Inc.",
       organizationHomepage := Some(url("https://www.lightbend.com/")),
       startYear := Some(2020),
