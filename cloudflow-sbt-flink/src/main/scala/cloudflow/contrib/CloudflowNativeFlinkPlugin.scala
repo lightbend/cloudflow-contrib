@@ -62,14 +62,13 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
       val flinkVersion = "1.13.0"
       val flinkPackageVersion = "1.13.0-rc0"
 
-      val flinkTgz = s"flink-$flinkVersion-bin-scala_2.12.tgz"
+      val flinkTgz = s"flink-${flinkVersion}-bin-scala_${scalaVersion}.tgz"
 
       val flinkTgzUrl = s"https://dist.apache.org/repos/dist/dev/flink/flink-${flinkPackageVersion}/$flinkTgz"
 
       Seq(
         Instructions.Env("FLINK_VERSION", flinkVersion),
         Instructions.Env("SCALA_VERSION", scalaVersion),
-        Instructions.Env("TEST_VERSION", scalaVersion),
         Instructions.Env("FLINK_HOME", FlinkHome),
         Instructions.Env("PATH", "$FLINK_HOME/bin:$PATH"),
         Instructions.Env("FLINK_ENV_JAVA_OPTS", "-Dlogback.configurationFile=/opt/logging/logback.xml"),
@@ -111,8 +110,14 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
           .Copy(sources = Seq(CopyFile(depJarsDir)), destination = FlinkUsrLib, chown = Some(userAsOwner(UserInImage))),
         Instructions
           .Copy(sources = Seq(CopyFile(appJarsDir)), destination = FlinkUsrLib, chown = Some(userAsOwner(UserInImage))),
+        Instructions
+          .Copy(sources = Seq(CopyFile(depJarsDir)), destination = s"${FlinkHome}/lib", chown = Some(userAsOwner(UserInImage))),
+        Instructions
+          .Copy(sources = Seq(CopyFile(appJarsDir)), destination = s"${FlinkHome}/lib", chown = Some(userAsOwner(UserInImage))),
         Instructions.Run(
           s"cp ${FlinkUsrLib}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar  $FlinkUsrLib/cloudflow-runner.jar"),
+        Instructions.Run(
+          s"rm ${FlinkUsrLib}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar"),
         Instructions.Cmd("help"),
         Instructions.Expose(Seq(6123, 8081)))
     })
