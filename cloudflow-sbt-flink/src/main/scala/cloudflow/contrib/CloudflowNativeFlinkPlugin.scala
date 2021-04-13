@@ -36,9 +36,21 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
   val contribVersion = buildinfo.BuildInfo.version
 
   object autoImport {
-    val flinkNativeCloudflowDeps = settingKey[Seq[ModuleID]]("Flink Native dependencies")
+    // val flinkNativeCloudflowDeps = settingKey[Seq[ModuleID]]("Flink Native dependencies")
     val flinkNativeCloudflowDockerInstructions =
       taskKey[Seq[sbtdocker.Instruction]]("Docker instructions to build the Cloudflow Flink Native Streamlet")
+
+    val flinkNativeCloudflowDeps =
+      Seq(
+        "com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
+        "com.lightbend.cloudflow.contrib" %% "cloudflow-flink-testkit" % contribVersion % "test")
+
+    def fixFlinkNativeCloudflowDeps(ld: Seq[ModuleID]): Seq[ModuleID] = {
+      ld.filter { dep =>
+        !(dep.organization == "com.lightbend.cloudflow" && dep.name.startsWith("cloudflow-flink"))
+      } ++ flinkNativeCloudflowDeps
+    }
+
   }
 
   import autoImport._
@@ -46,10 +58,10 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
   override def trigger = noTrigger
 
   override lazy val projectSettings = Seq(
-    flinkNativeCloudflowDeps :=
-      Seq(
-        "com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
-        "com.lightbend.cloudflow.contrib" %% "cloudflow-flink-testkit" % contribVersion % "test"),
+    // flinkNativeCloudflowDeps :=
+    //   Seq(
+    //     "com.lightbend.cloudflow.contrib" %% "cloudflow-flink" % contribVersion,
+    //     "com.lightbend.cloudflow.contrib" %% "cloudflow-flink-testkit" % contribVersion % "test"),
     flinkNativeCloudflowDockerInstructions := {
       val appDir: File = stage.value
       val appJarsDir: File = new File(appDir, AppJarsDir)
