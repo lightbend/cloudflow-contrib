@@ -2,7 +2,7 @@ import org.scalafmt.sbt.ScalafmtPlugin.autoImport._
 import sbt.Keys._
 import sbt._
 import sbt.plugins.JvmPlugin
-import xerial.sbt.Sonatype.SonatypeKeys.{ stagingProfileName, sonatypePublishToBundle }
+import xerial.sbt.Sonatype.SonatypeKeys.{ sonatypeProfileName, sonatypePublishToBundle }
 import com.jsuereth.sbtpgp.PgpKeys.useGpgAgent
 
 object Common extends AutoPlugin {
@@ -22,7 +22,7 @@ object Common extends AutoPlugin {
       scmInfo := Some(ScmInfo(url("https://github.com/lightbend/cloudflow"), "git@github.com:lightbend/cloudflow.git")),
       licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
       publishMavenStyle := true,
-      stagingProfileName := "com.lightbend",
+      sonatypeProfileName := "com.lightbend",
       developers += Developer(
           "contributors",
           "Contributors",
