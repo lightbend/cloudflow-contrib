@@ -1,4 +1,4 @@
-name: Release Akka Platform Operator
+name: Release Clouflow Contrib
 
 on:
   push:
