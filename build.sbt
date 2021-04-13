@@ -1,5 +1,4 @@
 ThisBuild / dynverSeparator := "-"
-ThisBuild / sonatypeProfileName := "com.lightbend"
 
 lazy val flink =
   Project(id = "cloudflow-flink", base = file("cloudflow-flink"))
