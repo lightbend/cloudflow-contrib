@@ -22,7 +22,7 @@ OUTPUT_CMD="${STREAMLET_FOLDER}output/delete-cmd.sh"
 # https://issues.apache.org/jira/browse/FLINK-22262
 #
 cat > "${OUTPUT_CMD}" << EOF
-    jobId=\$(kubectl get configmaps --namespace ${APPLICATION} -l app=${cluster_id} -o json | jq -r '.items[] | select(.metadata.name |  endswith("jobmanager-leader")) | .metadata.name' | sed s"/${cluster_id}-//" | sed s"/-jobmanager-leader//")
+    jobId=\$(kubectl get configmaps --namespace ${APPLICATION} -l app=${cluster_id} -o json | jq -r '.items[] | select(.metadata.name | endswith("jobmanager-leader")) | .metadata.name' | sed s"/${cluster_id}-//" | sed s"/-jobmanager-leader//")
     flink cancel --target kubernetes-application -Dkubernetes.cluster-id=taxi-ride-fare-processor -Dkubernetes.namespace=taxi-ride-fare \$jobId
     kubectl delete deployment ${cluster_id} --namespace ${APPLICATION}
     kubectl delete configmaps -l app=${cluster_id} --namespace ${APPLICATION}
