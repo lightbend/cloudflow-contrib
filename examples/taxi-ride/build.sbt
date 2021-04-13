@@ -52,11 +52,8 @@ lazy val processor = appModule("processor")
     commonSettings,
     resolvers += "Flink 13.0 RC0".at("https://repository.apache.org/content/repositories/orgapacheflink-1417/"),
     baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
-    // libraryDependencies ~= {_.filter{ dep => !(dep.organization == "com.lightbend.cloudflow" && (dep.name.startsWith("cloudflow-flink") || dep.name.startsWith("cloudflow-localrunner")))}},
     libraryDependencies ~= fixFlinkNativeCloudflowDeps,
     libraryDependencies ++= Seq(
-        "com.lightbend.cloudflow" %% s"cloudflow-runner" % "2.0.26-RC12",
-        "com.lightbend.cloudflow" %% s"cloudflow-localrunner" % "2.0.26-RC12",
         "ch.qos.logback"         %  "logback-classic"        % "1.2.3",
         "org.scalatest"          %% "scalatest"              % "3.0.8"  % "test"
       ),
