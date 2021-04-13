@@ -110,14 +110,9 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
           .Copy(sources = Seq(CopyFile(depJarsDir)), destination = FlinkUsrLib, chown = Some(userAsOwner(UserInImage))),
         Instructions
           .Copy(sources = Seq(CopyFile(appJarsDir)), destination = FlinkUsrLib, chown = Some(userAsOwner(UserInImage))),
-        Instructions
-          .Copy(sources = Seq(CopyFile(depJarsDir)), destination = s"${FlinkHome}/lib", chown = Some(userAsOwner(UserInImage))),
-        Instructions
-          .Copy(sources = Seq(CopyFile(appJarsDir)), destination = s"${FlinkHome}/lib", chown = Some(userAsOwner(UserInImage))),
         Instructions.Run(
           s"cp ${FlinkUsrLib}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar  $FlinkUsrLib/cloudflow-runner.jar"),
-        Instructions.Run(
-          s"rm ${FlinkUsrLib}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar"),
+        Instructions.Run(s"rm ${FlinkUsrLib}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar"),
         Instructions.Cmd("help"),
         Instructions.Expose(Seq(6123, 8081)))
     })
