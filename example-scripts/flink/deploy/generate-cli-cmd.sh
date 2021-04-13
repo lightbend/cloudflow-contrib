@@ -25,16 +25,16 @@ mkdir -p "${STREAMLET_FOLDER}output"
 OUTPUT_CMD="${STREAMLET_FOLDER}output/cli-cmd.sh"
 
 cat > "${OUTPUT_CMD}" << EOF
-  flink run-application \\
-    --target kubernetes-application \\
-    -Dkubernetes.cluster-id=${cluster_id} \\
-    -Dkubernetes.service-account=${SERVICE_ACCOUNT} \\
-    -Dkubernetes.container.image=${docker_image} \\
-    -Dkubernetes.namespace=${APPLICATION} \\
-    -Dparallelism.default=2 \\
-    -Dhigh-availability=org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory \\
-    -Dhigh-availability.storageDir=/mnt/flink/storage/ksha \\
-    -Dkubernetes.pod-template-file=output/pod-template.yaml \\
-    local:///opt/flink/usrlib/cloudflow-runner.jar
+    flink run-application \\
+        --target kubernetes-application \\
+        -Dkubernetes.cluster-id=${cluster_id} \\
+        -Dkubernetes.service-account=${SERVICE_ACCOUNT} \\
+        -Dkubernetes.container.image=${docker_image} \\
+        -Dkubernetes.namespace=${APPLICATION} \\
+        -Dparallelism.default=2 \\
+        -Dhigh-availability=org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory \\
+        -Dhigh-availability.storageDir=/mnt/flink/storage/ksha \\
+        -Dkubernetes.pod-template-file=output/pod-template.yaml \\
+        local:///opt/flink/usrlib/cloudflow-runner.jar
 EOF
 chmod a+x "${OUTPUT_CMD}"
