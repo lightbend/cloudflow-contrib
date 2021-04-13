@@ -59,8 +59,4 @@ lazy val flinkSbtPlugin =
 lazy val root = Project(id = "root", base = file("."))
   .settings(name := "root", skip in publish := true, scalafmtOnCompile := true, crossScalaVersions := Seq())
   .withId("root")
-  .aggregate(
-    flink,
-    flinkTestkit,
-    flinkTests,
-    flinkSbtPlugin)
+  .aggregate(flink, flinkTestkit, flinkTests, flinkSbtPlugin)
