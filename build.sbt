@@ -36,7 +36,6 @@ lazy val flinkSbtPlugin =
   Project(id = "cloudflow-sbt-flink", base = file("cloudflow-sbt-flink"))
     .settings(name := "sbt-cloudflow-contrib-flink")
     .enablePlugins(BuildInfoPlugin, ScalafmtPlugin, SbtPlugin)
-    // .settings(Dependencies.cloudflowSbtPlugin)
     .settings(
       scalaVersion := Dependencies.Scala212,
       scalafmtOnCompile := true,
@@ -48,6 +47,12 @@ lazy val flinkSbtPlugin =
       scriptedLaunchOpts := {
         scriptedLaunchOpts.value ++
         Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+      },
+      scriptedDependencies := {
+        (ThisProject / scriptedDependencies).value
+        (flink / publishLocal).value
+        (flinkTestkit / publishLocal).value
+        (flinkTests / publishLocal).value
       },
       scriptedBufferLog := false)
 
