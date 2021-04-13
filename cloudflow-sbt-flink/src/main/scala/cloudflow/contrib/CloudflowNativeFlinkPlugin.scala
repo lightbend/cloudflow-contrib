@@ -69,6 +69,7 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
       Seq(
         Instructions.Env("FLINK_VERSION", flinkVersion),
         Instructions.Env("SCALA_VERSION", scalaVersion),
+        Instructions.Env("TEST_VERSION", scalaVersion),
         Instructions.Env("FLINK_HOME", FlinkHome),
         Instructions.Env("PATH", "$FLINK_HOME/bin:$PATH"),
         Instructions.Env("FLINK_ENV_JAVA_OPTS", "-Dlogback.configurationFile=/opt/logging/logback.xml"),
