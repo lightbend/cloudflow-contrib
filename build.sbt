@@ -32,8 +32,8 @@ lazy val flinkTests =
       scalaVersion := Dependencies.Scala212,
       crossScalaVersions := Vector(Dependencies.Scala212),
       scalafmtOnCompile := true,
-      (sourceGenerators in Test) += (avroScalaGenerateSpecific in Test).taskValue,
-      parallelExecution in Test := false)
+      (Test / sourceGenerators) += (Test / avroScalaGenerateSpecific).taskValue,
+      Test / parallelExecution := false)
 
 lazy val flinkSbtPlugin =
   Project(id = "cloudflow-sbt-flink", base = file("cloudflow-sbt-flink"))
@@ -60,7 +60,42 @@ lazy val flinkSbtPlugin =
       },
       scriptedBufferLog := false)
 
+lazy val spark =
+  Project(id = "cloudflow-spark", base = file("cloudflow-spark"))
+    .enablePlugins(ScalafmtPlugin)
+    .settings(Dependencies.sparkStreamlet)
+    .settings(
+      name := "contrib-spark",
+      scalaVersion := Dependencies.Scala212,
+      crossScalaVersions := Vector(Dependencies.Scala212),
+      scalafmtOnCompile := true,
+      (Test / sourceGenerators) += (Test / avroScalaGenerateSpecific).taskValue)
+
+lazy val sparkTestkit =
+  Project(id = "cloudflow-spark-testkit", base = file("cloudflow-spark-testkit"))
+    .dependsOn(spark)
+    .enablePlugins(ScalafmtPlugin)
+    .settings(Dependencies.sparkTestkit)
+    .settings(
+      name := "contrib-spark-testkit",
+      scalaVersion := Dependencies.Scala212,
+      crossScalaVersions := Vector(Dependencies.Scala212),
+      scalafmtOnCompile := true)
+
+lazy val sparkTests =
+  Project(id = "cloudflow-spark-tests", base = file("cloudflow-spark-tests"))
+    .dependsOn(sparkTestkit)
+    .enablePlugins(ScalafmtPlugin)
+    .settings(Dependencies.sparkTests)
+    .settings(
+      name := "contrib-spark-tests",
+      scalaVersion := Dependencies.Scala212,
+      crossScalaVersions := Vector(Dependencies.Scala212),
+      scalafmtOnCompile := true,
+      (Test / sourceGenerators) += (Test / avroScalaGenerateSpecific).taskValue,
+      Test / parallelExecution in Test := false)
+
 lazy val root = Project(id = "root", base = file("."))
   .settings(name := "root", skip in publish := true, scalafmtOnCompile := true, crossScalaVersions := Seq())
   .withId("root")
-  .aggregate(flink, flinkTestkit, flinkTests, flinkSbtPlugin)
+  .aggregate(flink, flinkTestkit, flinkTests, flinkSbtPlugin, spark, sparkTestkit, sparkTests)
