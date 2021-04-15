@@ -18,6 +18,13 @@ if [ -z "$SERVICE_ACCOUNT" ]; then
     exit 1
 fi
 
+SAVEPOINT=$4
+if [ -z "$SAVEPOINT" ]; then
+    SAVEPOINT_STR=""
+else
+    SAVEPOINT_STR="--fromSavepoint=${SAVEPOINT}"
+fi
+
 cluster_id=$(jq -rc '.name' ${STREAMLET_FOLDER}streamlet.json | sed s'/\./\-/')
 docker_image=$(jq -rc '.image' ${STREAMLET_FOLDER}streamlet.json)
 
@@ -26,14 +33,16 @@ OUTPUT_CMD="${STREAMLET_FOLDER}output/cli-cmd.sh"
 
 cat > "${OUTPUT_CMD}" << EOF
     flink run-application \\
-        --target kubernetes-application \\
+        --target kubernetes-application ${SAVEPOINT_STR} \\
         -Dkubernetes.cluster-id=${cluster_id} \\
         -Dkubernetes.service-account=${SERVICE_ACCOUNT} \\
         -Dkubernetes.container.image=${docker_image} \\
         -Dkubernetes.namespace=${APPLICATION} \\
         -Dparallelism.default=2 \\
         -Dhigh-availability=org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory \\
-        -Dhigh-availability.storageDir=/mnt/flink/storage/ksha \\
+        -Dhigh-availability.storageDir=file:///mnt/flink/storage/ha \\
+        -Dstate.checkpoints.dir=file:///mnt/flink/storage/ha \\
+        -Dstate.savepoints.dir=file:///mnt/flink/storage/ha \\
         -Dkubernetes.pod-template-file=output/pod-template.yaml \\
         local:///opt/flink/usrlib/cloudflow-runner.jar
 EOF

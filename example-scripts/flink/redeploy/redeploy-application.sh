@@ -18,5 +18,6 @@ if [ -z "$SERVICE_ACCOUNT" ]; then
     exit 1
 fi
 
-(cd ../undeploy && ./undeploy-application.sh "${APPLICATION}")
-(cd ../deploy && ./deploy-application.sh "${APPLICATION}" "${SERVICE_ACCOUNT}")
+SAVEPOINT=$(cd ../undeploy && ./undeploy-application.sh "${APPLICATION}")
+echo "Savepoint is ${SAVEPOINT}"
+(cd ../deploy && ./deploy-application.sh "${APPLICATION}" "${SERVICE_ACCOUNT}" "${SAVEPOINT}")
