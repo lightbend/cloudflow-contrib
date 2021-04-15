@@ -43,8 +43,6 @@ cat > "${OUTPUT_CMD}" << EOF
         -Dhigh-availability.storageDir=file:///mnt/flink/storage/ha \\
         -Dstate.checkpoints.dir=file:///mnt/flink/storage/ha \\
         -Dstate.savepoints.dir=file:///mnt/flink/storage/ha \\
-        -Dcontainerized.master.env.ENABLE_BUILT_IN_PLUGINS=flink-oss-fs-hadoop-1.13.0.jar \\
-        -Dcontainerized.taskmanager.env.ENABLE_BUILT_IN_PLUGINS=flink-oss-fs-hadoop-1.13.0.jar \\
         -Dkubernetes.pod-template-file=output/pod-template.yaml \\
         local:///opt/flink/usrlib/cloudflow-runner.jar
 EOF
