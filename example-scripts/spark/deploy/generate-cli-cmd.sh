@@ -33,18 +33,19 @@ OUTPUT_CMD="${STREAMLET_FOLDER}output/cli-cmd.sh"
 
 cat > "${OUTPUT_CMD}" << EOF
 
-    MASTER=$(TERM=dumb kubectl cluster-info | grep master | sed -n -e 's/^.*at //p' | sed 's/\x1b\[[0-9;]*m//g')
+    MASTER=\$(TERM=dumb kubectl cluster-info | grep master | sed -n -e 's/^.*at //p' | sed 's/\x1b\[[0-9;]*m//g')
 
-    spark-submit \
-        --master "k8s://${MASTER}" \
-        --deploy-mode cluster \
-        --name ${docker_image} \
-        --class cloudflow.runner.Runner \
-        --conf spark.executor.instances=2 \
-        --conf spark.kubernetes.namespace=${APPLICATION} \
-        --conf spark.kubernetes.driver.podTemplateFile=output/pod-template.yaml \
-        --conf spark.kubernetes.authenticate.driver.serviceAccountName=${SERVICE_ACCOUNT} \
-        --conf spark.kubernetes.container.image=docker.io/andreatp/spark-example:0.0.2 \
-        local:///opt/spark/work-dir/cloudflow-runner_2.12-2.0.26-RC15.jar
+    spark-submit \\
+        --master "k8s://\${MASTER}" \\
+        --deploy-mode cluster \\
+        --name ${cluster_id} \\
+        --class cloudflow.runner.Runner \\
+        --conf spark.executor.instances=1 \\
+        --conf spark.kubernetes.submission.waitAppCompletion=false \\
+        --conf spark.kubernetes.namespace=${APPLICATION} \\
+        --conf spark.kubernetes.driver.podTemplateFile=output/pod-template.yaml \\
+        --conf spark.kubernetes.authenticate.driver.serviceAccountName=${SERVICE_ACCOUNT} \\
+        --conf spark.kubernetes.container.image=${docker_image} \\
+        local:///opt/spark/work-dir/cloudflow-runner.jar
 EOF
 chmod a+x "${OUTPUT_CMD}"

@@ -155,7 +155,6 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
           Seq("chmod", "g+w", "/mnt")).reduce(_ ++ Seq("&&") ++ _)),
       Instructions.WorkDir(OptAppDir),
       Instructions.EntryPoint.exec(Seq("bash", "/opt/spark-entrypoint.sh")),
-      Instructions.User(UserInImage),
       Instructions
         .Copy(sources = Seq(CopyFile(depJarsDir)), destination = OptAppDir, chown = Some(userAsOwner(UserInImage))),
       Instructions
@@ -163,6 +162,7 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
       Instructions.Run(
         s"cp ${OptAppDir}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar  $OptAppDir/cloudflow-runner.jar"),
       Instructions.Run(s"rm ${OptAppDir}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar"),
+      Instructions.User(UserInImage),
       Instructions.Expose(Seq(4040)))
   })
 
