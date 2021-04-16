@@ -97,12 +97,11 @@ class TestSparkStreamletContext(
 
   private def isRateSource(stream: Dataset[_]): Boolean = {
     import org.apache.spark.sql.execution.command.ExplainCommand
-    val explain = ExplainCommand(stream.queryExecution.logical, true)
-    // TODO: Spark 3.1.1
-    // val explain = ExplainCommand(stream.queryExecution.logical, org.apache.spark.sql.execution.SimpleMode)
+    val explain = ExplainCommand(stream.queryExecution.logical, org.apache.spark.sql.execution.ExtendedMode)
     val res = session.sessionState.executePlan(explain).executedPlan.executeCollect()
-    res.exists((row: InternalRow) =>
-      row.getString(0).contains("org.apache.spark.sql.execution.streaming.sources.RateStreamProvider"))
+    res.exists { (row: InternalRow) =>
+      row.getString(0).contains("org.apache.spark.sql.execution.streaming.sources.RateStreamProvider")
+    }
   }
 
 }

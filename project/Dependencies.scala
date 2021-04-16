@@ -10,7 +10,7 @@ object Dependencies {
     val cloudflowVersion = "2.0.26-RC12"
 
     val flinkVersion = "1.13.0"
-    val sparkVersion = "2.4.5"
+    val sparkVersion = "3.1.1"
     val akka = "2.6.14"
     val jackson = "2.11.4"
     val scalaTest = "3.2.7"
@@ -24,6 +24,7 @@ object Dependencies {
     val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
     val akkaProtobuf = "com.typesafe.akka" %% "akka-protobuf" % Versions.akka
     val akkaDiscovery = "com.typesafe.akka" %% "akka-discovery" % Versions.akka
+    val okio = "com.squareup.okio" % "okio" % "1.13.0"
 
     val flink = "org.apache.flink" %% "flink-scala" % Versions.flinkVersion
     val flinkStreaming = "org.apache.flink" %% "flink-streaming-scala" % Versions.flinkVersion
@@ -79,6 +80,7 @@ object Dependencies {
         Compile.akkaStream,
         Compile.akkaProtobuf,
         Compile.akkaDiscovery,
+        Compile.okio,
         Compile.log4jOverSlf4j,
         Compile.spark,
         Compile.sparkMllib,
