@@ -45,6 +45,8 @@ cat > "${OUTPUT_CMD}" << EOF
         --conf spark.kubernetes.namespace=${APPLICATION} \\
         --conf spark.kubernetes.driver.podTemplateFile=output/pod-template.yaml \\
         --conf spark.kubernetes.authenticate.driver.serviceAccountName=${SERVICE_ACCOUNT} \\
+        --conf spark.streaming.stopGracefullyOnShutdown=true \\
+        --conf spark.hadoop.fs.defaultFS=/mnt/storage/spark/${cluster_id} \\
         --conf spark.kubernetes.container.image=${docker_image} \\
         local:///opt/spark/work-dir/cloudflow-runner.jar
 EOF
