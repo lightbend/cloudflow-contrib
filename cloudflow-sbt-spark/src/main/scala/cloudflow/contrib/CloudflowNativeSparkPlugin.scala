@@ -110,8 +110,8 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
           // logback configuration, based on:
           // https://stackoverflow.com/a/45479379
           // logback is provided by the streamlet
-          // Seq("rm", s"${sparkHome}/jars/slf4j-log4j12-1.7.16.jar"),
-          // Seq("rm", s"${sparkHome}/jars/log4j-1.2.17.jar"),
+          Seq("rm", s"${sparkHome}/jars/slf4j-log4j12-1.7.16.jar"),
+          Seq("rm", s"${sparkHome}/jars/log4j-1.2.17.jar"),
           Seq("rm", "-rf", s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}"),
           Seq("chmod", "a+x", "/opt/spark-entrypoint.sh"),
           Seq("ln", "-s", "/lib", "/lib64"),
@@ -156,12 +156,20 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
       Instructions.WorkDir(OptAppDir),
       Instructions.EntryPoint.exec(Seq("bash", "/opt/spark-entrypoint.sh")),
       Instructions
-        .Copy(sources = Seq(CopyFile(depJarsDir)), destination = OptAppDir, chown = Some(userAsOwner(UserInImage))),
+        .Copy(
+          sources = Seq(CopyFile(depJarsDir)),
+          destination = "/opt/cloudflow",
+          chown = Some(userAsOwner(UserInImage))),
       Instructions
-        .Copy(sources = Seq(CopyFile(appJarsDir)), destination = OptAppDir, chown = Some(userAsOwner(UserInImage))),
+        .Copy(
+          sources = Seq(CopyFile(appJarsDir)),
+          destination = "/opt/cloudflow",
+          chown = Some(userAsOwner(UserInImage))),
       Instructions.Run(
-        s"cp ${OptAppDir}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar  $OptAppDir/cloudflow-runner.jar"),
-      Instructions.Run(s"rm ${OptAppDir}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar"),
+        s"cp /opt/cloudflow/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar  /opt/cloudflow/cloudflow-runner.jar"),
+      Instructions.Run(s"rm /opt/cloudflow/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar"),
+      // TODO: FIXME should not be needed
+      Instructions.Run(s"cp -r /opt/cloudflow/* /opt/spark/work-dir"),
       Instructions.User(UserInImage),
       Instructions.Expose(Seq(4040)))
   })

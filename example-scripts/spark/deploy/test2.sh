@@ -10,5 +10,5 @@ spark-submit \
   --conf spark.kubernetes.namespace=call-record-aggregator \
   --conf spark.kubernetes.driver.podTemplateFile=pod-template2.yaml \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark-service-account \
-  --conf spark.kubernetes.container.image=docker.io/andreatp/spark-example:0.0.3 \
-  local:///opt/spark/work-dir/cloudflow-runner_2.12-2.0.26-RC15.jar
+  --conf spark.kubernetes.container.image=docker.io/andreatp/spark-aggregation@sha256:2c09a222b094ffff7b01a04ae5cbbee011b4f25199062da3674ad57c444609dd \
+  local:///opt/spark/work-dir/cloudflow-runner.jar
