@@ -1,2 +1,2 @@
 
-docker build . -t docker.io/andreatp/spark-example:0.0.2
+docker build . -t docker.io/andreatp/spark-example:0.0.3

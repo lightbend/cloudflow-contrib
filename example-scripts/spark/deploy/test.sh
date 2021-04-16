@@ -7,6 +7,7 @@ spark-submit \
   --name call-record-aggregator-cdr-aggregator \
   --class cloudflow.runner.Runner \
   --conf spark.executor.instances=2 \
+  --conf spark.kubernetes.submission.waitAppCompletion=false \
   --conf spark.kubernetes.namespace=call-record-aggregator \
   --conf spark.kubernetes.driver.podTemplateFile=pod-template.yaml \
   --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark-service-account \
