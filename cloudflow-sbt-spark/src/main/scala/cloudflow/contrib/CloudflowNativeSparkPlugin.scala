@@ -73,11 +73,11 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
     IO.write(sparkEntrypointSh, sparkEntrypointShContent)
 
     val scalaVersion = (ThisProject / scalaBinaryVersion).value
-    val sparkVersion = "2.4.5"
+    val sparkVersion = "3.1.1"
     val sparkHome = "/opt/spark"
 
-    val sparkTgz = s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}.tgz"
-    val sparkTgzUrl = s"https://github.com/lightbend/spark/releases/download/${sparkVersion}-lightbend/${sparkTgz}"
+    val sparkTgz = s"spark-${sparkVersion}-bin-hadoop2.7.tgz"
+    val sparkTgzUrl = s"https://downloads.apache.org/spark/spark-${sparkVersion}/${sparkTgz}"
 
     val tiniVersion = "v0.18.0"
 
@@ -95,24 +95,21 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
           Seq("wget", sparkTgzUrl),
           Seq("tar", "-xvzf", sparkTgz),
           Seq("mkdir", "-p", sparkHome),
-          Seq("cp", "-r", s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}/jars", s"${sparkHome}/jars"),
-          Seq("cp", "-r", s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}/bin", s"${sparkHome}/bin"),
-          Seq("cp", "-r", s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}/sbin", s"${sparkHome}/sbin"),
-          Seq("cp", "-r", s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}/examples", s"${sparkHome}/examples"),
-          Seq("cp", "-r", s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}/data", s"${sparkHome}/data"),
-          Seq(
-            "cp",
-            s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}/kubernetes/dockerfiles/spark/entrypoint.sh",
-            "/opt/"),
+          Seq("cp", "-r", s"spark-${sparkVersion}-bin-hadoop2.7/jars", s"${sparkHome}/jars"),
+          Seq("cp", "-r", s"spark-${sparkVersion}-bin-hadoop2.7/bin", s"${sparkHome}/bin"),
+          Seq("cp", "-r", s"spark-${sparkVersion}-bin-hadoop2.7/sbin", s"${sparkHome}/sbin"),
+          Seq("cp", "-r", s"spark-${sparkVersion}-bin-hadoop2.7/examples", s"${sparkHome}/examples"),
+          Seq("cp", "-r", s"spark-${sparkVersion}-bin-hadoop2.7/data", s"${sparkHome}/data"),
+          Seq("cp", s"spark-${sparkVersion}-bin-hadoop2.7/kubernetes/dockerfiles/spark/entrypoint.sh", "/opt/"),
           Seq("mkdir", "-p", s"${sparkHome}/conf"),
           Seq("cp", "/tmp/log4j.properties", s"${sparkHome}/conf/log4j.properties"),
           Seq("rm", sparkTgz),
           // logback configuration, based on:
           // https://stackoverflow.com/a/45479379
           // logback is provided by the streamlet
-          Seq("rm", s"${sparkHome}/jars/slf4j-log4j12-1.7.16.jar"),
+          Seq("rm", s"${sparkHome}/jars/slf4j-log4j12-1.7.30.jar"),
           Seq("rm", s"${sparkHome}/jars/log4j-1.2.17.jar"),
-          Seq("rm", "-rf", s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}"),
+          Seq("rm", "-rf", s"spark-${sparkVersion}-bin-hadoop2.7"),
           Seq("chmod", "a+x", "/opt/spark-entrypoint.sh"),
           Seq("ln", "-s", "/lib", "/lib64"),
           Seq("apk", "add", "bash", "curl"),
