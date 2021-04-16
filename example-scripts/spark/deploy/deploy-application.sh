@@ -25,4 +25,4 @@ SAVEPOINT=$3
 ./foreach-streamlet.sh "${APPLICATION}" ./generate-cli-cmd.sh "${SERVICE_ACCOUNT}" "${SAVEPOINT}"
 ./foreach-streamlet.sh "${APPLICATION}" ./generate-pod-template.sh
 
-# ./foreach-streamlet.sh "${APPLICATION}" ./create-streamlet.sh
+./foreach-streamlet.sh "${APPLICATION}" ./create-streamlet.sh

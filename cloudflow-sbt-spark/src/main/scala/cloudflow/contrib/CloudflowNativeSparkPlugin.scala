@@ -110,8 +110,8 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
           // logback configuration, based on:
           // https://stackoverflow.com/a/45479379
           // logback is provided by the streamlet
-          Seq("rm", s"${sparkHome}/jars/slf4j-log4j12-1.7.16.jar"),
-          Seq("rm", s"${sparkHome}/jars/log4j-1.2.17.jar"),
+          // Seq("rm", s"${sparkHome}/jars/slf4j-log4j12-1.7.16.jar"),
+          // Seq("rm", s"${sparkHome}/jars/log4j-1.2.17.jar"),
           Seq("rm", "-rf", s"spark-${sparkVersion}-bin-cloudflow-${scalaVersion}"),
           Seq("chmod", "a+x", "/opt/spark-entrypoint.sh"),
           Seq("ln", "-s", "/lib", "/lib64"),
