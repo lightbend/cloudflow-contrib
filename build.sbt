@@ -95,7 +95,32 @@ lazy val sparkTests =
       (Test / sourceGenerators) += (Test / avroScalaGenerateSpecific).taskValue,
       Test / parallelExecution in Test := false)
 
+lazy val sparkSbtPlugin =
+  Project(id = "cloudflow-sbt-spark", base = file("cloudflow-sbt-spark"))
+    .settings(name := "sbt-cloudflow-contrib-spark")
+    .enablePlugins(BuildInfoPlugin, ScalafmtPlugin, SbtPlugin)
+    .settings(
+      name := "contrib-sbt-spark",
+      scalaVersion := Dependencies.Scala212,
+      scalafmtOnCompile := true,
+      sbtPlugin := true,
+      crossSbtVersions := Vector("1.4.9"),
+      buildInfoKeys := Seq[BuildInfoKey](version),
+      addSbtPlugin("se.marcuslonnberg" % "sbt-docker" % "1.8.2"),
+      addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.25"),
+      scriptedLaunchOpts := {
+        scriptedLaunchOpts.value ++
+        Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
+      },
+      scriptedDependencies := {
+        (ThisProject / scriptedDependencies).value
+        (spark / publishLocal).value
+        (sparkTestkit / publishLocal).value
+        (sparkTests / publishLocal).value
+      },
+      scriptedBufferLog := false)
+
 lazy val root = Project(id = "root", base = file("."))
   .settings(name := "root", skip in publish := true, scalafmtOnCompile := true, crossScalaVersions := Seq())
   .withId("root")
-  .aggregate(flink, flinkTestkit, flinkTests, flinkSbtPlugin, spark, sparkTestkit, sparkTests)
+  .aggregate(flink, flinkTestkit, flinkTests, flinkSbtPlugin, spark, sparkTestkit, sparkTests, sparkSbtPlugin)

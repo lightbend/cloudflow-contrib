@@ -7,4 +7,4 @@ if [ -z "$APPLICATION" ]; then
 fi
 
 kubectl create serviceaccount flink-service-account --namespace "${APPLICATION}"
-kubectl create clusterrolebinding flink-role-binding-flink --clusterrole=cluster-admin --serviceaccount="${APPLICATION}:flink-service-account"
+kubectl create clusterrolebinding flink-role-binding-flink --clusterrole=edit --serviceaccount="${APPLICATION}:flink-service-account"

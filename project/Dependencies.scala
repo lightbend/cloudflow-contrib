@@ -21,6 +21,9 @@ object Dependencies {
     val cloudflowStreamlet = "com.lightbend.cloudflow" %% "cloudflow-streamlets" % Versions.cloudflowVersion
 
     val akkaActor = "com.typesafe.akka" %% "akka-actor" % Versions.akka
+    val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
+    val akkaProtobuf = "com.typesafe.akka" %% "akka-protobuf" % Versions.akka
+    val akkaDiscovery = "com.typesafe.akka" %% "akka-discovery" % Versions.akka
 
     val flink = "org.apache.flink" %% "flink-scala" % Versions.flinkVersion
     val flinkStreaming = "org.apache.flink" %% "flink-streaming-scala" % Versions.flinkVersion
@@ -73,6 +76,9 @@ object Dependencies {
     libraryDependencies ++= Seq(
         Compile.cloudflowStreamlet,
         Compile.akkaActor,
+        Compile.akkaStream,
+        Compile.akkaProtobuf,
+        Compile.akkaDiscovery,
         Compile.log4jOverSlf4j,
         Compile.spark,
         Compile.sparkMllib,
