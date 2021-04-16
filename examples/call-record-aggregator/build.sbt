@@ -57,11 +57,13 @@ lazy val akkaJavaAggregationOutput= appModule("akka-java-aggregation-output")
   .dependsOn(datamodel)
 
 lazy val sparkAggregation = appModule("spark-aggregation")
-    .enablePlugins(CloudflowSparkPlugin)
+    .enablePlugins(CloudflowSparkPlugin, CloudflowNativeSparkPlugin)
     .settings(
       commonSettings,
       Test / parallelExecution := false,
       Test / fork := true,
+      baseDockerInstructions := sparkNativeCloudflowDockerInstructions.value,
+      libraryDependencies ~= fixSparkNativeCloudflowDeps,
       libraryDependencies ++= Seq(
         "ch.qos.logback" %  "logback-classic" % "1.2.3",
         "org.scalatest"  %% "scalatest"       % "3.0.8"  % "test"

@@ -160,6 +160,9 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
         .Copy(sources = Seq(CopyFile(depJarsDir)), destination = OptAppDir, chown = Some(userAsOwner(UserInImage))),
       Instructions
         .Copy(sources = Seq(CopyFile(appJarsDir)), destination = OptAppDir, chown = Some(userAsOwner(UserInImage))),
+      Instructions.Run(
+        s"cp ${OptAppDir}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar  $OptAppDir/cloudflow-runner.jar"),
+      Instructions.Run(s"rm ${OptAppDir}/cloudflow-runner_${(ThisProject / scalaBinaryVersion).value}*.jar"),
       Instructions.Expose(Seq(4040)))
   })
 
