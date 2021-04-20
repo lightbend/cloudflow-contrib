@@ -54,20 +54,3 @@ cat > "${OUTPUT_CMD}" << EOF
         spark-internal
 EOF
 chmod a+x "${OUTPUT_CMD}"
-
-# local:///opt/spark/work-dir/cloudflow-runner.jar
-
-# spark-submit \
-#     --class cloudflow.runner.Runner \
-#     --master k8s://https://35.189.207.235 \
-#     --deploy-mode cluster \
-#     --conf spark.kubernetes.namespace=call-record-aggregator \
-#     --conf spark.app.name=call-record-aggregator-cdr-aggregator \
-#     --conf spark.kubernetes.driver.pod.name=call-record-aggregator-cdr-aggregator-driver \
-#     --conf spark.kubernetes.container.image=docker.io/andreatp/spark-aggregation@sha256:b4f8eed58f39d3decff5dfaeb063d5386a79062063c39a2286cf83b9140e4b60 \
-#     --conf spark.kubernetes.container.image.pullPolicy=Always \
-#     --conf spark.kubernetes.submission.waitAppCompletion=false \
-#     --conf spark.driver.extraJavaOptions= \
-#     --conf spark.kubernetes.driver.secrets.cdr-aggregator=/etc/cloudflow-runner-secret \
-#     --conf spark.executor.extraJavaOptions= \
-#     --conf spark.kubernetes.executor.secrets.cdr-aggregator=/etc/cloudflow-runner-secret spark-internal
