@@ -50,7 +50,7 @@ lazy val processor = appModule("processor")
   .enablePlugins(CloudflowFlinkPlugin, CloudflowNativeFlinkPlugin)
   .settings(
     commonSettings,
-    resolvers += "Flink 13.0 RC0".at("https://repository.apache.org/content/repositories/orgapacheflink-1417/"),
+    resolvers += "Flink 13.0 RC1".at("https://repository.apache.org/content/repositories/orgapacheflink-1418/"),
     baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
     libraryDependencies ~= fixFlinkNativeCloudflowDeps,
     libraryDependencies ++= Seq(
