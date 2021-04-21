@@ -22,7 +22,7 @@ OUTPUT_CMD="${STREAMLET_FOLDER}output/delete-cmd.sh"
 # https://issues.apache.org/jira/browse/FLINK-22262
 #
 cat > "${OUTPUT_CMD}" << EOF
-    MASTER=\$(TERM=dumb kubectl cluster-info | grep master | sed -n -e 's/^.*at //p' | sed 's/\x1b\[[0-9;]*m//g')
+    MASTER=\$(TERM=dumb kubectl cluster-info | grep 'Kubernetes control plane\|master' | sed -n -e 's/^.*at //p' | sed 's/\x1b\[[0-9;]*m//g')
 
     spark-submit --kill ${APPLICATION}:${cluster_id}* --master "k8s://\${MASTER}" --conf spark.kubernetes.appKillPodDeletionGracePeriod=60
 EOF

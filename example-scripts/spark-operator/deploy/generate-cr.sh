@@ -62,7 +62,7 @@ jq -rc '.kubernetes.pods.pod.containers.container."volume-mounts" | keys[]' "${S
             .spec.volumes[0].persistentVolumeClaim.claimName = \"${pvc_claim_name}\"" "${BASE_STAGE0}" \
         > "${STAGE0}"
 
-      kubectl kustomize "${STREAMLET_FOLDER}output/kubernetes/stage0" > "${STREAMLET_FOLDER}output/cr.yaml"
+      kubectl kustomize "${STREAMLET_FOLDER}output/kubernetes/stage0" > "${STREAMLET_FOLDER}output/sparkapp.yaml"
     fi
   done
 

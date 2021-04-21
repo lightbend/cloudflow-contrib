@@ -33,9 +33,9 @@ OUTPUT_CMD="${STREAMLET_FOLDER}output/cli-cmd.sh"
 
 cat > "${OUTPUT_CMD}" << EOF
 
-    MASTER=\$(TERM=dumb kubectl cluster-info | grep master | sed -n -e 's/^.*at //p' | sed 's/\x1b\[[0-9;]*m//g')
+    MASTER=\$(TERM=dumb kubectl cluster-info | grep 'Kubernetes control plane\|master' | sed -n -e 's/^.*at //p' | sed 's/\x1b\[[0-9;]*m//g')
 
-    export SPARK_USER=root
+    export SPARK_USER=185
 
     spark-submit \\
         --master "k8s://\${MASTER}" \\

@@ -8,5 +8,5 @@ fi
 
 (
   cd "$STREAMLET_FOLDER"
-  kubectl apply -f ./output/cr.yaml
+  kubectl apply -f ./output/sparkapp.yaml
 )
