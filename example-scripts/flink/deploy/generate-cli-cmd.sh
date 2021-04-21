@@ -44,8 +44,9 @@ cat > "${OUTPUT_CMD}" << EOF
         -Dkubernetes.namespace=${APPLICATION} \\
         -Dhigh-availability=org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory \\
         -Dhigh-availability.storageDir=file:///mnt/flink/storage/ha \\
-        -Dstate.checkpoints.dir=file:///mnt/flink/storage/ha \\
-        -Dstate.savepoints.dir=file:///mnt/flink/storage/ha \\
+        -Dstate.checkpoints.dir=file:///mnt/flink/storage/externalized-checkpoints/${cluster_id} \\
+        -Dstate.backend.fs.checkpointdir=file:///mnt/flink/storage/checkpoints/${cluster_id} \\
+        -Dstate.savepoints.dir=file:///mnt/flink/storage/savepoints/${cluster_id} \\
         -Dkubernetes.pod-template-file=output/pod-template.yaml \\
 ${runtime_config}
         local:///opt/flink/usrlib/cloudflow-runner.jar
