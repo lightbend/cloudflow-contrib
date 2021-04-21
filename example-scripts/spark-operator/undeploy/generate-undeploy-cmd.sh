@@ -18,6 +18,8 @@ mkdir -p "${STREAMLET_FOLDER}output"
 OUTPUT_CMD="${STREAMLET_FOLDER}output/delete-cmd.sh"
 
 cat > "${OUTPUT_CMD}" << EOF
+#!/bin/bash
+
     kubectl delete sparkapplications.sparkoperator.k8s.io ${cluster_id} --namespace ${APPLICATION}
     kubectl wait --for=delete pods -l sparkoperator.k8s.io/app-name=${cluster_id} --namespace ${APPLICATION}
 EOF

@@ -33,6 +33,11 @@ docker_image=$(jq -rc '.image' ${STREAMLET_FOLDER}streamlet.json)
 
 sed "s/  name: <CLUSTER_ID>/  name: ${cluster_id}/" "${STREAMLET_FOLDER}output/kubernetes/base/base-spark-cr.yaml" > "${STREAMLET_FOLDER}output/kubernetes/base/spark-cr.yaml"
 
+# TODO: those configuration extraction is extra fragile ...
+runtime_config=$(jq -rc '[(paths(scalars) as $p | { ($p|join(".")): (getpath($p) | tostring) })] | add' ${STREAMLET_FOLDER}secrets/runtime-config.conf)
+executor_config=$(jq -rc '.spark.executor | [(paths(scalars) as $p | { ($p|join(".")): (getpath($p)) })] | add' ${STREAMLET_FOLDER}secrets/runtime-config.conf)
+driver_config=$(jq -rc '.spark.driver | [(paths(scalars) as $p | { ($p|join(".")): (getpath($p)) })] | add' ${STREAMLET_FOLDER}secrets/runtime-config.conf)
+
 pvc_name="not-exists"
 pvc_claim_name="not-exists"
 # find the attached PVC
@@ -53,8 +58,11 @@ jq -rc '.kubernetes.pods.pod.containers.container."volume-mounts" | keys[]' "${S
       jq -r ".metadata.name = \"${cluster_id}\" | \
             .metadata.namespace = \"${APPLICATION}\" | \
             .spec.image = \"${docker_image}\" | \
+            .spec.sparkConf = ${runtime_config} | \
             .spec.driver.secrets[0].name = \"${secret_name}\" | \
+            .spec.driver += ${driver_config} | \
             .spec.executor.secrets[0].name = \"${secret_name}\" | \
+            .spec.executor += ${executor_config} | \
             .spec.driver.serviceAccount = \"${SERVICE_ACCOUNT}\" | \
             .spec.driver.volumeMounts[0].name = \"${pvc_name}\" | \
             .spec.executor.volumeMounts[0].name = \"${pvc_name}\" | \

@@ -20,8 +20,8 @@ fi
 
 SAVEPOINT=$3
 
-./fetch-streamlets.sh "${APPLICATION}"
+../../common/fetch-streamlets.sh "${APPLICATION}" spark
 
-./foreach-streamlet.sh "${APPLICATION}" ./generate-cr.sh "${SERVICE_ACCOUNT}"
+../../common/foreach-streamlet.sh "${APPLICATION}" ./generate-cr.sh "${SERVICE_ACCOUNT}"
 
-./foreach-streamlet.sh "${APPLICATION}" ./create-streamlet.sh
+../../common/foreach-streamlet.sh "${APPLICATION}" ./create-streamlet.sh

@@ -31,7 +31,10 @@ docker_image=$(jq -rc '.image' ${STREAMLET_FOLDER}streamlet.json)
 mkdir -p "${STREAMLET_FOLDER}output"
 OUTPUT_CMD="${STREAMLET_FOLDER}output/cli-cmd.sh"
 
+runtime_config=$(jq -r 'paths(scalars) as $p | "        --conf \($p|join("."))=\"\(getpath($p))\" \\"' ${STREAMLET_FOLDER}secrets/runtime-config.conf)
+
 cat > "${OUTPUT_CMD}" << EOF
+#!/bin/bash
 
     MASTER=\$(TERM=dumb kubectl cluster-info | grep 'Kubernetes control plane\|master' | sed -n -e 's/^.*at //p' | sed 's/\x1b\[[0-9;]*m//g')
 
@@ -42,7 +45,6 @@ cat > "${OUTPUT_CMD}" << EOF
         --deploy-mode cluster \\
         --name ${cluster_id} \\
         --class cloudflow.runner.Runner \\
-        --conf spark.executor.instances=1 \\
         --conf spark.app.name=${cluster_id} \\
         --conf spark.kubernetes.container.image.pullPolicy=Always \\
         --conf spark.kubernetes.submission.waitAppCompletion=false \\
@@ -51,6 +53,7 @@ cat > "${OUTPUT_CMD}" << EOF
         --conf spark.kubernetes.executor.podTemplateFile=output/pod-template.yaml \\
         --conf spark.kubernetes.authenticate.driver.serviceAccountName=${SERVICE_ACCOUNT} \\
         --conf spark.kubernetes.container.image=${docker_image} \\
+${runtime_config}
         spark-internal
 EOF
 chmod a+x "${OUTPUT_CMD}"
