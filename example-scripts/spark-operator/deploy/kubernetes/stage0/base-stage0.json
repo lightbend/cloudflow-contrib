@@ -1,0 +1,81 @@
+{
+  "apiVersion": "sparkoperator.k8s.io/v1beta2",
+  "kind": "SparkApplication",
+  "metadata": {
+    "generation": 1
+  },
+  "spec": {
+    "driver": {
+      "secrets": [
+        {
+          "path": "/etc/cloudflow-runner-secret",
+          "secretType": "Generic"
+        }
+      ],
+      "volumeMounts": [
+        {
+          "mountPath": "/mnt/spark/storage",
+          "name": "default",
+          "readOnly": false,
+          "subPath": ""
+        },
+        {
+          "mountPath": "/mnt/downward-api-volume/",
+          "name": "downward-api-volume"
+        }
+      ]
+    },
+    "executor": {
+      "secrets": [
+        {
+          "path": "/etc/cloudflow-runner-secret",
+          "secretType": "Generic"
+        }
+      ],
+      "volumeMounts": [
+        {
+          "mountPath": "/mnt/spark/storage",
+          "name": "default",
+          "readOnly": false,
+          "subPath": ""
+        },
+        {
+          "mountPath": "/mnt/downward-api-volume/",
+          "name": "downward-api-volume"
+        }
+      ]
+    },
+    "volumes": [
+      {
+        "persistentVolumeClaim": {
+          "readOnly": false
+        }
+      },
+      {
+        "downwardAPI": {
+          "items": [
+            {
+              "fieldRef": {
+                "fieldPath": "metadata.uid"
+              },
+              "path": "metadata.uid"
+            },
+            {
+              "fieldRef": {
+                "fieldPath": "metadata.name"
+              },
+              "path": "metadata.name"
+            },
+            {
+              "fieldRef": {
+                "fieldPath": "metadata.namespace"
+              },
+              "path": "metadata.namespace"
+            }
+          ]
+        },
+        "name": "downward-api-volume"
+      }
+    ]
+  }
+}

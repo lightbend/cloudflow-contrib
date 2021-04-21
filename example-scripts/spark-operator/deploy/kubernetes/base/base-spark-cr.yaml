@@ -1,0 +1,44 @@
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  generation: 1
+  name: <CLUSTER_ID>
+spec:
+  driver:
+    annotations: {}
+    env: []
+    javaOptions: ""
+    secrets:
+    - path: /etc/cloudflow-runner-secret
+      secretType: Generic
+    volumeMounts:
+    - placeholder: pvc
+    - mountPath: /mnt/downward-api-volume/
+      name: downward-api-volume
+  executor:
+    annotations: {}
+    env: []
+    instances: 1
+    javaOptions: ""
+    secrets:
+    - path: /etc/cloudflow-runner-secret
+      secretType: Generic
+    volumeMounts:
+    - placeholder: pvc
+    - mountPath: /mnt/downward-api-volume/
+      name: downward-api-volume
+  imagePullPolicy: Always
+  mainApplicationFile: spark-internal
+  mainClass: cloudflow.runner.Runner
+  mode: cluster
+  restartPolicy:
+    onFailureRetryInterval: 10
+    onSubmissionFailureRetryInterval: 60
+    type: Always
+  sparkConf:
+    spark.driver.cores: "1"
+    spark.driver.memory: 512M
+    spark.executor.cores: "1"
+    spark.executor.memory: 2G
+  sparkVersion: 3.1.1
+  type: Scala
