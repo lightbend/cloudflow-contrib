@@ -20,9 +20,9 @@ fi
 
 SAVEPOINT=$3
 
-./fetch-streamlets.sh "${APPLICATION}"
+../../common/fetch-streamlets.sh "${APPLICATION}" spark
 
-./foreach-streamlet.sh "${APPLICATION}" ./generate-cli-cmd.sh "${SERVICE_ACCOUNT}" "${SAVEPOINT}"
-./foreach-streamlet.sh "${APPLICATION}" ./generate-pod-template.sh
+../../common/foreach-streamlet.sh "${APPLICATION}" ./generate-cli-cmd.sh "${SERVICE_ACCOUNT}" "${SAVEPOINT}"
+../../common/foreach-streamlet.sh "${APPLICATION}" ./generate-pod-template.sh
 
-./foreach-streamlet.sh "${APPLICATION}" ./create-streamlet.sh
+../../common/foreach-streamlet.sh "${APPLICATION}" ./create-streamlet.sh

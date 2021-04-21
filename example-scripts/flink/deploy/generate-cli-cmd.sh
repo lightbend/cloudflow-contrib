@@ -31,19 +31,23 @@ docker_image=$(jq -rc '.image' ${STREAMLET_FOLDER}streamlet.json)
 mkdir -p "${STREAMLET_FOLDER}output"
 OUTPUT_CMD="${STREAMLET_FOLDER}output/cli-cmd.sh"
 
+runtime_config=$(jq -r 'paths(scalars) as $p | "        -D\($p|join("."))=\(getpath($p)) \\"' ${STREAMLET_FOLDER}secrets/runtime-config.conf)
+
 cat > "${OUTPUT_CMD}" << EOF
+#!/bin/bash
+
     flink run-application \\
         --target kubernetes-application ${SAVEPOINT_STR} \\
         -Dkubernetes.cluster-id=${cluster_id} \\
         -Dkubernetes.service-account=${SERVICE_ACCOUNT} \\
         -Dkubernetes.container.image=${docker_image} \\
         -Dkubernetes.namespace=${APPLICATION} \\
-        -Dparallelism.default=2 \\
         -Dhigh-availability=org.apache.flink.kubernetes.highavailability.KubernetesHaServicesFactory \\
         -Dhigh-availability.storageDir=file:///mnt/flink/storage/ha \\
         -Dstate.checkpoints.dir=file:///mnt/flink/storage/ha \\
         -Dstate.savepoints.dir=file:///mnt/flink/storage/ha \\
         -Dkubernetes.pod-template-file=output/pod-template.yaml \\
+${runtime_config}
         local:///opt/flink/usrlib/cloudflow-runner.jar
 EOF
 chmod a+x "${OUTPUT_CMD}"

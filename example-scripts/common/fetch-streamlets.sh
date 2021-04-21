@@ -6,7 +6,11 @@ if [ -z "$APPLICATION" ]; then
     exit 1
 fi
 
-RUNTIME=flink
+RUNTIME=$2
+if [ -z "$RUNTIME" ]; then
+    echo "No runtime specified."
+    exit 1
+fi
 
 rm -rf ".tmp/${APPLICATION}"
 mkdir -p ".tmp/${APPLICATION}"

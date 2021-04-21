@@ -12,8 +12,8 @@ if [ -z "$APPLICATION" ]; then
     exit 1
 fi
 
-./fetch-streamlets.sh "${APPLICATION}"
+../../common/fetch-streamlets.sh "${APPLICATION}" flink
 
-./foreach-streamlet.sh "${APPLICATION}" ./generate-undeploy-cmd.sh
+../../common/foreach-streamlet.sh "${APPLICATION}" ./generate-undeploy-cmd.sh
 
-./foreach-streamlet.sh "${APPLICATION}" ./delete-streamlet.sh
+../../common/foreach-streamlet.sh "${APPLICATION}" ./delete-streamlet.sh
