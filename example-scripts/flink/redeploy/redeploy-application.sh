@@ -18,6 +18,14 @@ if [ -z "$SERVICE_ACCOUNT" ]; then
     exit 1
 fi
 
-SAVEPOINT=$(cd ../undeploy && ./undeploy-application.sh "${APPLICATION}")
-echo "Savepoint is ${SAVEPOINT}"
-(cd ../deploy && ./deploy-application.sh "${APPLICATION}" "${SERVICE_ACCOUNT}" "${SAVEPOINT}")
+
+../../common/fetch-streamlets.sh "${APPLICATION}" flink
+
+../../common/foreach-streamlet.sh "${APPLICATION}" ./generate-undeploy-cmd.sh
+
+../../common/foreach-streamlet.sh "${APPLICATION}" ./delete-streamlet.sh
+
+../../common/foreach-streamlet.sh "${APPLICATION}" ./generate-cli-cmd.sh "${SERVICE_ACCOUNT}"
+../../common/foreach-streamlet.sh "${APPLICATION}" ./generate-pod-template.sh
+
+../../common/foreach-streamlet.sh "${APPLICATION}" ./create-streamlet.sh
