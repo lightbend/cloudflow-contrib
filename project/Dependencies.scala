@@ -110,6 +110,10 @@ object Dependencies {
     dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala)
 
   val cloudflowIt =
-    libraryDependencies ++= Seq(Compile.scalatest % Test, Compile.cloudflowCli % Test, Compile.commonsCodec % Test, Compile.commonsCompress % Test)
+    libraryDependencies ++= Seq(
+        Compile.scalatest % Test,
+        Compile.cloudflowCli % Test,
+        Compile.commonsCodec % Test,
+        Compile.commonsCompress % Test)
 
 }
