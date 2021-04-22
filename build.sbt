@@ -120,6 +120,17 @@ lazy val sparkSbtPlugin =
       },
       scriptedBufferLog := false)
 
+lazy val cloudflowIt =
+  Project(id = "cloudflow-it", base = file("cloudflow-it"))
+    .configs(IntegrationTest.extend(Test))
+    .settings(Defaults.itSettings, Dependencies.cloudflowIt)
+    .settings(
+      skip in publish := true,
+      scalaVersion := Dependencies.Scala213,
+      crossScalaVersions := Vector(Dependencies.Scala213),
+      inConfig(IntegrationTest)(org.scalafmt.sbt.ScalafmtPlugin.scalafmtConfigSettings),
+      IntegrationTest / fork := true)
+
 lazy val root = Project(id = "root", base = file("."))
   .settings(name := "root", skip in publish := true, scalafmtOnCompile := true, crossScalaVersions := Seq())
   .withId("root")

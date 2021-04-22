@@ -13,6 +13,7 @@ object Dependencies {
     val sparkVersion = "3.1.1"
     val akka = "2.6.14"
     val jackson = "2.11.4"
+    val fabric8 = "5.0.0"
     val scalaTest = "3.2.7"
     val logbackVersion = "1.2.3"
   }
@@ -46,6 +47,13 @@ object Dependencies {
     val log4jOverSlf4j = "org.slf4j" % "log4j-over-slf4j" % "1.7.30"
     val logbackClassic = "ch.qos.logback" % "logback-classic" % Versions.logbackVersion
     val logbackCore = "ch.qos.logback" % "logback-core" % Versions.logbackVersion
+
+    val cloudflowCli = "com.lightbend.cloudflow" %% "kubectl-cloudflow" % "2.0.25-NIGHTLY20210422-1-073f9379"
+    // These two dependencies are required to be present at runtime by fabric8, specifically its pod file read methods.
+    // Reference:
+    // https://github.com/fabric8io/kubernetes-client/blob/0c4513ff30ac9229426f1481a46fde2eb54933d9/kubernetes-client/src/main/java/io/fabric8/kubernetes/client/dsl/internal/core/v1/PodOperationsImpl.java#L451
+    val commonsCodec = "commons-codec" % "commons-codec" % "1.15"
+    val commonsCompress = "org.apache.commons" % "commons-compress" % "1.20"
 
     val scalatest = "org.scalatest" %% "scalatest" % Versions.scalaTest
   }
@@ -100,5 +108,8 @@ object Dependencies {
 
   val sparkTests =
     dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala)
+
+  val cloudflowIt =
+    libraryDependencies ++= Seq(Compile.scalatest % Test, Compile.cloudflowCli % Test, Compile.commonsCodec % Test, Compile.commonsCompress % Test)
 
 }
