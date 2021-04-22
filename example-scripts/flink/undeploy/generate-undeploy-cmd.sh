@@ -23,7 +23,7 @@ OUTPUT_CMD="${STREAMLET_FOLDER}output/delete-cmd.sh"
 #
 cat > "${OUTPUT_CMD}" << EOF
 #!/bin/bash
-
+    
     jobId=\$(kubectl get configmaps --namespace ${APPLICATION} -l app=${cluster_id} -o json | jq -r '.items[] | select(.metadata.name | endswith("jobmanager-leader")) | .metadata.name' | sed s"/${cluster_id}-//" | sed s"/-jobmanager-leader//")
     savepoint=\$(flink cancel --target kubernetes-application --withSavepoint -Dkubernetes.cluster-id=${cluster_id} -Dkubernetes.namespace=${APPLICATION} \$jobId \
         grep "Savepoint stored in" | sed -n -e 's/^.*Savepoint stored in //p' | sed 's/\.//')
