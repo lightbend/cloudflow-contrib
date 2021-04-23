@@ -72,7 +72,11 @@ object ClusterFlinkJobExecutor extends FlinkJobExecutor {
           case pax: ProgramAbortException =>
             throw pax
           case t: Throwable =>
-            if (causeIsCancellation(t)) completionPromise.trySuccess(Dun) else completionPromise.tryFailure(th)
+            if (causeIsCancellation(t)) {
+              completionPromise.trySuccess(Dun)
+            } else {
+              completionPromise.tryFailure(th)
+            }
         },
       _ => completionPromise.trySuccess(Dun))
 
@@ -91,8 +95,9 @@ object ClusterFlinkJobExecutor extends FlinkJobExecutor {
       case _ =>
         if (t.getCause != null) {
           causeIsCancellation(t.getCause)
-        } else
+        } else {
           false
+        }
     }
 }
 
