@@ -287,22 +287,21 @@ abstract class FlinkStreamlet extends Streamlet[FlinkStreamletContext] with Seri
         th =>
           th match {
             // rethrow for Flink to catch as Flink control flow depends on this
-            case pax: OptimizerPlanEnvironment.ProgramAbortException => 
+            case pax: OptimizerPlanEnvironment.ProgramAbortException =>
               throw pax
-            case _: JobCancellationException                         => 
+            case _: JobCancellationException =>
               completionPromise.trySuccess(Dun)
-            case t: Throwable                                        => 
+            case t: Throwable =>
               if (causeIsCancellation(t)) completionPromise.trySuccess(Dun) else completionPromise.tryFailure(th)
           },
-        _ => completionPromise.trySuccess(Dun)
-      )
+        _ => completionPromise.trySuccess(Dun))
 
       new StreamletExecution {
         val readyFuture = readyPromise.future
 
         def completed: Future[Dun] = completionFuture
-        def ready: Future[Dun]     = readyFuture
-        def stop(): Future[Dun]    = ???
+        def ready: Future[Dun] = readyFuture
+        def stop(): Future[Dun] = ???
       }
     }
 
