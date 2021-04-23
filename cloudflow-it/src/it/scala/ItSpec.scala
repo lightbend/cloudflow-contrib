@@ -84,32 +84,32 @@ trait ItDeploySpec extends ItSpec {
       }
     }
 
-    // "should undeploy" in {
-    //   val res = cli.run(commands.Undeploy(appName))
-    //   assertSuccess(res).withClue("Application undeploy failed.")
-    //   eventually {
-    //     val res = cli.run(commands.List())
-    //     assertSuccess(res).withClue("List command failed.")
-    //     (res.get.summaries.size shouldBe 0).withClue("App still listed.")
-    //     withK8s { k8s =>
-    //       (k8s.pods().inNamespace(appName).list().getItems().isEmpty() shouldBe true)
-    //         .withClue(s"Pods for app ($appName) still exist.")
-    //     }
-    //   }
-    // }
+    "should undeploy" in {
+      val res = cli.run(commands.Undeploy(appName))
+      assertSuccess(res).withClue("Application undeploy failed.")
+      eventually {
+        val res = cli.run(commands.List())
+        assertSuccess(res).withClue("List command failed.")
+        (res.get.summaries.size shouldBe 0).withClue("App still listed.")
+        withK8s { k8s =>
+          (k8s.pods().inNamespace(appName).list().getItems().isEmpty() shouldBe true)
+            .withClue(s"Pods for app ($appName) still exist.")
+        }
+      }
+    }
 
-    // "should re-deploy to continue testing" in {
-    //   val deploy = cli.run(
-    //     commands.Deploy(
-    //       crFile = resource.cr,
-    //       confs = Seq(resource.defaultConfiguration),
-    //       unmanagedRuntimes = Seq("flink", "spark")))
-    //   assertSuccess(deploy)
-    //   eventually {
-    //     val res = cli.run(commands.Status(appName))
-    //     (res.get.status.status shouldBe "Running").withClue("App not running.")
-    //   }
-    // }
+    "should re-deploy to continue testing" in {
+      val deploy = cli.run(
+        commands.Deploy(
+          crFile = resource.cr,
+          confs = Seq(resource.defaultConfiguration),
+          unmanagedRuntimes = Seq("flink", "spark")))
+      assertSuccess(deploy)
+      eventually {
+        val res = cli.run(commands.Status(appName))
+        (res.get.status.status shouldBe "Running").withClue("App not running.")
+      }
+    }
   }
 }
 
