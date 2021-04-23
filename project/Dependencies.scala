@@ -7,7 +7,7 @@ object Dependencies {
   val Scala213 = "2.13.5"
 
   object Versions {
-    val cloudflowVersion = "2.0.26-RC12"
+    val cloudflowVersion = "2.0.26-RC22"
 
     val flinkVersion = "1.13.0"
     val sparkVersion = "3.1.1"
@@ -48,7 +48,7 @@ object Dependencies {
     val logbackClassic = "ch.qos.logback" % "logback-classic" % Versions.logbackVersion
     val logbackCore = "ch.qos.logback" % "logback-core" % Versions.logbackVersion
 
-    val cloudflowCli = "com.lightbend.cloudflow" %% "kubectl-cloudflow" % "2.0.25-NIGHTLY20210422-1-073f9379"
+    val cloudflowCli = "com.lightbend.cloudflow" %% "kubectl-cloudflow" % Versions.cloudflowVersion
     // These two dependencies are required to be present at runtime by fabric8, specifically its pod file read methods.
     // Reference:
     // https://github.com/fabric8io/kubernetes-client/blob/0c4513ff30ac9229426f1481a46fde2eb54933d9/kubernetes-client/src/main/java/io/fabric8/kubernetes/client/dsl/internal/core/v1/PodOperationsImpl.java#L451
