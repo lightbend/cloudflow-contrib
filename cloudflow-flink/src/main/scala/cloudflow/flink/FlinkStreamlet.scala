@@ -223,6 +223,7 @@ abstract class FlinkStreamlet extends Streamlet[FlinkStreamletContext] with Seri
   protected def createLogic(): FlinkStreamletLogic
 
   override final def run(context: FlinkStreamletContext): StreamletExecution = {
+    val logic = createLogic()
     val configStr = getFlinkConfigInfo(context.env).foldLeft("\n") {
       case (acc, (k, v)) =>
         s"$acc\n$k = $v"
@@ -235,83 +236,8 @@ abstract class FlinkStreamlet extends Streamlet[FlinkStreamletContext] with Seri
 
     readyPromise.trySuccess(Dun)
     val localMode = context.config.as[Option[Boolean]]("cloudflow.local").getOrElse(false)
-    if (localMode) LocalFlinkJobExecutor.execute()
-    else ClusterFlinkJobExecutor.execute()
-  }
-
-  /**
-   * Different strategy for execution of Flink jobs in local mode and in cluster
-   */
-  sealed trait FlinkJobExecutor extends Serializable {
-    // Is this a path that we want to use?
-    val flinkRuntime = "cloudflow.runtimes.flink.config.flink"
-    def streamletRuntimeConfigPath(streamletName: String) = s"cloudflow.streamlets.$streamletName.config"
-    val enableLocalWeb = "local.web"
-    def execute(): StreamletExecution
-  }
-
-  /**
-   * Future based execution of Flink jobs on the sandbox
-   */
-  private case object LocalFlinkJobExecutor extends FlinkJobExecutor {
-    def execute(): StreamletExecution = {
-
-      log.info(s"Executing local mode ${context.streamletRef}")
-      val jobResult = Future(createLogic.executeStreamingQueries(context.env))
-      jobResult.recoverWith {
-        case t: Throwable =>
-          log.error(t.getMessage, t)
-          Future.failed(t)
-      }
-      new StreamletExecution {
-        val readyFuture = readyPromise.future
-
-        def completed: Future[Dun] =
-          jobResult.map(_ => Dun)
-        def ready: Future[Dun] = readyFuture
-        def stop(): Future[Dun] = ???
-      }
-    }
-  }
-
-  /**
-   * Execution in blocking mode.
-   */
-  private case object ClusterFlinkJobExecutor extends FlinkJobExecutor {
-    def execute(): StreamletExecution = {
-      log.info(s"Executing cluster mode ${context.streamletRef}")
-
-      Try {
-        createLogic.executeStreamingQueries(context.env)
-      }.fold(
-        th =>
-          th match {
-            // rethrow for Flink to catch as Flink control flow depends on this
-            case pax: ProgramAbortException =>
-              throw pax
-            case t: Throwable =>
-              if (causeIsCancellation(t)) completionPromise.trySuccess(Dun) else completionPromise.tryFailure(th)
-          },
-        _ => completionPromise.trySuccess(Dun))
-
-      new StreamletExecution {
-        val readyFuture = readyPromise.future
-
-        def completed: Future[Dun] = completionFuture
-        def ready: Future[Dun] = readyFuture
-        def stop(): Future[Dun] = ???
-      }
-    }
-
-    def causeIsCancellation(t: Throwable): Boolean =
-      t match {
-        case _: JobCancellationException => true
-        case _ =>
-          if (t.getCause != null) {
-            causeIsCancellation(t.getCause)
-          } else
-            false
-      }
+    if (localMode) LocalFlinkJobExecutor.execute(logic, context, readyPromise, completionPromise)
+    else ClusterFlinkJobExecutor.execute(logic, context, readyPromise, completionPromise)
   }
 
   override def logStartRunnerMessage(buildInfo: String): Unit =
