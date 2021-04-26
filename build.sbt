@@ -132,6 +132,11 @@ lazy val cloudflowIt =
       IntegrationTest / fork := true)
 
 lazy val root = Project(id = "root", base = file("."))
-  .settings(name := "root", skip in publish := true, scalafmtOnCompile := true, crossScalaVersions := Seq())
+  .enablePlugins(ScalaUnidocPlugin)
+  .settings(
+    name := "root",
+    skip in publish := true,
+    scalafmtOnCompile := true,
+    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(flink, flinkTestkit, spark, sparkTestkit))
   .withId("root")
-  .aggregate(flink, flinkTestkit, flinkTests, flinkSbtPlugin, spark, sparkTestkit, sparkTests, sparkSbtPlugin)
+  .aggregate(flink, flinkTestkit, flinkTests, flinkSbtPlugin, spark, sparkTestkit, sparkTests, sparkSbtPlugin, cloudflowIt)

@@ -1,0 +1,46 @@
+= Introducing Cloudflow Contrib
+
+:description: Cloudflow's community maintained extensions and integrations
+
+include::ROOT:partial$include.adoc[]
+
+:imagesdir: assets/images
+
+== What is Cloudflow?
+
+Cloudflow is an SDK and a set of Kubernetes extensions that accelerates your development of distributed streaming applications and facilitates their deployment on Kubernetes.
+
+The rapid advance and adoption of the Kubernetes ecosystem is delivering the devops promise of giving control and responsibility to dev teams over the lifecycle of their applications. 
+However, the adoption of Kubernetes also increases the complexity of delivering end-to-end applications. 
+Cloudflow alleviates that pain for distributed streaming applications, which are often far more demanding than typical front-end or microservice deployments.
+
+Cloudflow fully integrates with Akka, and has community maintained extensions for popular streaming engines such as Apache Spark, and Apache Flink. 
+Using Cloudflow, you can easily break down your streaming application into small composable components and wire them together with schema-based contracts. 
+With those powerful abstractions, Cloudflow enables you to define, build and deploy the most complex streaming applications. 
+
+You can find more information in the official https://cloudflow.io/[Cloudflow documentation].
+
+== Why Cloudflow Contrib?
+
+Cloudflow used to ship with full integrations with Apache Spark and Apache Flink, this used to be extremely useful for new comers that can quickly sketch up applications on multiple streaming engines.
+Unfortunately, having to deal with other kubernetes operators, happened to be a road paved with challenges and issues:
+  
+  - Third-party: the operators used to run Spark and Flink jobs are not officially supported by the projects maintainers
+  - Not-so-black boxes: third party operators offer to the user a partial and biased integration with the streaming engine having a number of caveats and edge cases that sometimes spill to the user
+  - Re-encoding and harmonization: re-implementing the third party Custom Resources and harmonizing the settings with all the other supported streaming engines is a complex, error-prone and ultimately hard-to-sustain integration path
+
+Given those issues and the fact that quality of implementation and fault tolerance of those 3rd party operators vary, we are now changing the way Cloudflow interoperates with those external streaming engines.
+
+Key goals of this project:
+
+  - Cloudflow's blueprint keeps being the source of truth of your streamlets interconnections
+  - the user is in total control of deploying and managing any Streamlet other than Akka
+  - the convenient Streamlet API is preserved for component's development
+
+At the end of the day this is what Cloudflow Contrib is all about: making Cloudflow's external integrations back to the users making them easy and easy to customize.
+
+== What's next
+
+Start exploring how to get started with xref:get-started:index.adoc[the Getting started Guide]
+
+**This guide last published: {localdate}**

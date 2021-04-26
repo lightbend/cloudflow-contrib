@@ -1,0 +1,24 @@
+= Get started with Cloudflow Contrib
+
+
+include::ROOT:partial$include.adoc[]
+
+NOTE: We assume you are comfortable with building and running CLoudflow's application.
+
+Firstly you need to turn off, in the Cloudflow operator, the "legacy way" of handling Flink and Spark runtimes, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g.:
+
+[source,shell,subs="attributes"]
+----
+helm upgrade -i cloudflow cloudflow-helm-charts/cloudflow \
+  --version "2.0.26-RC27" \
+  --set cloudflow_operator.jvm.opts="-XX:MaxRAMPercentage=90.0 -XX:+UseContainerSupport -Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false" \
+  --set kafkaClusters.default.bootstrapServers=cloudflow-strimzi-kafka-bootstrap.cloudflow:9092 \
+  --namespace cloudflow
+----
+
+The workflow to build and deploy your first Cloudflow application including Cloudflow Contrib's components match the experience of using Cloudflow's Akka streamlets with a few differences.
+Here we assume that you start from a correctly configured Cloudflow application and we describe the steps for using the integrations provided in the Cloudflow Contrib repository:
+
+. xref:flink-native.adoc[Flink Native integration]
+. xref:spark-native.adoc[Spark Native integration]
+. xref:spark-operator.adoc[Spark Operator integration]

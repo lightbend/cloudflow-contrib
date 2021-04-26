@@ -24,6 +24,14 @@ import cloudflow.streamlets._
 
 /**
  * Runtime context for [[FlinkStreamlet]]s
+ *
+ * The `FlinkStreamletContext` provides the necessary context under which a streamlet runs.
+ * It contains the following context data and contracts:
+ *
+ *  - An active `StreamExecutionEnvironment` that will be used to submit streaming jobs to the Flink runtime.
+ *  - The Typesafe `Config` loaded from the classpath through a `config` method, which can be used to read configuration settings.
+ *  - The name used in the blueprint for the specific instance of this streamlet being run.
+ *  - A mapping that gives the name of the Kafka topic from the port name.
  */
 abstract case class FlinkStreamletContext(
     private[cloudflow] override val streamletDefinition: StreamletDefinition,
