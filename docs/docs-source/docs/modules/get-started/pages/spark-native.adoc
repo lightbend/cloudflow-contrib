@@ -66,7 +66,7 @@ For Spark you have two sets of scripts `spark-cli` that directly uses the Spark 
 
 === Spark Cli
 
-The following scripts expects to have available on the `PATH`:
+The following scripts are expected to be present on the `PATH`:
 
   - bash
   - jq
@@ -77,7 +77,7 @@ In the `spark-cli` sub-folder the first script available is `setup-example-rbac.
 
 === Spark Operator
 
-The following scripts expects to have available on the `PATH`:
+The following scripts are expected to be present on the `PATH`:
 
   - bash
   - jq

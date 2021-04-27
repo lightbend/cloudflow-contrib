@@ -22,7 +22,7 @@ You can find more information in the official https://cloudflow.io/[Cloudflow do
 
 == Why Cloudflow Contrib?
 
-Cloudflow used to ship with full integrations with Apache Spark and Apache Flink, this used to be extremely useful for new comers that can quickly sketch up applications on multiple streaming engines.
+Cloudflow used to ship with full integrations with Apache Spark and Apache Flink, this used to be extremely useful for newcomers that can quickly sketch up applications on multiple streaming engines.
 Unfortunately, having to deal with other kubernetes operators, happened to be a road paved with challenges and issues:
   
   - Third-party: the operators used to run Spark and Flink jobs are not officially supported by the projects maintainers

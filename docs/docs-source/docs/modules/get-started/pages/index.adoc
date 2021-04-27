@@ -3,7 +3,7 @@
 
 include::ROOT:partial$include.adoc[]
 
-NOTE: We assume you are comfortable with building and running CLoudflow's application.
+NOTE: We assume you are comfortable with building and running Cloudflow's application.
 
 == Installing Cloudflow
 
