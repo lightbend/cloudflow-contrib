@@ -69,9 +69,9 @@ check-links:
 		-c 'find docs/docs-source -name '*.adoc' -print0 | xargs -0 -n1 asciidoc-link-check -p -c docs/docs-source/asciidoc-link-check-config.json'
 
 # Generate the ScalaDoc and the JavaDoc, for the old versions
-all_javascaladocs:
+all_scaladocs: get-version
 	@echo "Building old java and scala docs"
-	(yq e '.content.sources[0].branches.*' docs-source/site.yml | xargs -n1 ./build-javascaladocs.sh)
+	(./build-javascaladocs.sh v${version})
 
 print-site:
 	# The result directory with the contents of this build:

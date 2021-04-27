@@ -26,4 +26,67 @@ And use the Flink Native sbt plugin functionalities in your streamlet sbt sub-pr
   )
 ----
 
-== Using the Flink streamlets
+Now you can develop and use your Flink streamlets as described in the https://cloudflow.io/docs/current/develop/use-flink-streamlets.html[official cloudflow documentation].
+
+== Operating Flink streamlets in a cluster
+
+Once you have run `buildApp` and you have the compiled Blueprint of your application you can deploy it using the `kubectl cloudflow` plugin and adding the option to ignore checks on the Flink operator:
+
+[source,shell,subs="+quotes"]
+----
+kubectl cloudflow deploy your-application-cr.json *--unmanaged-runtimes=flink*
+----
+
+Now you can notice that the Flink streamlets are marked as `<external>` and their status is `Unknown` running the `kubectl cloudflow status your-application` command:
+
+[source,shell,subs="+quotes"]
+----
++------------+--------------------------------+
+| Name:      |         taxi-ride-fare         |
+| Namespace: |         taxi-ride-fare         |
+| Version:   | 0.0.3-8-37d51e0b-20210427-1057 |
+| Created:   |      2021-04-27T09:45:17Z      |
+| Status:    |            Running             |
++------------+--------------------------------+
++-----------+-------------------------------------------+-------+---------+----------+
+| STREAMLET | POD                                       | READY | STATUS  | RESTARTS |
++-----------+-------------------------------------------+-------+---------+----------+
+| generator | taxi-ride-fare-generator-6fdb9bf946-ddh2n |  1/1  | Running |    0     |
+| logger    | taxi-ride-fare-logger-7c7dcc8699-r7jxb    |  1/1  | Running |    0     |
+| processor | *<external>*                                |  0/0  | *Unknown* |    0     |
++-----------+-------------------------------------------+-------+---------+----------+
+----
+
+To help you manage Flink streamlets we have developed some example scripts they are contained in the `example-scripts` https://github.com/lightbend/cloudflow-contrib/tree/main/example-scripts[folder] at the root of Cloudflow Contrib public repository.
+
+Those scripts expects to have available on the `PATH`:
+
+  - bash
+  - jq
+  - kubectl
+  - flink cli
+
+In the `flink` sub-folder the first script available is `setup-example-rbac.sh` and this first step needs to be performed once on any cluster you want to deploy Flink streamlets, refer to https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/resource-providers/native_kubernetes/#rbac[the upstream documentation] for further details.
+
+Now you have 3 folders to map 3 different use-cases, note that the order of the operations matter:
+
+  * `deploy` a new Cloudflow application to a cluster:
+  ** deploy the Cloudflow application using the `kubectl cloudflow` command
+  ** `cd` into the `deploy` folder and run `./deploy-application.sh application-name service-account-name`
+
+  * `undeploy` a deployed Cloudflow application:
+  ** `cd` into the `undeploy` folder and run `./undeploy-application.sh application-name`
+  ** undeploy the Cloudflow application using the `kubectl cloudflow` command
+
+  * `redeploy` a pre-existing Cloudflow application:
+  ** deploy/configure the Cloudflow application using the `kubectl cloudflow` command
+  ** `cd` into the `redeploy` folder and run `./redeploy-application.sh application-name service-account-name`
+
+Note that the `undeploy` and `redeploy` operations are triggering a savepoint into the Flink Job.
+
+The provided scripts are deliberately simple and intended to be used as starting point for you to customize those operations based on your needs.
+The structure always resemble 3 steps:
+
+  * fetch the Cloudflow application informations from the cluster
+  * generate commands
+  * executes the generated commands

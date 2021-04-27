@@ -132,11 +132,27 @@ lazy val cloudflowIt =
       IntegrationTest / fork := true)
 
 lazy val root = Project(id = "root", base = file("."))
-  .enablePlugins(ScalaUnidocPlugin)
   .settings(
     name := "root",
     skip in publish := true,
-    scalafmtOnCompile := true,
-    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(flink, flinkTestkit, spark, sparkTestkit))
+    scalafmtOnCompile := true)
   .withId("root")
   .aggregate(flink, flinkTestkit, flinkTests, flinkSbtPlugin, spark, sparkTestkit, sparkTests, sparkSbtPlugin, cloudflowIt)
+
+lazy val flinkDocs = Project(id = "flink-docs", base = file("flink-docs"))
+  .enablePlugins(ScalaUnidocPlugin)
+  .settings(
+    name := "flink-docs",
+    skip in publish := true,
+    scalafmtOnCompile := true,
+    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(flink, flinkTestkit))
+  .aggregate(flink, flinkTestkit)
+
+lazy val sparkDocs = Project(id = "spark-docs", base = file("spark-docs"))
+  .enablePlugins(ScalaUnidocPlugin)
+  .settings(
+    name := "spark-docs",
+    skip in publish := true,
+    scalafmtOnCompile := true,
+    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(spark, sparkTestkit))
+  .aggregate(spark, sparkTestkit)
