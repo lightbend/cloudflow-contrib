@@ -21,4 +21,3 @@ Here we assume that you start from a correctly configured Cloudflow application 
 
 . xref:flink-native.adoc[Flink Native integration]
 . xref:spark-native.adoc[Spark Native integration]
-. xref:spark-operator.adoc[Spark Operator integration]

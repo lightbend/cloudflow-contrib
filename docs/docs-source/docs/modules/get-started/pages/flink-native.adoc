@@ -59,7 +59,7 @@ Now you can notice that the Flink streamlets are marked as `<external>` and thei
 
 To help you manage Flink streamlets we have developed some example scripts they are contained in the `example-scripts` https://github.com/lightbend/cloudflow-contrib/tree/main/example-scripts[folder] at the root of Cloudflow Contrib public repository.
 
-Those scripts expects to have available on the `PATH`:
+The following scripts expects to have available on the `PATH`:
 
   - bash
   - jq
