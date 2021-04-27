@@ -2,5 +2,5 @@
 
 :description: The Streamlet abstraction lets you simplify the development of stages of a distributed streaming application.
 
-- link:./flink-scaladoc/index.html[Flink Streamlet API - Scaladoc]
-- link:./spark=scaladoc/index.html[Spark Streamlet API - Scaladoc]
+- link:./flink-scaladoc/unidoc/cloudflow/flink/index.html[Flink Streamlet API - Scaladoc]
+- link:./spark-scaladoc/unidoc/cloudflow/spark/index.html[Spark Streamlet API - Scaladoc]
