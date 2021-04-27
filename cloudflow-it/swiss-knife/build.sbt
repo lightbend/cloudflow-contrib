@@ -57,7 +57,7 @@ lazy val flink = (project in file("./flink"))
   .settings(commonSettings)
   .settings(
     name := "swiss-knife-flink",
-    resolvers += "Flink 13.0 RC1".at("https://repository.apache.org/content/repositories/orgapacheflink-1418/"),
+    resolvers += "Flink 13.0 RC2".at("https://repository.apache.org/content/repositories/orgapacheflink-1420/"),
     baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
     libraryDependencies ~= fixFlinkNativeCloudflowDeps
   )

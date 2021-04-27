@@ -4,7 +4,7 @@ lazy val helloWorld =  (project in file("."))
       scalaVersion := "2.12.11",
       name := "hello-world",
       version := "0.0.1",
-      resolvers += "Flink 13.0 RC1".at("https://repository.apache.org/content/repositories/orgapacheflink-1418/"),
+      resolvers += "Flink 13.0 RC2".at("https://repository.apache.org/content/repositories/orgapacheflink-1420/"),
       baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
       libraryDependencies ~= fixFlinkNativeCloudflowDeps
     )
