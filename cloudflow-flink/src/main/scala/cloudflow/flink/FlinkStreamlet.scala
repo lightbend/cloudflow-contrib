@@ -262,7 +262,11 @@ abstract class FlinkStreamlet extends Streamlet[FlinkStreamletContext] with Seri
 }
 
 /**
- * Provides an entry-point for defining the behavior of a FlinkStreamlet.
+ * The `FlinkStreamletLogic` provides methods to read and write data streams, and provides access to the configuration of the streamlet, among other things.
+ * A `FlinkStreamletLogic` must provide a method for executing streaming queries that process the Flink computation graph. The method `buildExecutionGraph` has to be overridden by implementation classes that process one or more `DataStream` {empty}s. The resulting graph is then submitted by `executeStreamingQueries` to the Flink runtime `StreamExecutionEnvironment` to generate the final output.
+ * These jobs will be run by the `run` method of `FlinkStreamlet` to produce a `StreamletExecution` class, the `StreamletExecution` class manages the execution of a Flink Job.
+ * The `FlinkStreamletLogic` may contain instance values since it's only constructed in runtime. The `Streamlet`, however, is also instantiated during compile-time, to extract metadata, and must not contain any instance values.
+ *
  * Overide the method `buildExecutionGraph` to build the computation graph that needs
  * to run as part of the business logic for the `FlinkStreamlet`.
  *

@@ -1,0 +1,28 @@
+site:
+  title: "Cloudflow Contrib Guide"
+  url: https://cloudflow.io
+content:
+  sources:
+    - url: git@github.com:lightbend/cloudflow-contrib.git
+      start-paths:
+        - docs/docs-source/docs
+      branches: [master] # versioned content - add branches here
+
+ui:
+  bundle:
+    url: https://lightbend.github.io/antora-supplemental-ui-lightbend-theme/default_ui/ui-bundle-756539289.zip
+    snapshot: true
+  default_layout: default
+  supplemental_files: ./supplemental_ui
+runtime:
+  fetch: true
+asciidoc:
+  attributes:
+    # the following two attributes cause review and todo notes to display
+    # review: ''
+    # todo: ''
+    doc-title: 'Cloudflow Contrib Guide'
+    oss: ''
+output:
+  dir: ./../target
+  clean: true

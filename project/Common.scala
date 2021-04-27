@@ -34,6 +34,7 @@ object Common extends AutoPlugin {
     javacOptions ++= List("-Xlint:unchecked", "-Xlint:deprecation"),
     publishTo := sonatypePublishToBundle.value,
     useGpgAgent := false,
+    autoAPIMappings := true,
     scalafmtOnCompile := true,
     run / fork := false,
     // show full stack traces and test case durations

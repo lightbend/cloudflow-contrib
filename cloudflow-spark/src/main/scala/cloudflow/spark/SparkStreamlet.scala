@@ -93,14 +93,15 @@ trait SparkStreamlet extends Streamlet[SparkStreamletContext] with Serializable 
     new StreamletExecution {
 
       // schedule a function to check periodically if any of the queries stopped
-      val scheduledQueryCheck: Cancellable = system.scheduler.scheduleWithFixedDelay(InitialDelay, MonitorFrequency) {
-        new Runnable() {
-          override def run(): Unit = {
-            val someQueryStopped = streamletQueryExecution.queries.exists(!_.isActive)
-            if (someQueryStopped) completionPromise.completeWith(stop())
+      val scheduledQueryCheck: Cancellable =
+        system.scheduler.scheduleWithFixedDelay(InitialDelay, MonitorFrequency) {
+          new Runnable() {
+            override def run(): Unit = {
+              val someQueryStopped = streamletQueryExecution.queries.exists(!_.isActive)
+              if (someQueryStopped) completionPromise.completeWith(stop())
+            }
           }
         }
-      }
 
       // this future will be successful when any of the queries face an exception
       // or is stopped. The runner needs to await on this future and exit only when it

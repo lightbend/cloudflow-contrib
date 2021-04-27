@@ -1,0 +1,113 @@
+= Spark Native integration
+
+include::ROOT:partial$include.adoc[]
+
+Spark have two valuable options for deploying on Kubernetes, using the official spark CLI and using a third-party(Google) operator.
+Cloudflow Contrib integration enables both of those options to deploy Spark Streamlet with a Cloudflow application.
+
+== Building Spark Native Streamlets
+
+To build Spark Native Streamlets you need to add an additional sbt plugin along with the Cloudflow one in `plugins.sbt`:
+
+[source,scala,subs="attributes"]
+----
+addSbtPlugin("com.lightbend.cloudflow" % "contrib-sbt-spark" % "{cloudflow-contrib-version}")
+----
+
+And use the spark Native sbt plugin functionalities in your streamlet sbt sub-project functionalities:
+
+[source,scala,subs="attributes"]
+----
+  .enablePlugins(CloudflowApplicationPlugin, CloudflowSparkPlugin, CloudflowNativeSparkPlugin)
+    .settings(
+      baseDockerInstructions := sparkNativeCloudflowDockerInstructions.value,
+      libraryDependencies ~= fixSparkNativeCloudflowDeps
+    )
+----
+
+Now you can develop and use your spark streamlets as described in the https://cloudflow.io/docs/current/develop/use-spark-streamlets.html[official cloudflow documentation].
+
+== Operating spark streamlets in a cluster
+
+Once you have run `buildApp` and you have the compiled Blueprint of your application you can deploy it using the `kubectl cloudflow` plugin and, in case it's necessary, adding the option to ignore checks on the spark operator:
+
+[source,shell,subs="+quotes"]
+----
+kubectl cloudflow deploy your-application-cr.json *--unmanaged-runtimes=spark*
+----
+
+Now you can notice that the spark streamlets are marked as `<external>` and their status is `Unknown` running the `kubectl cloudflow status your-application` command:
+
+[source,shell,subs="+quotes"]
+----
++------------+--------------------------------+
+| Name:      |     call-record-aggregator     |
+| Namespace: |     call-record-aggregator     |
+| Version:   | 0.0.3-9-9fdc6574-20210427-1207 |
+| Created:   |      2021-04-27T10:54:06Z      |
+| Status:    |            Running             |
++------------+--------------------------------+
++----------------+--------------------------------------------------------+-------+---------+----------+
+| STREAMLET      | POD                                                    | READY | STATUS  | RESTARTS |
++----------------+--------------------------------------------------------+-------+---------+----------+
+| cdr-aggregator | *<external>*                                             |  0/0  | *Unknown* |    0     |
+| cdr-generator1 | *<external>*                                             |  0/0  | *Unknown* |    0     |
+| cdr-generator2 | *<external>*                                             |  0/0  | *Unknown* |    0     |
+| cdr-ingress    | call-record-aggregator-cdr-ingress-7965d4bdb8-x8r66    |  1/1  | Running |    0     |
+| console-egress | call-record-aggregator-console-egress-557f74d65f-k765t |  1/1  | Running |    0     |
+| error-egress   | call-record-aggregator-error-egress-55d8ffc79d-2cqxn   |  1/1  | Running |    0     |
+| split          | call-record-aggregator-split-bf98f8dfc-pgt5j           |  1/1  | Running |    0     |
++----------------+--------------------------------------------------------+-------+---------+----------+
+----
+
+To help you manage spark streamlets we have developed some example scripts they are contained in the `example-scripts` https://github.com/lightbend/cloudflow-contrib/tree/main/example-scripts[folder] at the root of Cloudflow Contrib public repository.
+
+For Spark you have two sets of scripts `spark-cli` that directly uses the Spark Cli and `spark-operator` to use the https://github.com/GoogleCloudPlatform/spark-on-k8s-operator[Spark K8s Operator].
+
+=== Spark Cli
+
+The following scripts are expected to be present on the `PATH`:
+
+  - bash
+  - jq
+  - kubectl
+  - spark cli
+
+In the `spark-cli` sub-folder the first script available is `setup-example-rbac.sh` and this first step needs to be performed once on any cluster you want to deploy spark streamlets, refer to https://spark.apache.org/docs/latest/running-on-kubernetes.html#rbac[the upstream documentation] for further details.
+
+=== Spark Operator
+
+The following scripts are expected to be present on the `PATH`:
+
+  - bash
+  - jq
+  - kubectl
+
+In the `spark-operator` sub-folder the first script available is `setup-example-rbac.sh` and this first step needs to be performed once on any cluster you want to deploy spark streamlets, refer to https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/6f66e3f7e851024fc767f4bbe6ba6796c0b468cd/docs/quick-start-guide.md#about-the-service-account-for-driver-pods[the upstream documentation] for further details.
+
+The second step is to setup the `spark-operator` following the steps described https://cloudflow.io/docs/current/administration/installing-spark-operator.html[here].
+
+Alternatively the script `setup-spark-operator.sh` provides a full example of setting up the `spark-operator` relying on opinionated defaults.
+
+=== Common workflows
+
+Inside `spark-cli` and `spark-operator` you find 3 folders to map 3 different use-cases, note that the order of the operations matter:
+
+  * `deploy` a new Cloudflow application to a cluster:
+  ** deploy the Cloudflow application using the `kubectl cloudflow` command
+  ** `cd` into the `deploy` folder and run `./deploy-application.sh application-name service-account-name`
+
+  * `undeploy` a deployed Cloudflow application:
+  ** `cd` into the `undeploy` folder and run `./undeploy-application.sh application-name`
+  ** undeploy the Cloudflow application using the `kubectl cloudflow` command
+
+  * `redeploy` a pre-existing Cloudflow application:
+  ** deploy/configure the Cloudflow application using the `kubectl cloudflow` command
+  ** `cd` into the `redeploy` folder and run `./redeploy-application.sh application-name service-account-name`
+
+The provided scripts are deliberately simple and intended to be used as starting point for you to customize those operations based on your needs.
+The structure always resemble 3 steps:
+
+  * fetch the Cloudflow application informations from the cluster
+  * generate commands
+  * executes the generated commands
