@@ -35,3 +35,19 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         run: |-
           sbt ci-release
+
+      - name: Update docs
+        run: |-
+          cd docs
+          make set-antora-versions
+          make html
+          make all_scaladocs
+          make gh-pages
+
+          # git clone --branch gh-pages git@github.com:lightbend/cloudflow-contrib.git cloudflow-contrib-ghpages
+          # rm -rf cloudflow-contrib-ghpages/*
+          # cp -r target/* cloudflow-contrib-ghpages
+          # cd cloudflow-contrib-ghpages
+          # git add .
+          # git commit -m "update"
+          # git push

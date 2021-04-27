@@ -73,6 +73,11 @@ all_scaladocs: get-version
 	@echo "Building old java and scala docs"
 	(./build-javascaladocs.sh v${version})
 
+gh-pages: get-version
+	@echo "Generating gh-pages additional content"
+	touch target/.nojekyll
+	sed "s/version/${version}/g" index.html > target/index.html
+
 print-site:
 	# The result directory with the contents of this build:
 	@echo "${work_dir}"
