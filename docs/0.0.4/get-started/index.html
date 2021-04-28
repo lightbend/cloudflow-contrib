@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Get started with Cloudflow Contrib :: Cloudflow Contrib Guide</title>
+    <link rel="canonical" href="https://cloudflow.io/docs/0.0.4/get-started/index.html">
+    <meta name="generator" content="Antora 2.3.2">
+    <link rel="stylesheet" href="../../../_/css/theme.1.0.7.min.css">
+	<meta property="og:site_name" content="Cloudflow Contrib" />
+	<meta name="author" content="Cloudflow Contrib">
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="77f875d9-bd60-4664-90f6-07e0de4aa0d5" ></script>    <link rel="icon" href="../../../_/img/favicon.ico" type="image/x-icon">
+  </head>
+  <body class="blue-theme oss-banner article hide-versions hide-edit-this-page ">
+<div id="lightbend-banner" class="lightbend-banner cloudflow full-width" data-category="OSS Lightbend Banner Impression" data-label="Cloudflow Banner Impression">
+	<div class="oss-wrapper">
+		<div class="oss-brand">
+			<a class="oss-track-link-label" data-category="OSS Lightbend Banner Clicks" data-label="Lightbend Logo - Cloudflow Banner" href="https://www.lightbend.com?r=oss-banner-cloudflow" target="_blank">
+				<img class="lightbend-logo" src="../../../_/img/banner-logos/lightbend-reverse.svg" alt="Lightbend" title="Lightbend">
+			</a>
+		</div>
+	</div>
+</div><header class="header" role="banner">
+  <nav class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://cloudflow.io">
+          <img class="header-logo cloudflow-logo" src="../../../_/img/cloudflow-reverse.svg">
+        </a>
+        <a href="" id="site-id" class="site-id cloudflow-id">CONTRIB</a>
+        <button class="navbar-burger" data-target="topbar-nav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      <div id="topbar-nav" class="navbar-menu">
+        <div class="navbar-end">
+        </div>
+      </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="docs" data-version="0.0.4">
+  <aside class="nav">
+    <div class="panels">
+  <div class="nav-panel-search">
+	  <input id="search-input" type="text" placeholder="Search Cloudflow Contrib Documentation">
+	</div>
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    	<h3 class="title"><a href="../index.html">Cloudflow Contrib</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Cloudflow Contrib Docs - version 0.0.4</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Introducing Cloudflow Contrib</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../api/index.html">Streamlet API Reference</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="index.html">Getting started with Cloudflow Contrib</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Cloudflow Contrib</span>
+    <span class="version">0.0.4</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Cloudflow Contrib</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">0.0.4</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Cloudflow Contrib</a></li>
+    <li>Cloudflow Contrib Docs - version 0.0.4</li>
+    <li><a href="index.html">Getting started with Cloudflow Contrib</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///antora/docs/docs-source/docs/modules/get-started/pages/index.adoc">Edit this Page File</a></div>
+</div>
+  <div class="content">
+<article id="page-content" class="doc">
+<h1 class="page">Get started with Cloudflow Contrib</h1>
+<fieldset class="supergroup-switch">
+
+
+
+
+	
+
+	
+</fieldset><div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We assume you are comfortable with building and running Cloudflow&#8217;s application.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installing_cloudflow"><a class="anchor" href="#_installing_cloudflow"></a>Installing Cloudflow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To install Cloudflow follow <a href="https://cloudflow.io/docs/current/administration/installing-cloudflow.html">the official guide</a>.
+But you need to turn off, in the Cloudflow operator, the "legacy way" of handling Flink and Spark runtimes, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g.:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">helm upgrade -i cloudflow cloudflow-helm-charts/cloudflow \
+  --version "2.0.26-RC27" \
+  --set cloudflow_operator.jvm.opts="-XX:MaxRAMPercentage=90.0 -XX:+UseContainerSupport -Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false" \
+  --set kafkaClusters.default.bootstrapServers=cloudflow-strimzi-kafka-bootstrap.cloudflow:9092 \
+  --namespace cloudflow</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_storage_requirements"><a class="anchor" href="#_storage_requirements"></a>Storage requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>In any Cloudflow application using Spark or Flink</strong>, the Kubernetes cluster will need to have a storage class of the <code>ReadWriteMany</code> type installed.</p>
+</div>
+<div class="paragraph">
+<p>For testing purposes, we suggest using the NFS Server Provisioner, which can be found here: <a href="https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner">NFS Server Provisioner Helm chart</a></p>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll install the nfs chart in the <code>cloudflow</code> namespace, if it does not exist yet, create the <code>cloudflow</code> namespace:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>kubectl create ns cloudflow</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the <code>Stable</code> Helm repository and update the local index:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>helm repo add stable https://charts.helm.sh/stable
+helm repo update</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Install the NFS Server Provisioner using the following command:</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Depending on your Kubernetes configuration, you may want to adjust the values used during the install.
+Please see <a href="https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner#configuration">NFS Server Provisioner configuration options</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>helm install nfs-server-provisioner stable/nfs-server-provisioner \
+  --namespace cloudflow</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result of the installation is shown below, the NFS Server provisioner pod is running and the new storage class exists.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ kubectl get pods -n cloudflow
+NAME                       READY   STATUS    RESTARTS   AGE
+nfs-server-provisioner-0   1/1     Running   0          25s
+
+$ kubectl get sc
+NAME                 PROVISIONER            AGE
+nfs                  cloudflow-nfs          29s
+standard (default)   kubernetes.io/gce-pd   2m57s</pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">NOTE</dt>
+<dd>
+<p>The documented NFS storage class is very portable and has been verified to work on GKE, EKS, AKS and Openshift.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s next</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The workflow to build and deploy your first Cloudflow application including Cloudflow Contrib&#8217;s components match the experience of using Cloudflow&#8217;s Akka streamlets with a few differences.
+Here we assume that you start from a correctly configured Cloudflow application and we describe the steps for using the integrations provided in the Cloudflow Contrib repository:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="flink-native.html" class="page">Flink Native integration</a></p>
+</li>
+<li>
+<p><a href="spark-native.html" class="page">Spark Native integration</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script src="../../../_/js/dist/theme.1.0.1.min.js"></script>
+
+	<script src="../../../_/js/dist/search.min.js" id="search-script" data-base-path="../../.." data-page-path="/docs/0.0.4/get-started/index.html"></script>
+	<script async src="../../../_/../search-index.js"></script>
+
+<!--Footer Scripts Cloudflow Specific-->
+<!-- Google Tag Manager -->
+<script type="text/plain" class="optanon-category-2">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WH6JSFT');</script>
+<!-- End Google Tag Manager -->  </body>
+</html>
