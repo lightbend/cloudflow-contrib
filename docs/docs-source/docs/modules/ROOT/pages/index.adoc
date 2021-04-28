@@ -20,10 +20,10 @@ With those powerful abstractions, Cloudflow enables you to define, build and dep
 
 You can find more information in the official https://cloudflow.io/[Cloudflow documentation].
 
-== Why Cloudflow Contrib?
+== Why use Cloudflow Contrib?
 
-Cloudflow used to ship with full integrations with Apache Spark and Apache Flink, this used to be extremely useful for newcomers that can quickly sketch up applications on multiple streaming engines.
-Unfortunately, having to deal with other kubernetes operators, happened to be a road paved with challenges and issues:
+Cloudflow used to ship with full integrations with Apache Spark and Apache Flink, this was extremely useful for newcomers that could quickly sketch up applications on multiple streaming engines.
+Unfortunately, having to deal with other kubernetes operators was a road paved with challenges and issues:
   
   - Third-party: the operators used to run Spark and Flink jobs are not officially supported by the projects maintainers
   - Not-so-black boxes: third party operators offer to the user a partial and biased integration with the streaming engine having a number of caveats and edge cases that sometimes spill to the user
