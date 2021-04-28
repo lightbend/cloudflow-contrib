@@ -1,7 +1,7 @@
 
 # Cloudflow Community Supported integrations
 
-Cloudflow Contrib is the project for Cloudflow's extension and integrations with popular streaming frameworks.
+Cloudflow Contrib is the project for Cloudflow's extension and integration with popular streaming frameworks.
 
 ## License
 
