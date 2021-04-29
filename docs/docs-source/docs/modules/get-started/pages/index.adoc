@@ -70,7 +70,7 @@ If you whish to remove the NFS Server Provisioner run:
 == What's next
 
 The workflow to build and deploy your first Cloudflow application including Cloudflow Contrib's components match the experience of using Cloudflow's Akka streamlets with a few differences.
-Here we assume that you start from a correctly configured Cloudflow application and we describe the steps for using the integrations provided from this repository:
+Here we assume that you start from a correctly configured Cloudflow application and we describe the steps for using the integrations provided within this repository:
 
 . xref:flink-native.adoc[Flink Native integration]
 . xref:spark-native.adoc[Spark Native integration]
