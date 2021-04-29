@@ -6,11 +6,11 @@
 
 == Why use Cloudflow Contrib?
 
-Cloudflow Contrib gets Cloudflow's external(Flink & Spark) integrations back to the users making them easy and customizable.
+Cloudflow Contrib gets Cloudflow's external(Flink & Spark) integrations back in the hands of the users.
 
-The key principles behind this project are in:
+The key principles behind this project keeps being:
 
-  - Cloudflow's blueprint keeps being the source of truth of your streamlets interconnections
+  - Cloudflow's blueprint is the source of truth of your streamlets interconnections
   - the user is in total control of deploying and managing any Streamlet other than Akka
   - the convenient Streamlet API is preserved for component's development
 

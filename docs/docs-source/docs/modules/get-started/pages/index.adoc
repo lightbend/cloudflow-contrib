@@ -9,7 +9,7 @@ Have a running Cloudflow application containing Flink and/or Spark streamlets de
 == Installing Cloudflow
 
 To install Cloudflow follow https://cloudflow.io/docs/current/administration/installing-cloudflow.html[the official guide].
-But you need to turn off, in the Cloudflow operator, the "legacy way" of handling Flink and Spark runtimes, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g. `-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false`.
+In addition you will need to turn off the "legacy way" of handling Flink and Spark runtimes I the cloudflow operator, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g. `-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false`.
 
 A full example installation command will look as follows:
 
@@ -26,7 +26,7 @@ helm upgrade -i cloudflow cloudflow-helm-charts/cloudflow \
 
 **In any Cloudflow application using Spark or Flink**, the Kubernetes cluster will need to have a storage class of the `ReadWriteMany` type installed.
 
-NOTE: the NFS Server Provisioner is an excellent and easy to setup storage in development environemt, for production rely on the suggested and supported Cloud integrations for https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/filesystems/overview/#pluggable-file-systems[Flink] and for https://spark.apache.org/docs/3.1.1/cloud-integration.html#important-cloud-object-stores-are-not-real-filesystems[Spark]
+NOTE: the NFS Server Provisioner is an excellent and easy to setup storage in development environemt, for production use the suggested and supported Cloud integrations for https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/filesystems/overview/#pluggable-file-systems[Flink] and for https://spark.apache.org/docs/3.1.1/cloud-integration.html#important-cloud-object-stores-are-not-real-filesystems[Spark]
 
 For testing purposes, we suggest using the NFS Server Provisioner, which can be found here: https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner[NFS Server Provisioner Helm chart]
 
