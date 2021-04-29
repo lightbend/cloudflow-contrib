@@ -1,20 +1,23 @@
 = Get started with Cloudflow Contrib
 
-
-include::ROOT:partial$include.adoc[]
-
 NOTE: We assume you are comfortable with building and running Cloudflow's application.
+
+== Goal
+
+Have a running Cloudflow application containing Flink and/or Spark streamlets deployed natively.
 
 == Installing Cloudflow
 
 To install Cloudflow follow https://cloudflow.io/docs/current/administration/installing-cloudflow.html[the official guide].
-But you need to turn off, in the Cloudflow operator, the "legacy way" of handling Flink and Spark runtimes, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g.:
+But you need to turn off, in the Cloudflow operator, the "legacy way" of handling Flink and Spark runtimes, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g. `-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false`.
 
-[source,shell,subs="attributes"]
+A full example installation command will look as follows:
+
+[source,shell,subs="attributes,+quotes"]
 ----
 helm upgrade -i cloudflow cloudflow-helm-charts/cloudflow \
   --version "2.0.26-RC27" \
-  --set cloudflow_operator.jvm.opts="-XX:MaxRAMPercentage=90.0 -XX:+UseContainerSupport -Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false" \
+  --set cloudflow_operator.jvm.opts="*-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false* -XX:MaxRAMPercentage=90.0 -XX:+UseContainerSupport" \
   --set kafkaClusters.default.bootstrapServers=cloudflow-strimzi-kafka-bootstrap.cloudflow:9092 \
   --namespace cloudflow
 ----
@@ -22,6 +25,8 @@ helm upgrade -i cloudflow cloudflow-helm-charts/cloudflow \
 == Storage requirements
 
 **In any Cloudflow application using Spark or Flink**, the Kubernetes cluster will need to have a storage class of the `ReadWriteMany` type installed.
+
+NOTE: the NFS Server Provisioner is an excellent and easy to setup storage in development environemt, for production rely on the suggested and supported Cloud integrations for https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/filesystems/overview/#pluggable-file-systems[Flink] and for https://spark.apache.org/docs/3.1.1/cloud-integration.html#important-cloud-object-stores-are-not-real-filesystems[Spark]
 
 For testing purposes, we suggest using the NFS Server Provisioner, which can be found here: https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner[NFS Server Provisioner Helm chart]
 
@@ -58,10 +63,14 @@ standard (default)   kubernetes.io/gce-pd   2m57s
 
 NOTE:: The documented NFS storage class is very portable and has been verified to work on GKE, EKS, AKS and Openshift.
 
+If you whish to remove the NFS Server Provisioner run:
+
+  helm uninstall nfs-server-provisioner --namespace cloudflow
+
 == What's next
 
 The workflow to build and deploy your first Cloudflow application including Cloudflow Contrib's components match the experience of using Cloudflow's Akka streamlets with a few differences.
-Here we assume that you start from a correctly configured Cloudflow application and we describe the steps for using the integrations provided in the Cloudflow Contrib repository:
+Here we assume that you start from a correctly configured Cloudflow application and we describe the steps for using the integrations provided from this repository:
 
 . xref:flink-native.adoc[Flink Native integration]
 . xref:spark-native.adoc[Spark Native integration]

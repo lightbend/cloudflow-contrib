@@ -1,7 +1,5 @@
 = Spark Native integration
 
-include::ROOT:partial$include.adoc[]
-
 Spark have two valuable options for deploying on Kubernetes, using the official spark CLI and using a third-party(Google) operator.
 Cloudflow Contrib integration enables both of those options to deploy Spark Streamlet with a Cloudflow application.
 

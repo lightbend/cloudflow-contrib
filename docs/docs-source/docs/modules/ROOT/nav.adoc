@@ -1,8 +1,9 @@
-include::partial$include.adoc[]
 .Cloudflow Contrib Docs - version {cloudflow-contrib-version}
 
 * xref:index.adoc[Introducing Cloudflow Contrib]
 
-* xref:api:index.adoc[Streamlet API Reference]
-
 * xref:get-started:index.adoc[Getting started with Cloudflow Contrib]
+** xref:get-started:flink-native.adoc[Flink Native integration]
+** xref:get-started:spark-native.adoc[Spark Native integration]
+
+* xref:api:index.adoc[Streamlet API Reference]

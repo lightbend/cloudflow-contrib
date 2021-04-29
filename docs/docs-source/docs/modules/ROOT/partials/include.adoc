@@ -1,3 +1,0 @@
-
-// global attributes, if you update, make sure to update in shared-content-source ROOT:partials:include.adoc too
-// see the include file in shared-content:ROOT:partials:include.adoc
