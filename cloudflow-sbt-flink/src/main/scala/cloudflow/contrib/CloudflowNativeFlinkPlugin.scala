@@ -66,11 +66,11 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
 
     val scalaVersion = (ThisProject / scalaBinaryVersion).value
     val flinkVersion = "1.13.0"
-    val flinkPackageVersion = "1.13.0-rc2"
+    val flinkPackageVersion = "1.13.0"
 
     val flinkTgz = s"flink-${flinkVersion}-bin-scala_${scalaVersion}.tgz"
 
-    val flinkTgzUrl = s"https://dist.apache.org/repos/dist/dev/flink/flink-${flinkPackageVersion}/$flinkTgz"
+    val flinkTgzUrl = s"https://downloads.apache.org/flink/flink-${flinkPackageVersion}/$flinkTgz"
 
     Seq(
       Instructions.Env("FLINK_VERSION", flinkVersion),
