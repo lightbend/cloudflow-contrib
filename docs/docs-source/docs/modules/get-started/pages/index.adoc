@@ -9,7 +9,7 @@ Have a running Cloudflow application containing Flink and/or Spark streamlets de
 == Installing Cloudflow
 
 To install Cloudflow follow https://cloudflow.io/docs/current/administration/installing-cloudflow.html[the official guide].
-In addition you will need to turn off the "legacy way" of handling Flink and Spark runtimes I the cloudflow operator, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g. `-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false`.
+In addition you will need to turn off the "legacy way" of handling Flink and Spark runtimes in the cloudflow operator, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g. `-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false`.
 
 A full example installation command will look as follows:
 
