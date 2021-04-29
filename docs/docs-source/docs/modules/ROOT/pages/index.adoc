@@ -12,7 +12,7 @@ The key principles behind this project keeps being:
 
   - Cloudflow's blueprint is the source of truth of your streamlets interconnections
   - Users are in total control of deploying and managing any Streamlet other than Akka
-  - the convenient Streamlet API is preserved for component's development
+  - The convenient Streamlet API is preserved for component development
 
 == What's next
 
