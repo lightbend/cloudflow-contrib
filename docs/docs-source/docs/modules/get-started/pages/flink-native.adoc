@@ -1,7 +1,7 @@
 = Flink Native integration
 
 Since version 1.13 FLink ships with a https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/resource-providers/native_kubernetes/[Native Kubernetes] integration.
-Cloudflow Contrib integration leverage this native functionalities to power Native Flink Streamlet to be deployed into a Cloudflow application.
+Cloudflow Contrib integration leverages this native functionality to power a Native Flink Streamlet, deployed into a Cloudflow application.
 
 == Building Flink Native Streamlets
 
