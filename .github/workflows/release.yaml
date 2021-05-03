@@ -49,5 +49,5 @@ jobs:
           # cp -r target/* cloudflow-contrib-ghpages
           # cd cloudflow-contrib-ghpages
           # git add .
-          # git commit -m "update"
+          # git commit --allow-empty -m "update"
           # git push

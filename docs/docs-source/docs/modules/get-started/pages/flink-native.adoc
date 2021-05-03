@@ -1,9 +1,7 @@
 = Flink Native integration
 
-include::ROOT:partial$include.adoc[]
-
-Since version 1.13 FLink ships with a https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/resource-providers/native_kubernetes/[Native Kubernetes] integration.
-Cloudflow Contrib integration leverage this native functionalities to power Native Flink Streamlet to be deployed into a Cloudflow application.
+Since version 1.13, Flink ships with a https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/resource-providers/native_kubernetes/[Native Kubernetes] integration.
+Cloudflow Contrib integration leverages this native functionality to power a Native Flink Streamlet, deployed into a Cloudflow application.
 
 == Building Flink Native Streamlets
 
@@ -20,7 +18,6 @@ And use the Flink Native sbt plugin functionalities in your streamlet sbt sub-pr
 ----
   .enablePlugins(CloudflowApplicationPlugin, CloudflowFlinkPlugin, CloudflowNativeFlinkPlugin)
   .settings(
-    resolvers += "Flink 13.0 RC2".at("https://repository.apache.org/content/repositories/orgapacheflink-1420/"),
     baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
     libraryDependencies ~= fixFlinkNativeCloudflowDeps
   )

@@ -1,18 +1,24 @@
 site:
   title: "Cloudflow Contrib Guide"
-  url: https://cloudflow.io
+  url: https://lightbend.github.io/cloudflow-contrib
 content:
+  # sources:
+  #   - url: git@github.com:lightbend/cloudflow-contrib.git
+  #     start-paths:
+  #       - docs/docs-source/docs
+  #     branches: [master] # versioned content - add branches here
+  # TODO: restor the prev section when the project is public
   sources:
-    - url: git@github.com:lightbend/cloudflow-contrib.git
+    - url: ./../../
       start-paths:
         - docs/docs-source/docs
-      branches: [master] # versioned content - add branches here
+      branches: [HEAD]
 
 ui:
   bundle:
     url: https://lightbend.github.io/antora-supplemental-ui-lightbend-theme/default_ui/ui-bundle-756539289.zip
     snapshot: true
-  default_layout: default
+  default_layout: default-dev
   supplemental_files: ./supplemental_ui
 runtime:
   fetch: true

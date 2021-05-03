@@ -66,7 +66,6 @@ object Dependencies {
   }
 
   val flinkStreamlet = Seq(
-    resolvers ++= Seq("Flink 13.0 RC2".at("https://repository.apache.org/content/repositories/orgapacheflink-1420/")),
     libraryDependencies ++= Seq(
         Compile.cloudflowStreamlet,
         Compile.flink,

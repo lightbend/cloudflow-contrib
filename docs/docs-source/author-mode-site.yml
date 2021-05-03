@@ -1,6 +1,6 @@
 site:
   title: "Cloudflow Contrib Guide"
-  url: https://cloudflow.io
+  url: https://lightbend.github.io/cloudflow-contrib
 content:
   sources:
     - url: ./../../
