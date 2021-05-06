@@ -3,6 +3,10 @@
 
 Cloudflow Contrib is the project for Cloudflow's extension and integration with popular streaming frameworks.
 
+## Documentation
+
+User documentation is available [here](https://lightbend.github.io/cloudflow-contrib).
+
 ## License
 
 This software is licensed under the Apache 2 license.
