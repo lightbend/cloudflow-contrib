@@ -1,6 +1,8 @@
 
 # Cloudflow Community Supported integrations
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.lightbend.cloudflow/contrib-spark_2.12/badge.svg?style=plastic)](#)
+
 Cloudflow Contrib is the project for Cloudflow's extension and integration with popular streaming frameworks.
 
 ## Documentation
