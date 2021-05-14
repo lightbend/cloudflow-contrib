@@ -4,6 +4,10 @@
 
 :imagesdir: assets/images
 
+== What is Cloudflow Contrib?
+
+Cloudflow Contrib is a Community maintained repository for http://cloudflow.io/[Cloudflow]'s external(Flink & Spark) streaming engine integration.
+
 == Why use Cloudflow Contrib?
 
 Cloudflow Contrib gets Cloudflow's external(Flink & Spark) integrations back in the hands of the users.
