@@ -38,6 +38,7 @@ jobs:
 
       - name: Update docs
         run: |-
+          sudo snap install yq
           cd docs
           make set-antora-versions
           make html
