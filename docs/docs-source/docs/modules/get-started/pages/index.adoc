@@ -16,7 +16,7 @@ A full example installation command will look as follows:
 [source,shell,subs="attributes,+quotes"]
 ----
 helm upgrade -i cloudflow cloudflow-helm-charts/cloudflow \
-  --version "2.0.26-RC27" \
+  --version "2.1.0" \
   --set cloudflow_operator.jvm.opts="*-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false* -XX:MaxRAMPercentage=90.0 -XX:+UseContainerSupport" \
   --set kafkaClusters.default.bootstrapServers=cloudflow-strimzi-kafka-bootstrap.cloudflow:9092 \
   --namespace cloudflow
