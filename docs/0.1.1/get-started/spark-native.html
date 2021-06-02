@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Cloudflow Contrib Streamlet API :: Cloudflow Contrib Guide</title>
-    <link rel="canonical" href="https://lightbend.github.io/cloudflow-contrib/docs/0.1.0/api/index.html">
+    <title>Spark Native integration :: Cloudflow Contrib Guide</title>
+    <link rel="canonical" href="https://lightbend.github.io/cloudflow-contrib/docs/0.1.1/get-started/spark-native.html">
     <meta name="generator" content="Antora 2.3.2">
     <link rel="stylesheet" href="../../../_/css/theme.1.0.7.min.css">
 	<meta property="og:site_name" content="Cloudflow Contrib" />
@@ -49,7 +49,7 @@
       </div>
   </nav>
 </header><div class="body">
-<div class="nav-container" data-component="docs" data-version="0.1.0">
+<div class="nav-container" data-component="docs" data-version="0.1.1">
   <aside class="nav">
     <div class="panels">
   <div class="nav-panel-search">
@@ -61,25 +61,25 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">Cloudflow Contrib Docs - version 0.1.0</span>
+    <span class="nav-text">Cloudflow Contrib Docs - version 0.1.1</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../index.html">Introducing Cloudflow Contrib</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="../get-started/index.html">Getting started with Cloudflow Contrib</a>
+    <a class="nav-link" href="index.html">Getting started with Cloudflow Contrib</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../get-started/flink-native.html">Flink Native integration</a>
+    <a class="nav-link" href="flink-native.html">Flink Native integration</a>
   </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../get-started/spark-native.html">Spark Native integration</a>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="spark-native.html">Spark Native integration</a>
   </li>
 </ul>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="index.html">Streamlet API Reference</a>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../api/index.html">Streamlet API Reference</a>
   </li>
 </ul>
   </li>
@@ -89,14 +89,14 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Cloudflow Contrib</span>
-    <span class="version">0.1.0</span>
+    <span class="version">0.1.1</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">Cloudflow Contrib</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../index.html">0.1.0</a>
+          <a href="../index.html">0.1.1</a>
         </li>
       </ul>
     </li>
@@ -111,15 +111,16 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Cloudflow Contrib</a></li>
-    <li>Cloudflow Contrib Docs - version 0.1.0</li>
-    <li><a href="index.html">Streamlet API Reference</a></li>
+    <li>Cloudflow Contrib Docs - version 0.1.1</li>
+    <li><a href="index.html">Getting started with Cloudflow Contrib</a></li>
+    <li><a href="spark-native.html">Spark Native integration</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/docs/docs-source/docs/modules/api/pages/index.adoc">Edit this Page File</a></div>
+  <div class="edit-this-page"><a href="file:///antora/docs/docs-source/docs/modules/get-started/pages/spark-native.adoc">Edit this Page File</a></div>
 </div>
   <div class="content">
 <article id="page-content" class="doc">
-<h1 class="page">Cloudflow Contrib Streamlet API</h1>
+<h1 class="page">Spark Native integration</h1>
 <fieldset class="supergroup-switch">
 
 
@@ -128,15 +129,204 @@
 	
 
 	
-</fieldset><div class="ulist">
+</fieldset><div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Spark have two valuable options for deploying on Kubernetes, using the official spark CLI and using a third-party(Google) operator.
+Cloudflow Contrib integration enables both of those options to deploy Spark Streamlet with a Cloudflow application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building_spark_native_streamlets"><a class="anchor" href="#_building_spark_native_streamlets"></a>Building Spark Native Streamlets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To build Spark Native Streamlets you need to add an additional sbt plugin along with the Cloudflow one in <code>plugins.sbt</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">addSbtPlugin("com.lightbend.cloudflow" % "contrib-sbt-spark" % "0.1.1")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And use the spark Native sbt plugin functionalities in your streamlet sbt sub-project functionalities:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">  .enablePlugins(CloudflowApplicationPlugin, CloudflowSparkPlugin, CloudflowNativeSparkPlugin)
+    .settings(
+      baseDockerInstructions := sparkNativeCloudflowDockerInstructions.value,
+      libraryDependencies ~= fixSparkNativeCloudflowDeps
+    )</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can develop and use your spark streamlets as described in the <a href="https://cloudflow.io/docs/current/develop/use-spark-streamlets.html">official cloudflow documentation</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_operating_spark_streamlets_in_a_cluster"><a class="anchor" href="#_operating_spark_streamlets_in_a_cluster"></a>Operating spark streamlets in a cluster</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once you have run <code>buildApp</code> and you have the compiled Blueprint of your application you can deploy it using the <code>kubectl cloudflow</code> plugin and, in case it&#8217;s necessary, adding the option to ignore checks on the spark operator:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">kubectl cloudflow deploy your-application-cr.json <strong>--unmanaged-runtimes=spark</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can notice that the spark streamlets are marked as <code>&lt;external&gt;</code> and their status is <code>Unknown</code> running the <code>kubectl cloudflow status your-application</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">+------------+--------------------------------+
+| Name:      |     call-record-aggregator     |
+| Namespace: |     call-record-aggregator     |
+| Version:   | 0.0.3-9-9fdc6574-20210427-1207 |
+| Created:   |      2021-04-27T10:54:06Z      |
+| Status:    |            Running             |
++------------+--------------------------------+
++----------------+--------------------------------------------------------+-------+---------+----------+
+| STREAMLET      | POD                                                    | READY | STATUS  | RESTARTS |
++----------------+--------------------------------------------------------+-------+---------+----------+
+| cdr-aggregator | <strong>&lt;external&gt;</strong>                                             |  0/0  | <strong>Unknown</strong> |    0     |
+| cdr-generator1 | <strong>&lt;external&gt;</strong>                                             |  0/0  | <strong>Unknown</strong> |    0     |
+| cdr-generator2 | <strong>&lt;external&gt;</strong>                                             |  0/0  | <strong>Unknown</strong> |    0     |
+| cdr-ingress    | call-record-aggregator-cdr-ingress-7965d4bdb8-x8r66    |  1/1  | Running |    0     |
+| console-egress | call-record-aggregator-console-egress-557f74d65f-k765t |  1/1  | Running |    0     |
+| error-egress   | call-record-aggregator-error-egress-55d8ffc79d-2cqxn   |  1/1  | Running |    0     |
+| split          | call-record-aggregator-split-bf98f8dfc-pgt5j           |  1/1  | Running |    0     |
++----------------+--------------------------------------------------------+-------+---------+----------+</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To help you manage spark streamlets we have developed some example scripts they are contained in the <code>example-scripts</code> <a href="https://github.com/lightbend/cloudflow-contrib/tree/main/example-scripts">folder</a> at the root of Cloudflow Contrib public repository.</p>
+</div>
+<div class="paragraph">
+<p>For Spark you have two sets of scripts <code>spark-cli</code> that directly uses the Spark Cli and <code>spark-operator</code> to use the <a href="https://github.com/GoogleCloudPlatform/spark-on-k8s-operator">Spark K8s Operator</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_spark_cli"><a class="anchor" href="#_spark_cli"></a>Spark Cli</h3>
+<div class="paragraph">
+<p>The following scripts are expected to be present on the <code>PATH</code>:</p>
+</div>
+<div class="ulist">
 <ul>
 <li>
-<p><a href="./flink-scaladoc/unidoc/cloudflow/flink/index.html">Flink Streamlet API - Scaladoc</a></p>
+<p>bash</p>
 </li>
 <li>
-<p><a href="./spark-scaladoc/unidoc/cloudflow/spark/index.html">Spark Streamlet API - Scaladoc</a></p>
+<p>jq</p>
+</li>
+<li>
+<p>kubectl</p>
+</li>
+<li>
+<p>spark cli</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>In the <code>spark-cli</code> sub-folder the first script available is <code>setup-example-rbac.sh</code> and this first step needs to be performed once on any cluster you want to deploy spark streamlets, refer to <a href="https://spark.apache.org/docs/latest/running-on-kubernetes.html#rbac">the upstream documentation</a> for further details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spark_operator"><a class="anchor" href="#_spark_operator"></a>Spark Operator</h3>
+<div class="paragraph">
+<p>The following scripts are expected to be present on the <code>PATH</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>bash</p>
+</li>
+<li>
+<p>jq</p>
+</li>
+<li>
+<p>kubectl</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the <code>spark-operator</code> sub-folder the first script available is <code>setup-example-rbac.sh</code> and this first step needs to be performed once on any cluster you want to deploy spark streamlets, refer to <a href="https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/6f66e3f7e851024fc767f4bbe6ba6796c0b468cd/docs/quick-start-guide.md#about-the-service-account-for-driver-pods">the upstream documentation</a> for further details.</p>
+</div>
+<div class="paragraph">
+<p>The second step is to setup the <code>spark-operator</code> following the steps described <a href="https://cloudflow.io/docs/current/administration/installing-spark-operator.html">here</a>.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively the script <code>setup-spark-operator.sh</code> provides a full example of setting up the <code>spark-operator</code> relying on opinionated defaults.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_common_workflows"><a class="anchor" href="#_common_workflows"></a>Common workflows</h3>
+<div class="paragraph">
+<p>Inside <code>spark-cli</code> and <code>spark-operator</code> you find 3 folders to map 3 different use-cases, note that the order of the operations matter:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>deploy</code> a new Cloudflow application to a cluster:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>deploy the Cloudflow application using the <code>kubectl cloudflow</code> command</p>
+</li>
+<li>
+<p><code>cd</code> into the <code>deploy</code> folder and run <code>./deploy-application.sh application-name service-account-name</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>undeploy</code> a deployed Cloudflow application:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cd</code> into the <code>undeploy</code> folder and run <code>./undeploy-application.sh application-name</code></p>
+</li>
+<li>
+<p>undeploy the Cloudflow application using the <code>kubectl cloudflow</code> command</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>redeploy</code> a pre-existing Cloudflow application:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>deploy/configure the Cloudflow application using the <code>kubectl cloudflow</code> command</p>
+</li>
+<li>
+<p><code>cd</code> into the <code>redeploy</code> folder and run <code>./redeploy-application.sh application-name service-account-name</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The provided scripts are deliberately simple and intended to be used as starting point for you to customize those operations based on your needs.
+The structure always resemble 3 steps:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>fetch the Cloudflow application informations from the cluster</p>
+</li>
+<li>
+<p>generate commands</p>
+</li>
+<li>
+<p>executes the generated commands</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
@@ -188,7 +378,7 @@
 <script async src="../../../_/js/vendor/highlight.js"></script>
 <script src="../../../_/js/dist/theme.1.0.1.min.js"></script>
 
-	<script src="../../../_/js/dist/search.min.js" id="search-script" data-base-path="../../.." data-page-path="/docs/0.1.0/api/index.html"></script>
+	<script src="../../../_/js/dist/search.min.js" id="search-script" data-base-path="../../.." data-page-path="/docs/0.1.1/get-started/spark-native.html"></script>
 	<script async src="../../../_/../search-index.js"></script>
 
 <!--Footer Scripts Cloudflow Specific-->

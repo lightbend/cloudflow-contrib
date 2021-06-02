@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Get started with Cloudflow Contrib :: Cloudflow Contrib Guide</title>
-    <link rel="canonical" href="https://lightbend.github.io/cloudflow-contrib/docs/0.1.0/get-started/index.html">
+    <title>Flink Native integration :: Cloudflow Contrib Guide</title>
+    <link rel="canonical" href="https://lightbend.github.io/cloudflow-contrib/docs/0.1.1/get-started/flink-native.html">
     <meta name="generator" content="Antora 2.3.2">
     <link rel="stylesheet" href="../../../_/css/theme.1.0.7.min.css">
 	<meta property="og:site_name" content="Cloudflow Contrib" />
@@ -49,7 +49,7 @@
       </div>
   </nav>
 </header><div class="body">
-<div class="nav-container" data-component="docs" data-version="0.1.0">
+<div class="nav-container" data-component="docs" data-version="0.1.1">
   <aside class="nav">
     <div class="panels">
   <div class="nav-panel-search">
@@ -61,16 +61,16 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">Cloudflow Contrib Docs - version 0.1.0</span>
+    <span class="nav-text">Cloudflow Contrib Docs - version 0.1.1</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../index.html">Introducing Cloudflow Contrib</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="index.html">Getting started with Cloudflow Contrib</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="flink-native.html">Flink Native integration</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -89,14 +89,14 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">Cloudflow Contrib</span>
-    <span class="version">0.1.0</span>
+    <span class="version">0.1.1</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">Cloudflow Contrib</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../index.html">0.1.0</a>
+          <a href="../index.html">0.1.1</a>
         </li>
       </ul>
     </li>
@@ -111,15 +111,16 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Cloudflow Contrib</a></li>
-    <li>Cloudflow Contrib Docs - version 0.1.0</li>
+    <li>Cloudflow Contrib Docs - version 0.1.1</li>
     <li><a href="index.html">Getting started with Cloudflow Contrib</a></li>
+    <li><a href="flink-native.html">Flink Native integration</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/docs/docs-source/docs/modules/get-started/pages/index.adoc">Edit this Page File</a></div>
+  <div class="edit-this-page"><a href="file:///antora/docs/docs-source/docs/modules/get-started/pages/flink-native.adoc">Edit this Page File</a></div>
 </div>
   <div class="content">
 <article id="page-content" class="doc">
-<h1 class="page">Get started with Cloudflow Contrib</h1>
+<h1 class="page">Flink Native integration</h1>
 <fieldset class="supergroup-switch">
 
 
@@ -130,158 +131,162 @@
 	
 </fieldset><div id="preamble">
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-We assume you are comfortable with building and running Cloudflow&#8217;s application.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>Since version 1.13, Flink ships with a <a href="https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/resource-providers/native_kubernetes/">Native Kubernetes</a> integration.
+Cloudflow Contrib integration leverages this native functionality to power a Native Flink Streamlet, deployed into a Cloudflow application.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_goal"><a class="anchor" href="#_goal"></a>Goal</h2>
+<h2 id="_building_flink_native_streamlets"><a class="anchor" href="#_building_flink_native_streamlets"></a>Building Flink Native Streamlets</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Have a running Cloudflow application containing Flink and/or Spark streamlets deployed natively.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_installing_cloudflow"><a class="anchor" href="#_installing_cloudflow"></a>Installing Cloudflow</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To install Cloudflow follow <a href="https://cloudflow.io/docs/current/administration/installing-cloudflow.html">the official guide</a>.
-In addition you will need to turn off the "legacy way" of handling Flink and Spark runtimes in the cloudflow operator, you can do that by upgrading the Helm installation and adding two additional Java properties. e.g. <code>-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false</code>.</p>
-</div>
-<div class="paragraph">
-<p>A full example installation command will look as follows:</p>
+<p>To build Flink Native Streamlets you need to add an additional sbt plugin along with the Cloudflow one in <code>plugins.sbt</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">helm upgrade -i cloudflow cloudflow-helm-charts/cloudflow \
-  --version "2.1.0" \
-  --set cloudflow_operator.jvm.opts="<strong>-Dcloudflow.platform.flink-enabled=false -Dcloudflow.platform.spark-enabled=false</strong> -XX:MaxRAMPercentage=90.0 -XX:+UseContainerSupport" \
-  --set kafkaClusters.default.bootstrapServers=cloudflow-strimzi-kafka-bootstrap.cloudflow:9092 \
-  --namespace cloudflow</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_storage_requirements"><a class="anchor" href="#_storage_requirements"></a>Storage requirements</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>In any Cloudflow application using Spark or Flink</strong>, the Kubernetes cluster will need to have a storage class of the <code>ReadWriteMany</code> type installed.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The NFS Server Provisioner is an excellent and easy to setup storage in the development environment, for production use the suggested and supported Cloud integrations for <a href="https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/filesystems/overview/#pluggable-file-systems">Flink</a> and for <a href="https://spark.apache.org/docs/3.1.1/cloud-integration.html#important-cloud-object-stores-are-not-real-filesystems">Spark</a>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>For testing purposes, we suggest using the NFS Server Provisioner, which can be found here: <a href="https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner">NFS Server Provisioner Helm chart</a></p>
-</div>
-<div class="paragraph">
-<p>We&#8217;ll install the nfs chart in the <code>cloudflow</code> namespace, if it does not exist yet, create the <code>cloudflow</code> namespace:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>kubectl create ns cloudflow</pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">addSbtPlugin("com.lightbend.cloudflow" % "contrib-sbt-flink" % "0.1.1")</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Add the <code>Stable</code> Helm repository and update the local index:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>helm repo add stable https://charts.helm.sh/stable
-helm repo update</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Install the NFS Server Provisioner using the following command:</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-Depending on your Kubernetes configuration, you may want to adjust the values used during the install.
-Please see <a href="https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner#configuration">NFS Server Provisioner configuration options</a>.
-</td>
-</tr>
-</table>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>helm install nfs-server-provisioner stable/nfs-server-provisioner \
-  --namespace cloudflow</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The result of the installation is shown below, the NFS Server provisioner pod is running and the new storage class exists.</p>
+<p>And use the Flink Native sbt plugin functionalities in your streamlet sbt sub-project functionalities:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>$ kubectl get pods -n cloudflow
-NAME                       READY   STATUS    RESTARTS   AGE
-nfs-server-provisioner-0   1/1     Running   0          25s
-
-$ kubectl get sc
-NAME                 PROVISIONER            AGE
-nfs                  cloudflow-nfs          29s
-standard (default)   kubernetes.io/gce-pd   2m57s</pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">  .enablePlugins(CloudflowApplicationPlugin, CloudflowFlinkPlugin, CloudflowNativeFlinkPlugin)
+  .settings(
+    baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
+    libraryDependencies ~= fixFlinkNativeCloudflowDeps
+  )</code></pre>
 </div>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">NOTE</dt>
-<dd>
-<p>The documented NFS storage class is very portable and has been verified to work on GKE, EKS, AKS and Openshift.</p>
-</dd>
-</dl>
 </div>
 <div class="paragraph">
-<p>If you whish to remove the NFS Server Provisioner run:</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>helm uninstall nfs-server-provisioner --namespace cloudflow</pre>
-</div>
+<p>Now you can develop and use your Flink streamlets as described in the <a href="https://cloudflow.io/docs/current/develop/use-flink-streamlets.html">official cloudflow documentation</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s next</h2>
+<h2 id="_operating_flink_streamlets_in_a_cluster"><a class="anchor" href="#_operating_flink_streamlets_in_a_cluster"></a>Operating Flink streamlets in a cluster</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The workflow to build and deploy your first Cloudflow application including Cloudflow Contrib&#8217;s components match the experience of using Cloudflow&#8217;s Akka streamlets with a few differences.
-Here we assume that you start from a correctly configured Cloudflow application and we describe the steps for using the integrations provided within this repository:</p>
+<p>Once you have run <code>buildApp</code> and you have the compiled Blueprint of your application you can deploy it using the <code>kubectl cloudflow</code> plugin and adding the option to ignore checks on the Flink operator:</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">kubectl cloudflow deploy your-application-cr.json <strong>--unmanaged-runtimes=flink</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can notice that the Flink streamlets are marked as <code>&lt;external&gt;</code> and their status is <code>Unknown</code> running the <code>kubectl cloudflow status your-application</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">+------------+--------------------------------+
+| Name:      |         taxi-ride-fare         |
+| Namespace: |         taxi-ride-fare         |
+| Version:   | 0.0.3-8-37d51e0b-20210427-1057 |
+| Created:   |      2021-04-27T09:45:17Z      |
+| Status:    |            Running             |
++------------+--------------------------------+
++-----------+-------------------------------------------+-------+---------+----------+
+| STREAMLET | POD                                       | READY | STATUS  | RESTARTS |
++-----------+-------------------------------------------+-------+---------+----------+
+| generator | taxi-ride-fare-generator-6fdb9bf946-ddh2n |  1/1  | Running |    0     |
+| logger    | taxi-ride-fare-logger-7c7dcc8699-r7jxb    |  1/1  | Running |    0     |
+| processor | <strong>&lt;external&gt;</strong>                                |  0/0  | <strong>Unknown</strong> |    0     |
++-----------+-------------------------------------------+-------+---------+----------+</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To help you manage Flink streamlets we have developed some example scripts they are contained in the <code>example-scripts</code> <a href="https://github.com/lightbend/cloudflow-contrib/tree/main/example-scripts">folder</a> at the root of Cloudflow Contrib public repository.</p>
+</div>
+<div class="paragraph">
+<p>The following scripts are expected to be present on the <code>PATH</code>:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p><a href="flink-native.html" class="page">Flink Native integration</a></p>
+<p>bash</p>
 </li>
 <li>
-<p><a href="spark-native.html" class="page">Spark Native integration</a></p>
+<p>jq (minimum version required is &gt; 1.5, because of <a href="https://github.com/stedolan/jq/issues/1408">this</a> issue)</p>
 </li>
-</ol>
+<li>
+<p>kubectl</p>
+</li>
+<li>
+<p>flink cli (version 1.13.0)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the <code>flink</code> sub-folder the first script available is <code>setup-example-rbac.sh</code> and this first step needs to be performed once on any cluster you want to deploy Flink streamlets, refer to <a href="https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/resource-providers/native_kubernetes/#rbac">the upstream documentation</a> for further details. This script will setup service account and cluster role binding. Take a note of the service account name that it prints in stdout - you will need it to run subsequent scripts.</p>
+</div>
+<div class="paragraph">
+<p>Now you have 3 folders to map 3 different use-cases, note that the order of the operations matter:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>deploy</code> a new Cloudflow application to a cluster:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>deploy the Cloudflow application using the <code>kubectl cloudflow</code> command</p>
+</li>
+<li>
+<p><code>cd</code> into the <code>deploy</code> folder and run <code>./deploy-application.sh application-name service-account-name</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>undeploy</code> a deployed Cloudflow application:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cd</code> into the <code>undeploy</code> folder and run <code>./undeploy-application.sh application-name</code></p>
+</li>
+<li>
+<p>undeploy the Cloudflow application using the <code>kubectl cloudflow</code> command</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>redeploy</code> a pre-existing Cloudflow application:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>deploy/configure the Cloudflow application using the <code>kubectl cloudflow</code> command</p>
+</li>
+<li>
+<p><code>cd</code> into the <code>redeploy</code> folder and run <code>./redeploy-application.sh application-name service-account-name</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note that the <code>undeploy</code> and <code>redeploy</code> operations are triggering a savepoint into the Flink Job.</p>
+</div>
+<div class="paragraph">
+<p>The provided scripts are deliberately simple and intended to be used as starting point for you to customize those operations based on your needs.
+The structure always resembles 3 steps:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>fetch the Cloudflow application informations from the cluster</p>
+</li>
+<li>
+<p>generate commands</p>
+</li>
+<li>
+<p>executes the generated commands</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -335,7 +340,7 @@ Here we assume that you start from a correctly configured Cloudflow application 
 <script async src="../../../_/js/vendor/highlight.js"></script>
 <script src="../../../_/js/dist/theme.1.0.1.min.js"></script>
 
-	<script src="../../../_/js/dist/search.min.js" id="search-script" data-base-path="../../.." data-page-path="/docs/0.1.0/get-started/index.html"></script>
+	<script src="../../../_/js/dist/search.min.js" id="search-script" data-base-path="../../.." data-page-path="/docs/0.1.1/get-started/flink-native.html"></script>
 	<script async src="../../../_/../search-index.js"></script>
 
 <!--Footer Scripts Cloudflow Specific-->

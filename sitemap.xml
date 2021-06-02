@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.0/api/index.html</loc>
-<lastmod>2021-05-19T16:12:20.730Z</lastmod>
+<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.1/api/index.html</loc>
+<lastmod>2021-06-02T17:15:55.329Z</lastmod>
 </url>
 <url>
-<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.0/get-started/flink-native.html</loc>
-<lastmod>2021-05-19T16:12:20.730Z</lastmod>
+<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.1/get-started/flink-native.html</loc>
+<lastmod>2021-06-02T17:15:55.329Z</lastmod>
 </url>
 <url>
-<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.0/get-started/index.html</loc>
-<lastmod>2021-05-19T16:12:20.730Z</lastmod>
+<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.1/get-started/index.html</loc>
+<lastmod>2021-06-02T17:15:55.329Z</lastmod>
 </url>
 <url>
-<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.0/get-started/spark-native.html</loc>
-<lastmod>2021-05-19T16:12:20.730Z</lastmod>
+<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.1/get-started/spark-native.html</loc>
+<lastmod>2021-06-02T17:15:55.329Z</lastmod>
 </url>
 <url>
-<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.0/index.html</loc>
-<lastmod>2021-05-19T16:12:20.730Z</lastmod>
+<loc>https://lightbend.github.io/cloudflow-contrib/docs/0.1.1/index.html</loc>
+<lastmod>2021-06-02T17:15:55.329Z</lastmod>
 </url>
 </urlset>
