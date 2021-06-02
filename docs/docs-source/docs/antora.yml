@@ -1,8 +1,8 @@
 name: docs
-version: 0.1.0
+version: 0.1.1
 title: Cloudflow Contrib
 nav:
   - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
-    cloudflow-contrib-version: 0.1.0
+    cloudflow-contrib-version: 0.1.1

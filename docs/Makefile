@@ -26,7 +26,7 @@ build: clean html all_javascaladocs print-site
 
 get-version:
 	# get latest tag
-	$(eval version=$(shell sh -c "git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1 | sed 's|refs/tags/v||'"))
+	$(eval version=$(shell sh -c "git describe --abbrev=0 --tags | sed 's|v||'"))
 
 set-antora-versions: get-version
 	yq e ".version = \"${version}\"" docs-source/docs/base-antora.yml > docs-source/docs/antora.yml
