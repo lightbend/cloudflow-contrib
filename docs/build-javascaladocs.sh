@@ -12,7 +12,7 @@ else
     rm -rf cloudflow-contrib && \
     git clone --depth=100 --branch "$VERSION" https://github.com/lightbend/cloudflow-contrib.git && \
     cd cloudflow-contrib && \
-    (sbt -mem 2048 "clean; flink-docs/unidoc; spark-docs/unidoc" || true) && \
+    (sbt "clean; flink-docs/unidoc; spark-docs/unidoc" || true) && \
     cd ../../ && \
     mkdir -p ./target/docs/$DIR/api/spark-scaladoc && \
     mkdir -p ./target/docs/$DIR/api/flink-scaladoc && \
