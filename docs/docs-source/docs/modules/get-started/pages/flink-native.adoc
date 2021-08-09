@@ -61,7 +61,7 @@ The following scripts are expected to be present on the `PATH`:
   - bash
   - jq (minimum version required is > 1.5, because of https://github.com/stedolan/jq/issues/1408[this] issue) 
   - kubectl
-  - flink cli (version 1.13.1)
+  - flink cli (version 1.13.2)
 
 In the `flink` sub-folder the first script available is `setup-example-rbac.sh` and this first step needs to be performed once on any cluster you want to deploy Flink streamlets, refer to https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/resource-providers/native_kubernetes/#rbac[the upstream documentation] for further details. This script will setup service account and cluster role binding. Take a note of the service account name that it prints in stdout - you will need it to run subsequent scripts.
 
