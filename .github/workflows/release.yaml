@@ -1,4 +1,4 @@
-name: Release Clouflow Contrib
+name: Release Cloudflow Contrib
 
 on:
   push:
