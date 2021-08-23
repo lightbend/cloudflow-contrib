@@ -60,10 +60,43 @@ lazy val flinkSbtPlugin =
       },
       scriptedBufferLog := false)
 
+// shadedModules += "com.thesamet.scalapb" %% "scalapb-runtime_2.12",
+// lazy val shadedScalaPbModule = project.in(file("shadedscalapb"))
+//   .settings(
+//     name := "shaded-scalapb"
+//   )
+//   .enablePlugins(ShadingPlugin)
+//   .settings(
+//     libraryDependencies ++= Seq(Dependencies.Compile.sparkProto),
+//     shadedModules += "com.google.protobuf" %% "protobuf-java",
+//     shadingRules += ShadingRule.moveUnder("com.google.protobuf", "shaded.proto"),
+//     validNamespaces += "shaded"
+//   )
+
+lazy val shadedScalaPbModule = project.in(file("shadedscalapb"))
+  .settings(
+    name := "shaded-scalapb"
+  )
+  .enablePlugins(AssemblyPlugin)
+  .settings(
+    libraryDependencies ++= Seq(Dependencies.Compile.sparkProto),
+    assemblyShadeRules in assembly := Seq(
+      ShadeRule.rename("com.google.protobuf.**" -> "shadeproto.@1").inAll,
+      ShadeRule.rename("scala.collection.compat.**" -> "shadecompat.@1").inAll
+    ),
+    assembly / assemblyOption := (assembly / assemblyOption).value, 
+    Compile / packageBin := assembly.value
+  )
+
+val shadedScalaPbSettings = Seq(
+  Compile / unmanagedJars += (shadedScalaPbModule / Compile / packageBin).value
+)
+
 lazy val spark =
   Project(id = "cloudflow-spark", base = file("cloudflow-spark"))
     .enablePlugins(ScalafmtPlugin)
     .settings(Dependencies.sparkStreamlet)
+    .settings(shadedScalaPbSettings)
     .settings(
       name := "contrib-spark",
       scalaVersion := Dependencies.Scala212,
@@ -115,6 +148,7 @@ lazy val sparkSbtPlugin =
       scriptedDependencies := {
         (ThisProject / scriptedDependencies).value
         (spark / publishLocal).value
+        (shadedScalaPbModule / publishLocal).value
         (sparkTestkit / publishLocal).value
         (sparkTests / publishLocal).value
       },
@@ -140,6 +174,7 @@ lazy val root = Project(id = "root", base = file("."))
     flinkTests,
     flinkSbtPlugin,
     spark,
+    shadedScalaPbModule,
     sparkTestkit,
     sparkTests,
     sparkSbtPlugin,

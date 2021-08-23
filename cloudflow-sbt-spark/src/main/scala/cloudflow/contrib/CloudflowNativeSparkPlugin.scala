@@ -41,6 +41,7 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
     val sparkNativeCloudflowDeps =
       Seq(
         "com.lightbend.cloudflow" %% "contrib-spark" % contribVersion,
+        "com.lightbend.cloudflow" %% "shaded-scalapb" % contribVersion,
         "com.lightbend.cloudflow" %% "contrib-spark-testkit" % contribVersion % "test")
 
     def fixSparkNativeCloudflowDeps(ld: Seq[ModuleID]): Seq[ModuleID] = {
@@ -48,7 +49,6 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
         !(dep.organization == "com.lightbend.cloudflow" && dep.name.startsWith("cloudflow-spark"))
       } ++ sparkNativeCloudflowDeps
     }
-
   }
 
   import autoImport._

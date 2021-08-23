@@ -4,3 +4,9 @@ target
 
 .DS_Store
 docs/cloudflow-contrib-ghpages
+.bloop
+.metals
+.vscode
+project/project/**
+project/metals.sbt
+*.swp

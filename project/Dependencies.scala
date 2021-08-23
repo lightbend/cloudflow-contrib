@@ -39,6 +39,7 @@ object Dependencies {
     val sparkSqlKafka = "org.apache.spark" %% "spark-sql-kafka-0-10" % Versions.sparkVersion
     val sparkStreaming = "org.apache.spark" %% "spark-streaming" % Versions.sparkVersion
     val sparkProto = "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.11.0"
+    val scalapbRuntime = "com.thesamet.scalapb" %% "scalapb-runtime" % "0.11.0"
 
     val jacksonCore = "com.fasterxml.jackson.core" % "jackson-core" % Versions.jackson
     val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % Versions.jackson
@@ -94,7 +95,7 @@ object Dependencies {
         Compile.sparkSql,
         Compile.sparkSqlKafka,
         Compile.sparkStreaming,
-        Compile.sparkProto,
+        // Compile.sparkProto,
         Compile.logbackClassic,
         Compile.logbackCore,
         Compile.scalatest % Test),
