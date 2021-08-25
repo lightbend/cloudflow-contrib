@@ -31,7 +31,7 @@ docker_image=$(jq -rc '.image' ${STREAMLET_FOLDER}streamlet.json)
 mkdir -p "${STREAMLET_FOLDER}output"
 OUTPUT_CMD="${STREAMLET_FOLDER}output/cli-cmd.sh"
 
-runtime_config=$(jq -r 'paths(scalars) as $p | "        -D\($p|join("."))=\(getpath($p)) \\"' ${STREAMLET_FOLDER}secrets/runtime-config.conf)
+runtime_config=$(jq -r 'paths(scalars) as $p | "        -D\($p|join("."))=\"\(getpath($p))\" \\"' ${STREAMLET_FOLDER}secrets/runtime-config.conf)
 
 if [ -z "$runtime_config" ]; then
     runtime_config="\\"
