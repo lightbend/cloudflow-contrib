@@ -51,6 +51,8 @@ prepare-cluster:
 	helm repo add stable https://charts.helm.sh/stable --force-update | true
 	helm repo update
 	helm upgrade -i nfs-server-provisioner stable/nfs-server-provisioner --set storageClass.provisionerName=cloudflow-nfs --namespace cloudflow
+	@echo '****** Installing Cloudflow CRD'
+	kubectl apply -f https://raw.githubusercontent.com/lightbend/cloudflow/v${version}/core/cloudflow-crd/kubernetes/cloudflow-crd.yaml
 	@echo '****** Installing Cloudflow Operator'
 	helm repo add cloudflow-helm-charts https://lightbend.github.io/cloudflow-helm-charts/ | true
 	helm repo update
