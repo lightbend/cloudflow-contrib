@@ -32,7 +32,7 @@ prepare-clis:
 	tar -xf spark-3.1.2-bin-hadoop2.7.tgz
 	mv spark-3.1.2-bin-hadoop2.7 spark
 	rm spark-3.1.2-bin-hadoop2.7.tgz
-	wget https://downloads.apache.org/flink/flink-1.13.2/flink-1.13.2-bin-scala_2.12.tgz
+	wget https://archive.apache.org/dist/flink/flink-1.13.2/flink-1.13.2-bin-scala_2.12.tgz
 	tar -xf flink-1.13.2-bin-scala_2.12.tgz
 	mv flink-1.13.2 flink
 	rm flink-1.13.2-bin-scala_2.12.tgz
