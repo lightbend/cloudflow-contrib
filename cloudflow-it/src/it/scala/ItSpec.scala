@@ -134,7 +134,8 @@ trait ItBaseSpec extends ItSpec {
   "is configurable" - {
     "reconfiguration should succeed" in {
       configureApp() { _ =>
-        cli.run(commands.Configure(appName, Seq(resource.updateConfig, resource.defaultConfiguration)))
+        cli.run(
+          commands.Configure(cloudflowApp = appName, confs = Seq(resource.updateConfig, resource.defaultConfiguration)))
       }
     }
     "reconfiguration should affect these streamlets:" - {
@@ -154,7 +155,10 @@ trait ItFrameworkConfigSpec extends ItSpec {
   "should reconfigure a spark application" in {
     note("reconfigure spark-specific configuration")
     configureApp() { _ =>
-      cli.run(commands.Configure(appName, Seq(resource.updateSparkConfiguration, resource.defaultConfiguration)))
+      cli.run(
+        commands.Configure(
+          cloudflowApp = appName,
+          confs = Seq(resource.updateSparkConfiguration, resource.defaultConfiguration)))
     }
 
     note("verifying configuration update")
