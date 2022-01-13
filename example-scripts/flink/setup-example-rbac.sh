@@ -7,4 +7,6 @@ if [ -z "$APPLICATION" ]; then
 fi
 
 kubectl create serviceaccount flink-service-account --namespace "${APPLICATION}"
-kubectl create clusterrolebinding flink-role-binding-flink --clusterrole=edit --serviceaccount="${APPLICATION}:flink-service-account"
+# since this is an example the cluster-admin role is used for simplicity
+# the 'edit' and 'admin' roles fail for configuration commands, since the service account needs to be able to watch configmaps
+kubectl create clusterrolebinding flink-role-binding-flink --clusterrole=cluster-admin --serviceaccount="${APPLICATION}:flink-service-account"
