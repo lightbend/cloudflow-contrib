@@ -38,7 +38,7 @@ lazy val akkaCdrIngestor= appModule("akka-cdr-ingestor")
       commonSettings,
       libraryDependencies ++= Seq(
         "com.typesafe.akka"         %% "akka-http-spray-json"   % "10.1.12",
-        "ch.qos.logback"            %  "logback-classic"        % "1.2.3",
+        "ch.qos.logback"            %  "logback-classic"        % "1.2.10",
         "org.scalatest"             %% "scalatest"              % "3.0.8"    % "test"
       )
     )
@@ -50,7 +50,7 @@ lazy val akkaJavaAggregationOutput= appModule("akka-java-aggregation-output")
     commonSettings,
     libraryDependencies ++= Seq(
       "com.typesafe.akka"      %% "akka-http-spray-json"   % "10.1.12",
-      "ch.qos.logback"         %  "logback-classic"        % "1.2.3",
+      "ch.qos.logback"         %  "logback-classic"        % "1.2.10",
       "org.scalatest"          %% "scalatest"              % "3.0.8"    % "test"
     )
   )
@@ -65,7 +65,7 @@ lazy val sparkAggregation = appModule("spark-aggregation")
       baseDockerInstructions := sparkNativeCloudflowDockerInstructions.value,
       libraryDependencies ~= fixSparkNativeCloudflowDeps,
       libraryDependencies ++= Seq(
-        "ch.qos.logback" %  "logback-classic" % "1.2.3",
+        "ch.qos.logback" %  "logback-classic" % "1.2.10",
         "org.scalatest"  %% "scalatest"       % "3.0.8"  % "test"
       )
     )
