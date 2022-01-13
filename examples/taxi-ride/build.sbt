@@ -39,7 +39,7 @@ lazy val ingestor = appModule("ingestor")
     commonSettings,
     libraryDependencies ++= Seq(
       "com.typesafe.akka"         %% "akka-http-spray-json"   % "10.1.12",
-      "ch.qos.logback"            %  "logback-classic"        % "1.2.3",
+      "ch.qos.logback"            %  "logback-classic"        % "1.2.10",
       "org.scalatest"             %% "scalatest"              % "3.0.8"    % "test"
     )
   )
@@ -53,7 +53,7 @@ lazy val processor = appModule("processor")
     baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
     libraryDependencies ~= fixFlinkNativeCloudflowDeps,
     libraryDependencies ++= Seq(
-        "ch.qos.logback"         %  "logback-classic"        % "1.2.3",
+        "ch.qos.logback"         %  "logback-classic"        % "1.2.10",
         "org.scalatest"          %% "scalatest"              % "3.0.8"  % "test"
       ),
     parallelExecution in Test := false
@@ -65,7 +65,7 @@ lazy val ridelogger = appModule("logger")
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
-      "ch.qos.logback"         %  "logback-classic"        % "1.2.3",
+      "ch.qos.logback"         %  "logback-classic"        % "1.2.10",
       "org.scalatest"          %% "scalatest"              % "3.0.8"    % "test"
     )
   )
