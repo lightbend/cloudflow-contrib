@@ -3,8 +3,8 @@ import sbt._
 
 object Dependencies {
 
-  val Scala212 = "2.12.13"
-  val Scala213 = "2.13.5"
+  val Scala212 = "2.12.15"
+  val Scala213 = "2.13.8"
 
   object Versions {
     val cloudflowVersion = "2.3.0-RC11"
