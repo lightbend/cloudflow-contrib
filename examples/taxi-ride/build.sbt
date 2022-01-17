@@ -47,11 +47,9 @@ lazy val ingestor = appModule("ingestor")
 
 
 lazy val processor = appModule("processor")
-  .enablePlugins(CloudflowFlinkPlugin, CloudflowNativeFlinkPlugin)
+  .enablePlugins(CloudflowNativeFlinkPlugin)
   .settings(
     commonSettings,
-    baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
-    libraryDependencies ~= fixFlinkNativeCloudflowDeps,
     libraryDependencies ++= Seq(
         "ch.qos.logback"         %  "logback-classic"        % "1.2.10",
         "org.scalatest"          %% "scalatest"              % "3.0.8"  % "test"
