@@ -16,11 +16,7 @@ And use the spark Native sbt plugin functionalities in your streamlet sbt sub-pr
 
 [source,scala,subs="attributes"]
 ----
-  .enablePlugins(CloudflowApplicationPlugin, CloudflowSparkPlugin, CloudflowNativeSparkPlugin)
-    .settings(
-      baseDockerInstructions := sparkNativeCloudflowDockerInstructions.value,
-      libraryDependencies ~= fixSparkNativeCloudflowDeps
-    )
+  .enablePlugins(CloudflowApplicationPlugin, CloudflowNativeSparkPlugin)
 ----
 
 Now you can develop and use your spark streamlets as described in the https://cloudflow.io/docs/current/develop/use-spark-streamlets.html[official cloudflow documentation].

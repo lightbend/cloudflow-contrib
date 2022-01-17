@@ -43,22 +43,18 @@ lazy val akka = (project in file("./akka"))
   .dependsOn(datamodel)
 
 lazy val spark = (project in file("./spark"))
-  .enablePlugins(CloudflowSparkPlugin, CloudflowNativeSparkPlugin)
+  .enablePlugins(CloudflowNativeSparkPlugin)
   .settings(commonSettings)  
   .settings(
     name := "swiss-knife-spark",
-    baseDockerInstructions := sparkNativeCloudflowDockerInstructions.value,
-    libraryDependencies ~= fixSparkNativeCloudflowDeps
   )
   .dependsOn(datamodel)
 
 lazy val flink = (project in file("./flink"))
-  .enablePlugins(CloudflowFlinkPlugin, CloudflowNativeFlinkPlugin)
+  .enablePlugins(CloudflowNativeFlinkPlugin)
   .settings(commonSettings)
   .settings(
     name := "swiss-knife-flink",
-    baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
-    libraryDependencies ~= fixFlinkNativeCloudflowDeps
   )
   .dependsOn(datamodel)
 
