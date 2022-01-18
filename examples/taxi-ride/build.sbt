@@ -30,8 +30,11 @@ lazy val taxiRidePipeline = appModule("taxi-ride-pipeline")
   )
 
 lazy val datamodel = appModule("datamodel")
-  .enablePlugins(CloudflowLibraryPlugin)
-  .settings(commonSettings)
+  .settings(
+    commonSettings,
+    Compile / sourceGenerators += (Compile / avroScalaGenerateSpecific).taskValue,
+    libraryDependencies += "org.apache.avro" % "avro" % "1.11.0" 
+  )
 
 lazy val ingestor = appModule("ingestor")
   .enablePlugins(CloudflowAkkaPlugin)
@@ -98,7 +101,6 @@ lazy val commonSettings = Seq(
     "-language:_",
     "-unchecked"
   ),
-
   scalacOptions in (Compile, console) --= Seq("-Ywarn-unused", "-Ywarn-unused-import"),
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value,
 )
