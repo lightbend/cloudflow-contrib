@@ -1,12 +1,10 @@
 lazy val helloWorld =  (project in file("."))
-    .enablePlugins(CloudflowApplicationPlugin, CloudflowFlinkPlugin, CloudflowNativeFlinkPlugin)
+    .enablePlugins(CloudflowApplicationPlugin, CloudflowNativeFlinkPlugin)
     .settings(
-      scalaVersion := "2.12.11",
+      scalaVersion := "2.12.15",
       name := "hello-world",
       version := "0.0.1",
       resolvers += "Flink 13.0".at("https://repository.apache.org/content/repositories/orgapacheflink-1420/"),
-      baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
-      libraryDependencies ~= fixFlinkNativeCloudflowDeps
     )
 
 val checkCRFile = taskKey[Unit]("Testing the CR file")

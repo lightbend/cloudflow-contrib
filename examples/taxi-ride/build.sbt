@@ -26,7 +26,7 @@ lazy val taxiRidePipeline = appModule("taxi-ride-pipeline")
   .settings(
     name := "taxi-ride-fare",
     runLocalConfigFile := Some("taxi-ride-pipeline/src/main/resources/local.conf"),
-    runLocalLog4jConfigFile := Some("taxi-ride-pipeline/src/main/resources/log4j.properties"),
+    runLocalLog4jConfigFile := Some("taxi-ride-pipeline/src/main/resources/log4j.properties")
   )
 
 lazy val datamodel = appModule("datamodel")
@@ -47,15 +47,17 @@ lazy val ingestor = appModule("ingestor")
 
 
 lazy val processor = appModule("processor")
-  .enablePlugins(CloudflowFlinkPlugin, CloudflowNativeFlinkPlugin)
+  .enablePlugins(CloudflowNativeFlinkPlugin)
   .settings(
     commonSettings,
-    baseDockerInstructions := flinkNativeCloudflowDockerInstructions.value,
-    libraryDependencies ~= fixFlinkNativeCloudflowDeps,
     libraryDependencies ++= Seq(
         "ch.qos.logback"         %  "logback-classic"        % "1.2.10",
         "org.scalatest"          %% "scalatest"              % "3.0.8"  % "test"
       ),
+    dependencyOverrides ++= Seq(
+     "org.apache.kafka" % "kafka-clients" % "3.0.0",
+     "org.apache.commons" % "commons-compress" % "1.21"
+    ),
     parallelExecution in Test := false
   )
   .dependsOn(datamodel)
@@ -83,7 +85,7 @@ def appModule(moduleID: String): Project = {
 lazy val commonSettings = Seq(
   organization := "com.lightbend.cloudflow",
   headerLicense := Some(HeaderLicense.ALv2("(C) 2016-2020", "Lightbend Inc. <https://www.lightbend.com>")),
-  scalaVersion := "2.12.11",
+  scalaVersion := "2.12.15",
   scalacOptions ++= Seq(
     "-encoding", "UTF-8",
     "-target:jvm-1.8",

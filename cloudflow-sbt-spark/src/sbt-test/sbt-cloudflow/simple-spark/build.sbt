@@ -1,11 +1,9 @@
 lazy val helloWorld =  (project in file("."))
-    .enablePlugins(CloudflowApplicationPlugin, CloudflowSparkPlugin, CloudflowNativeSparkPlugin)
+    .enablePlugins(CloudflowApplicationPlugin, CloudflowNativeSparkPlugin)
     .settings(
-      scalaVersion := "2.12.11",
+      scalaVersion := "2.12.15",
       name := "hello-world",
       version := "0.0.1",
-      baseDockerInstructions := sparkNativeCloudflowDockerInstructions.value,
-      libraryDependencies ~= fixSparkNativeCloudflowDeps
     )
 
 val checkCRFile = taskKey[Unit]("Testing the CR file")

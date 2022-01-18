@@ -57,13 +57,11 @@ lazy val akkaJavaAggregationOutput= appModule("akka-java-aggregation-output")
   .dependsOn(datamodel)
 
 lazy val sparkAggregation = appModule("spark-aggregation")
-    .enablePlugins(CloudflowSparkPlugin, CloudflowNativeSparkPlugin)
+    .enablePlugins(CloudflowNativeSparkPlugin)
     .settings(
       commonSettings,
       Test / parallelExecution := false,
       Test / fork := true,
-      baseDockerInstructions := sparkNativeCloudflowDockerInstructions.value,
-      libraryDependencies ~= fixSparkNativeCloudflowDeps,
       libraryDependencies ++= Seq(
         "ch.qos.logback" %  "logback-classic" % "1.2.10",
         "org.scalatest"  %% "scalatest"       % "3.0.8"  % "test"
@@ -83,7 +81,7 @@ def appModule(moduleID: String): Project = {
 lazy val commonSettings = Seq(
   organization := "com.lightbend.cloudflow",
   headerLicense := Some(HeaderLicense.ALv2("(C) 2016-2020", "Lightbend Inc. <https://www.lightbend.com>")),
-  scalaVersion := "2.12.11",
+  scalaVersion := "2.12.15",
   javacOptions += "-Xlint:deprecation",
   scalacOptions ++= Seq(
     "-encoding", "UTF-8",
