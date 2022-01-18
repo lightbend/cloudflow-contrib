@@ -29,7 +29,7 @@ import cloudflow.sbt.CloudflowBasePlugin._
 
 object CloudflowNativeFlinkPlugin extends AutoPlugin {
   val FlinkHome = "/opt/flink"
-  val FlinkVersion = "1.13.5"
+  val FlinkVersion = "1.14.2"
   val FlinkUsrLib = s"$FlinkHome/usrlib"
 
   val AppJarsDir: String = "app-jars"
@@ -116,10 +116,7 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
               Seq("chown", "-R", "flink:root", "/usr/local"),
               Seq("chmod", "775", "/usr/local"),
               Seq("mkdir", FlinkUsrLib),
-              Seq(
-                "mv",
-                s"${FlinkHome}/opt/flink-queryable-state-runtime_${scalaVersion}-${flinkVersion}.jar",
-                s"${FlinkHome}/lib"),
+              Seq("mv", s"${FlinkHome}/opt/flink-queryable-state-runtime-${flinkVersion}.jar", s"${FlinkHome}/lib"),
               Seq("mkdir", "-p", "/prometheus"),
               Seq(
                 "curl",

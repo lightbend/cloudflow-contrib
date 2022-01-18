@@ -26,7 +26,7 @@ lazy val taxiRidePipeline = appModule("taxi-ride-pipeline")
   .settings(
     name := "taxi-ride-fare",
     runLocalConfigFile := Some("taxi-ride-pipeline/src/main/resources/local.conf"),
-    runLocalLog4jConfigFile := Some("taxi-ride-pipeline/src/main/resources/log4j.properties"),
+    runLocalLog4jConfigFile := Some("taxi-ride-pipeline/src/main/resources/log4j.properties")
   )
 
 lazy val datamodel = appModule("datamodel")
@@ -54,6 +54,10 @@ lazy val processor = appModule("processor")
         "ch.qos.logback"         %  "logback-classic"        % "1.2.10",
         "org.scalatest"          %% "scalatest"              % "3.0.8"  % "test"
       ),
+    dependencyOverrides ++= Seq(
+     "org.apache.kafka" % "kafka-clients" % "3.0.0",
+     "org.apache.commons" % "commons-compress" % "1.21"
+    ),
     parallelExecution in Test := false
   )
   .dependsOn(datamodel)
