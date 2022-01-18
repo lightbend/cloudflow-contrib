@@ -29,6 +29,7 @@ import cloudflow.sbt.CloudflowBasePlugin._
 
 object CloudflowNativeFlinkPlugin extends AutoPlugin {
   val FlinkHome = "/opt/flink"
+  val FlinkVersion = "1.13.5"
   val FlinkUsrLib = s"$FlinkHome/usrlib"
 
   val AppJarsDir: String = "app-jars"
@@ -83,8 +84,8 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
         IO.write(flinkEntrypoint, flinkEntrypointContent)
 
         val scalaVersion = (ThisProject / scalaBinaryVersion).value
-        val flinkVersion = "1.13.5"
-        val flinkPackageVersion = "1.13.5"
+        val flinkVersion = FlinkVersion
+        val flinkPackageVersion = FlinkVersion
 
         val flinkTgz = s"flink-${flinkVersion}-bin-scala_${scalaVersion}.tgz"
 
