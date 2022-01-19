@@ -30,7 +30,10 @@ lazy val callRecordPipeline = appModule("call-record-pipeline")
 //end::docs-CloudflowApplicationPlugin-example[]
 
 lazy val datamodel = appModule("datamodel")
-  .enablePlugins(CloudflowLibraryPlugin)
+  .settings(
+    Compile / sourceGenerators += (Compile / avroScalaGenerateSpecific).taskValue,
+    libraryDependencies += "org.apache.avro" % "avro" % "1.11.0" 
+  )
 
 lazy val akkaCdrIngestor= appModule("akka-cdr-ingestor")
     .enablePlugins(CloudflowAkkaPlugin)
