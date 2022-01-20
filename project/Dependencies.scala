@@ -7,7 +7,7 @@ object Dependencies {
   val Scala213 = "2.13.8"
 
   object Versions {
-    val cloudflowVersion = "2.3.0-RC30"
+    val cloudflowVersion = "2.3.0-RC32"
 
     val flinkVersion = "1.14.2"
     val sparkVersion = "3.2.0"
