@@ -80,11 +80,10 @@ object Dependencies {
 
   val flinkTests =
     libraryDependencies ++= Seq(
-      Compile.cloudflowAvro % Test,
-      Compile.scalatest % Test, 
-      TestDeps.scalatestJunit, 
-      TestDeps.jodaTime
-    )
+        Compile.cloudflowAvro % Test,
+        Compile.scalatest % Test,
+        TestDeps.scalatestJunit,
+        TestDeps.jodaTime)
 
   val sparkStreamlet = Seq(
     libraryDependencies ++= Seq(
@@ -114,12 +113,7 @@ object Dependencies {
 
   val sparkTests = Seq(
     libraryDependencies ++= Seq(Compile.cloudflowAvro % Test),
-    dependencyOverrides ++= Seq(
-      Compile.jacksonCore, 
-      Compile.jacksonDatabind, 
-      Compile.jacksonScala
-    )
-  )
+    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala))
 
   val cloudflowIt =
     libraryDependencies ++= Seq(
