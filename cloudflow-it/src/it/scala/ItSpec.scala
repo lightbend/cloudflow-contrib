@@ -58,11 +58,7 @@ trait ItDeploySpec extends ItSpec {
 
   "The application" - {
     "should deploy" in {
-      val res = cli.run(
-        commands.Deploy(
-          crFile = resource.cr,
-          confs = Seq(resource.defaultConfiguration),
-          unmanagedRuntimes = Seq("flink", "spark")))
+      val res = cli.run(commands.Deploy(crFile = resource.cr, confs = Seq(resource.defaultConfiguration)))
       assertSuccess(res)
     }
 
@@ -99,11 +95,7 @@ trait ItDeploySpec extends ItSpec {
     }
 
     "should re-deploy to continue testing" in {
-      val deploy = cli.run(
-        commands.Deploy(
-          crFile = resource.cr,
-          confs = Seq(resource.defaultConfiguration),
-          unmanagedRuntimes = Seq("flink", "spark")))
+      val deploy = cli.run(commands.Deploy(crFile = resource.cr, confs = Seq(resource.defaultConfiguration)))
       assertSuccess(deploy)
       eventually {
         val res = cli.run(commands.Status(appName))
