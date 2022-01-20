@@ -6,6 +6,6 @@ val currentVersion = {
   )(identity)
 }
 
-addSbtPlugin("com.lightbend.cloudflow" % "sbt-cloudflow" % "2.3.0-RC30")
+addSbtPlugin("com.lightbend.cloudflow" % "sbt-cloudflow" % "2.3.0-RC32")
 addSbtPlugin("com.lightbend.cloudflow" % "contrib-sbt-flink" % currentVersion)
 addSbtPlugin("com.lightbend.cloudflow" % "contrib-sbt-spark" % currentVersion)
