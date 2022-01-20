@@ -32,7 +32,7 @@ lazy val callRecordPipeline = appModule("call-record-pipeline")
 lazy val datamodel = appModule("datamodel")
   .settings(
     Compile / sourceGenerators += (Compile / avroScalaGenerateSpecific).taskValue,
-    libraryDependencies += "org.apache.avro" % "avro" % "1.11.0" 
+    libraryDependencies += Cloudflow.library.CloudflowAvro
   )
 
 lazy val akkaCdrIngestor= appModule("akka-cdr-ingestor")

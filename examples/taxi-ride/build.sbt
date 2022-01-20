@@ -33,7 +33,7 @@ lazy val datamodel = appModule("datamodel")
   .settings(
     commonSettings,
     Compile / sourceGenerators += (Compile / avroScalaGenerateSpecific).taskValue,
-    libraryDependencies += "org.apache.avro" % "avro" % "1.11.0" 
+    libraryDependencies += Cloudflow.library.CloudflowAvro
   )
 
 lazy val ingestor = appModule("ingestor")
