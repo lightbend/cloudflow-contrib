@@ -1,4 +1,4 @@
-addSbtPlugin("com.lightbend.cloudflow" % "sbt-cloudflow" % "2.3.0-RC33")
+addSbtPlugin("com.lightbend.cloudflow" % "sbt-cloudflow" % "2.3.0-RC36")
 sys.props.get("plugin.version") match {
   case Some(x) => addSbtPlugin("com.lightbend.cloudflow" % "contrib-sbt-spark" % x)
   case _ => sys.error("""|The system property 'plugin.version' is not defined.
