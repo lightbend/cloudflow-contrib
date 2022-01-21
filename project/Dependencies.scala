@@ -12,7 +12,7 @@ object Dependencies {
     val flinkVersion = "1.14.3"
     val sparkVersion = "3.2.0"
     val akka = "2.6.18"
-    val jackson = "2.12.5"
+    val jackson = "2.12.6"
     val fabric8 = "5.0.0"
     val scalaTest = "3.2.7"
     val logbackVersion = "1.2.10"
