@@ -46,7 +46,7 @@ lazy val flinkSbtPlugin =
       sbtPlugin := true,
       crossSbtVersions := Vector("1.4.9"),
       buildInfoKeys := Seq[BuildInfoKey](version),
-      addSbtPlugin("se.marcuslonnberg" % "sbt-docker" % "1.8.2"),
+      addSbtPlugin("se.marcuslonnberg" % "sbt-docker" % "1.8.3"),
       addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.25"),
       addSbtPlugin("com.lightbend.cloudflow" % "sbt-cloudflow" % Dependencies.Versions.cloudflowVersion),
       scriptedLaunchOpts := {
@@ -107,7 +107,7 @@ lazy val sparkSbtPlugin =
       sbtPlugin := true,
       crossSbtVersions := Vector("1.4.9"),
       buildInfoKeys := Seq[BuildInfoKey](version),
-      addSbtPlugin("se.marcuslonnberg" % "sbt-docker" % "1.8.2"),
+      addSbtPlugin("se.marcuslonnberg" % "sbt-docker" % "1.8.3"),
       addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.25"),
       addSbtPlugin("com.lightbend.cloudflow" % "sbt-cloudflow" % Dependencies.Versions.cloudflowVersion),
       scriptedLaunchOpts := {
