@@ -17,7 +17,7 @@ prepare-swiss-knife:
 	@echo '****** Prepare and publish the swiss-knife application'
 	(cd swiss-knife && \
 		CLOUDFLOW_CONTRIB_VERSION=${version}  \
-			sbt -mem 2048 \
+			sbt \
 				'set version in ThisBuild := "${version}"' \
 				'set cloudflowDockerRegistry in ThisBuild := Some(${DOCKER_REGISTRY})' \
 				'set cloudflowDockerRepository in ThisBuild := Some(${DOCKER_REPOSITORY})' \
