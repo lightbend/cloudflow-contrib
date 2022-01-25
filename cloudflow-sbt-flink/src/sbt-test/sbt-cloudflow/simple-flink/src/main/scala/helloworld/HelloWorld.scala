@@ -17,7 +17,7 @@ package helloworld
 
 import cloudflow.flink.FlinkStreamlet
 import org.apache.flink.streaming.api.scala._
-import cloudflow.streamlets.{StreamletShape, StringConfigParameter}
+import cloudflow.streamlets.{ StreamletShape, StringConfigParameter }
 import cloudflow.flink._
 
 class HelloWorldShape extends FlinkStreamlet {

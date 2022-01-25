@@ -37,7 +37,6 @@ import org.apache.spark.sql.catalyst.InternalRow
  *
  * `writeStream` returns a `StreamingQuery` that pushes the input `Dataset[Out]` to
  *              a `MemorySink`.
- *
  */
 class TestSparkStreamletContext(
     override val streamletRef: String,
@@ -61,8 +60,8 @@ class TestSparkStreamletContext(
       stream: Dataset[Out],
       outPort: CodecOutlet[Out],
       outputMode: OutputMode,
-      optionalTrigger: Option[Trigger] = None)(
-      implicit encoder: Encoder[Out],
+      optionalTrigger: Option[Trigger] = None)(implicit
+      encoder: Encoder[Out],
       typeTag: TypeTag[Out]): StreamingQuery = {
     // RateSource can only work with a microBatch query because it contains no data at time zero.
     // Trigger.Once requires data at start to work.

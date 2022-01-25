@@ -38,11 +38,11 @@ class CallRecordSplitSpec extends AnyWordSpec with ScalaFutures with BeforeAndAf
 
   "A CallRecordSplit" should {
     "merge incoming data" in {
-      val testkit   = AkkaStreamletTestKit(system)
+      val testkit = AkkaStreamletTestKit(system)
       val streamlet = new CallRecordSplit
 
       val instant = Instant.now.toEpochMilli / 1000
-      val past    = Instant.now.minus(5000, ChronoUnit.DAYS).toEpochMilli / 1000
+      val past = Instant.now.minus(5000, ChronoUnit.DAYS).toEpochMilli / 1000
 
       val cr1 = CallRecord("user-1", "user-2", "f", 10L, instant)
       val cr2 = CallRecord("user-1", "user-2", "f", 15L, instant)
@@ -50,30 +50,29 @@ class CallRecordSplitSpec extends AnyWordSpec with ScalaFutures with BeforeAndAf
 
       val source = Source(Vector(cr1, cr2, cr3))
 
-      val in   = testkit.inletFromSource(streamlet.in, source)
-      val left  = testkit.outletAsTap(streamlet.left)
+      val in = testkit.inletFromSource(streamlet.in, source)
+      val left = testkit.outletAsTap(streamlet.left)
       val right = testkit.outletAsTap(streamlet.right)
 
       testkit.run(
         streamlet,
         List(in),
         List(left, right),
-        () ⇒ {
+        () => {
           right.probe.expectMsg(("user-1", cr1))
           right.probe.expectMsg(("user-1", cr2))
           right.probe.expectMsg(("user-1", cr3))
-        }
-      )
+        })
 
       right.probe.expectMsg(Completed)
     }
 
     "split incoming data into valid call records and those outside the time range" in {
-      val testkit   = AkkaStreamletTestKit(system)
+      val testkit = AkkaStreamletTestKit(system)
       val streamlet = new CallRecordSplit()
 
       val instant = Instant.now.toEpochMilli / 1000
-      val past    = Instant.now.minus(5000, ChronoUnit.DAYS).toEpochMilli / 1000
+      val past = Instant.now.minus(5000, ChronoUnit.DAYS).toEpochMilli / 1000
 
       val cr1 = CallRecord("user-1", "user-2", "f", 10L, instant)
       val cr2 = CallRecord("user-1", "user-2", "f", 15L, instant)
@@ -85,21 +84,20 @@ class CallRecordSplitSpec extends AnyWordSpec with ScalaFutures with BeforeAndAf
 
       val in = testkit.inletFromSource(streamlet.in, source)
 
-      val left  = testkit.outletAsTap(streamlet.left)
+      val left = testkit.outletAsTap(streamlet.left)
       val right = testkit.outletAsTap(streamlet.right)
 
       testkit.run(
         streamlet,
         List(in),
         List(left, right),
-        () ⇒ {
+        () => {
           right.probe.expectMsg(("user-1", cr1))
           right.probe.expectMsg(("user-1", cr2))
           right.probe.expectMsg(("user-1", cr3))
           left.probe.expectMsg((cr4.toString, InvalidRecord(cr4.toString, "Timestamp outside range!")))
           left.probe.expectMsg((cr5.toString, InvalidRecord(cr5.toString, "Timestamp outside range!")))
-        }
-      )
+        })
 
       left.probe.expectMsg(Completed)
       right.probe.expectMsg(Completed)

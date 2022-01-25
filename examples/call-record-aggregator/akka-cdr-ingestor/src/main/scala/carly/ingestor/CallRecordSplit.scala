@@ -27,7 +27,7 @@ import carly.data._
 class CallRecordSplit extends AkkaStreamlet {
   val in = AvroInlet[CallRecord]("in")
 
-  val left  = AvroOutlet[InvalidRecord]("invalid", _.record)
+  val left = AvroOutlet[InvalidRecord]("invalid", _.record)
   val right = AvroOutlet[CallRecord]("valid", _.user)
 
   private val oldDataWatermark = java.sql.Timestamp.valueOf("2010-01-01 00:00:00.000").getTime / 1000 //seconds
@@ -37,7 +37,7 @@ class CallRecordSplit extends AkkaStreamlet {
   final override def createLogic = new RunnableGraphStreamletLogic() {
     def validationFlow =
       FlowWithCommittableContext[CallRecord]
-        .map { record ⇒
+        .map { record =>
           if (record.timestamp < oldDataWatermark) Left(InvalidRecord(record.toString, "Timestamp outside range!"))
           else Right(record)
         }

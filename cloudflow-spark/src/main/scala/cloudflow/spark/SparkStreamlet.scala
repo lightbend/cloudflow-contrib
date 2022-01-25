@@ -73,8 +73,8 @@ trait SparkStreamlet extends Streamlet[SparkStreamletContext] with Serializable 
     } yield {
       val updatedConfig = streamletConfig.config.withFallback(config)
       new kafka.SparkStreamletContextImpl(streamletConfig, session, updatedConfig)
-    }).recoverWith {
-      case th => Failure(new Exception(s"Failed to create context from $config", th))
+    }).recoverWith { case th =>
+      Failure(new Exception(s"Failed to create context from $config", th))
     }.get
 
   protected def createLogic(): SparkStreamletLogic
@@ -114,11 +114,10 @@ trait SparkStreamlet extends Streamlet[SparkStreamletContext] with Serializable 
         streamletQueryExecution.stop()
         scheduledQueryCheck.cancel()
         poll(streamletQueryExecution.queries.forall(!_.isActive), 1.second, StopTimeout, system.scheduler)
-          .recoverWith {
-            case ex: TimeoutException =>
-              val hangingQueries = streamletQueryExecution.queries.map(_.name).mkString(",")
-              Future.failed(
-                new TimeoutException(s"Could not terminate queries [$hangingQueries]. Reason: ${ex.getMessage}"))
+          .recoverWith { case ex: TimeoutException =>
+            val hangingQueries = streamletQueryExecution.queries.map(_.name).mkString(",")
+            Future.failed(
+              new TimeoutException(s"Could not terminate queries [$hangingQueries]. Reason: ${ex.getMessage}"))
           }
           .map { _ =>
             val exceptions = streamletQueryExecution.queries.flatMap(_.exception.map(_.cause))

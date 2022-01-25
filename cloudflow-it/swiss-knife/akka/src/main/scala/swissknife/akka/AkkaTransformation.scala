@@ -23,13 +23,13 @@ import cloudflow.streamlets._
 import cloudflow.streamlets.avro._
 import swissknife.data.Data
 
-
 class AkkaTransformation extends AkkaStreamlet {
-  val in    = AvroInlet[Data]("in")
-  val out   = AvroOutlet[Data]("out").withPartitioner(RoundRobinPartitioner)
+  val in = AvroInlet[Data]("in")
+  val out = AvroOutlet[Data]("out").withPartitioner(RoundRobinPartitioner)
   val shape = StreamletShape(in).withOutlets(out)
 
-  val configurableMessage = StringConfigParameter("configurable-message", "Configurable message.", Some("akka-original"))
+  val configurableMessage =
+    StringConfigParameter("configurable-message", "Configurable message.", Some("akka-original"))
 
   override def configParameters = Vector(configurableMessage)
 
@@ -38,7 +38,7 @@ class AkkaTransformation extends AkkaStreamlet {
     def runnableGraph = sourceWithCommittableContext(in).via(flow).to(committableSink(out))
     def flow =
       FlowWithCommittableContext[Data]
-        .map { data ⇒
+        .map { data =>
           data.copy(src = data.src + "-akka", payload = msg)
         }
   }

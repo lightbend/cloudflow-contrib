@@ -32,7 +32,7 @@ import swissknife.data.Data
 case class Rate(timestamp: Timestamp, value: Long)
 
 class SparkDataGenerator extends SparkStreamlet {
-  val out   = AvroOutlet[Data]("out", d ⇒ d.src)
+  val out = AvroOutlet[Data]("out", d => d.src)
   val shape = StreamletShape(out)
 
   val RecordsPerSecond = IntegerConfigParameter("records-per-second", "Records per second to produce.", Some(1))

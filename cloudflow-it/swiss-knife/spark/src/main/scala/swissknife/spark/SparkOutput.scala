@@ -31,7 +31,7 @@ import swissknife.data.Data
 
 class SparkOutput extends SparkStreamlet {
 
-  val in    = AvroInlet[Data]("in")
+  val in = AvroInlet[Data]("in")
   val shape = StreamletShape(in)
 
   override def createLogic() = new SparkStreamletLogic {
@@ -39,12 +39,12 @@ class SparkOutput extends SparkStreamlet {
     val feedbackMsg = s"locality=[$sparkLocality]"
 
     override def buildStreamingQueries = {
-      val query   = readStream(in)
+      val query = readStream(in)
         // we add this to the output to make it observable from the outside
         .withColumn("payload", lit(feedbackMsg)) // we add this to the output to make it observable from the outside
         .writeStream
         .format("console")
-        .option("truncate","false")
+        .option("truncate", "false")
         .start
       query.toQueryExecution
     }

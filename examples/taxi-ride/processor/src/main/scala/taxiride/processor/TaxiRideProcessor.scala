@@ -49,7 +49,7 @@ class TaxiRideProcessor extends FlinkStreamlet {
   //         rideId as the partitioner
   @transient val inTaxiRide = AvroInlet[TaxiRide]("in-taxiride")
   @transient val inTaxiFare = AvroInlet[TaxiFare]("in-taxifare")
-  @transient val out        = AvroOutlet[TaxiRideFare]("out", _.rideId.toString)
+  @transient val out = AvroOutlet[TaxiRideFare]("out", _.rideId.toString)
 
   // Step 2: Define the shape of the streamlet. In this example the streamlet
   //         has 2 inlets and 1 outlet
@@ -61,7 +61,7 @@ class TaxiRideProcessor extends FlinkStreamlet {
     override def buildExecutionGraph = {
       val rides: DataStream[TaxiRide] =
         readStream(inTaxiRide)
-          .filter { ride ⇒
+          .filter { ride =>
             ride.isStart.booleanValue
           }
           .keyBy("rideId")

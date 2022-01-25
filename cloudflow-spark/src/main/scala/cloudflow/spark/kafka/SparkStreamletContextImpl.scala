@@ -66,11 +66,11 @@ class SparkStreamletContextImpl(
       .filter(validateNotNull[In](_))
   }
 
-  private def kafkaConsumerMap(topic: Topic) = topic.kafkaConsumerProperties.map {
-    case (key, value) => s"kafka.$key" -> value
+  private def kafkaConsumerMap(topic: Topic) = topic.kafkaConsumerProperties.map { case (key, value) =>
+    s"kafka.$key" -> value
   }
-  private def kafkaProducerMap(topic: Topic) = topic.kafkaProducerProperties.map {
-    case (key, value) => s"kafka.$key" -> value
+  private def kafkaProducerMap(topic: Topic) = topic.kafkaProducerProperties.map { case (key, value) =>
+    s"kafka.$key" -> value
   }
 
   private def validateNotNull[T](message: T): Boolean = message != null
@@ -79,8 +79,8 @@ class SparkStreamletContextImpl(
       stream: Dataset[Out],
       outPort: CodecOutlet[Out],
       outputMode: OutputMode,
-      optionalTrigger: Option[Trigger] = None)(
-      implicit encoder: Encoder[Out],
+      optionalTrigger: Option[Trigger] = None)(implicit
+      encoder: Encoder[Out],
       typeTag: TypeTag[Out]): StreamingQuery = {
 
     val encodedStream = stream.map { value =>

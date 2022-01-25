@@ -43,8 +43,8 @@ class SparkEgressSpec extends SparkScalaTestSupport {
       in.addData(data)
 
       val run = testKit.run(instance, Seq(in), Seq.empty)
-      run.failures mustBe ('empty)
-      run.totalRows mustBe (20)
+      run.failures mustBe 'empty
+      run.totalRows mustBe 20
       val r1 = asCollection[String](session, "allNames")
       val r2 = asCollection[String](session, "allNamesUpper")
 

@@ -1,10 +1,6 @@
-lazy val helloWorld =  (project in file("."))
-    .enablePlugins(CloudflowApplicationPlugin, CloudflowNativeSparkPlugin)
-    .settings(
-      scalaVersion := "2.12.15",
-      name := "hello-world",
-      version := "0.0.1",
-    )
+lazy val helloWorld = (project in file("."))
+  .enablePlugins(CloudflowApplicationPlugin, CloudflowNativeSparkPlugin)
+  .settings(scalaVersion := "2.12.15", name := "hello-world", version := "0.0.1")
 
 val checkCRFile = taskKey[Unit]("Testing the CR file")
 checkCRFile := {
@@ -12,10 +8,10 @@ checkCRFile := {
 
   val appId = data("spec")("app_id").str
   val appVersion = data("spec")("app_version").str
-  
+
   val image = data("spec")("deployments")(0)("image").str
 
   assert { appId == "hello-world" }
   assert { !appVersion.contains("sha256") }
-  assert { image == "hello-world:0.0.1"}
+  assert { image == "hello-world:0.0.1" }
 }

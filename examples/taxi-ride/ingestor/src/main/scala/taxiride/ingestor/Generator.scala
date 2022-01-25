@@ -60,9 +60,9 @@ class Generator extends AkkaStreamlet {
   def readFares() = {
     val inFares = this.getClass.getResourceAsStream("/nycTaxiFares.json")
     // 'fixing' JSON issues in input document
-    val str       = scala.io.Source.fromInputStream(inFares).mkString
+    val str = scala.io.Source.fromInputStream(inFares).mkString
     val faresJson = s"[$str]".replaceAll("\n", ",\n").parseJson
-    val fares     = faresJson.convertTo[List[TaxiFare]]
+    val fares = faresJson.convertTo[List[TaxiFare]]
     println(s"Read ${fares.size} fares")
     fares
   }
@@ -71,9 +71,9 @@ class Generator extends AkkaStreamlet {
     import TaxiRideJsonProtocol._
     val inRides = this.getClass.getResourceAsStream("/nycTaxiRides.json")
     // 'fixing' JSON issues in input document
-    val str       = scala.io.Source.fromInputStream(inRides).mkString
+    val str = scala.io.Source.fromInputStream(inRides).mkString
     val ridesJson = s"[$str]".replaceAll("\n", ",\n").parseJson
-    val rides     = ridesJson.convertTo[List[TaxiRide]]
+    val rides = ridesJson.convertTo[List[TaxiRide]]
     println(s"Read ${rides.size} rides")
     rides
   }

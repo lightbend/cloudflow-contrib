@@ -31,7 +31,7 @@ class CallAggregatorConsoleEgress extends SparkStreamlet {
   val rootLogger = Logger.getRootLogger()
   rootLogger.setLevel(Level.ERROR)
 
-  val in    = AvroInlet[AggregatedCallStats]("in")
+  val in = AvroInlet[AggregatedCallStats]("in")
   val shape = StreamletShape(in)
 
   override def createLogic = new SparkStreamletLogic {

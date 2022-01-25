@@ -30,19 +30,18 @@ class FarePerRideLogger extends AkkaStreamlet {
     "log-level",
     "Provide one of the following log levels, debug, info, warning or error",
     "^debug|info|warning|error$",
-    Some("info")
-  )
+    Some("info"))
 
   val MsgPrefix = StringConfigParameter("msg-prefix", "Provide a prefix for the log lines", Some("valid-logger"))
 
   override def configParameters = Vector(LogLevel, MsgPrefix)
 
   override def createLogic = new RunnableGraphStreamletLogic() {
-    val logF: String ⇒ Unit = LogLevel.value.toLowerCase match {
-      case "debug"   ⇒ system.log.debug _
-      case "info"    ⇒ system.log.info _
-      case "warning" ⇒ system.log.warning _
-      case "error"   ⇒ system.log.error _
+    val logF: String => Unit = LogLevel.value.toLowerCase match {
+      case "debug" => system.log.debug _
+      case "info" => system.log.info _
+      case "warning" => system.log.warning _
+      case "error" => system.log.error _
     }
 
     val msgPrefix = MsgPrefix.value
@@ -52,7 +51,7 @@ class FarePerRideLogger extends AkkaStreamlet {
 
     def flow =
       FlowWithCommittableContext[TaxiRideFare]
-        .map { taxiRideFare ⇒
+        .map { taxiRideFare =>
           log(taxiRideFare)
           taxiRideFare
         }

@@ -26,8 +26,9 @@ import org.scalatest.OptionValues
 class CallStatsAggregatorSpec extends SparkScalaTestSupport with OptionValues {
 
   val streamlet = new CallStatsAggregator()
-  val testKit = SparkStreamletTestkit(session).withConfigParameterValues(ConfigParameterValue(streamlet.GroupByWindow, "1 minute"),
-                                                                         ConfigParameterValue(streamlet.Watermark, "1 minute"))
+  val testKit = SparkStreamletTestkit(session).withConfigParameterValues(
+    ConfigParameterValue(streamlet.GroupByWindow, "1 minute"),
+    ConfigParameterValue(streamlet.Watermark, "1 minute"))
 
   "CallStatsAggregator" should {
     "produce elements to its outlet" in {
@@ -39,14 +40,8 @@ class CallStatsAggregatorSpec extends SparkScalaTestSupport with OptionValues {
       val out = testKit.outletAsTap[AggregatedCallStats](streamlet.out)
 
       val ts = Instant.now.toEpochMilli / 1000
-      val crs = (1 to 10).toList.map { i ⇒
-        CallRecord(
-          s"user-1",
-          s"user-2",
-          (if (i % 2 == 0) "incoming" else "outgoing"),
-          i * 10,
-          ts
-        )
+      val crs = (1 to 10).toList.map { i =>
+        CallRecord(s"user-1", s"user-2", (if (i % 2 == 0) "incoming" else "outgoing"), i * 10, ts)
       }
 
       in.addData(crs)

@@ -79,9 +79,8 @@ class SparkStreamletSpec extends SparkScalaTestSupport with OptionValues {
 
       val execution = instance.setContext(ctx).run(ctx)
 
-      val failActiveQuery = execution.ready.andThen {
-        case _ =>
-          instance.mustFail(true)
+      val failActiveQuery = execution.ready.andThen { case _ =>
+        instance.mustFail(true)
       }
 
       val completedStatus = execution.completed
@@ -91,7 +90,7 @@ class SparkStreamletSpec extends SparkScalaTestSupport with OptionValues {
       Await.ready(completedStatus, 30.seconds)
 
       // execution should have stopped right after one of the queries stopped,
-      completedStatus.value.value mustBe ('Failure)
+      completedStatus.value.value mustBe 'Failure
     }
 
   }

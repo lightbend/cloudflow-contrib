@@ -45,7 +45,7 @@ class CallRecordGeneratorIngress extends SparkStreamlet {
 
   override def configParameters = Vector(RecordsPerSecond)
 
-  val out   = AvroOutlet[CallRecord]("out", _.user)
+  val out = AvroOutlet[CallRecord]("out", _.user)
   val shape = StreamletShape(out)
 
   override def createLogic() = new SparkStreamletLogic {
@@ -61,20 +61,20 @@ object DataGenerator {
   def mkData(session: SparkSession, recordsPerSecond: Int): Dataset[CallRecord] = {
     // do we need to expose this through configuration?
 
-    val MaxTime           = 2.hours.toMillis
-    val MaxUsers          = 100000
-    val TS0               = new java.sql.Timestamp(0)
+    val MaxTime = 2.hours.toMillis
+    val MaxUsers = 100000
+    val TS0 = new java.sql.Timestamp(0)
     val ZeroTimestampProb = 0.05 // error rate
 
     // Random Data Generator
-    val usersUdf     = udf(() ⇒ "user-" + Random.nextInt(MaxUsers))
-    val directionUdf = udf(() ⇒ if (Random.nextDouble() < 0.5) "incoming" else "outgoing")
+    val usersUdf = udf(() => "user-" + Random.nextInt(MaxUsers))
+    val directionUdf = udf(() => if (Random.nextDouble() < 0.5) "incoming" else "outgoing")
 
     // Time-biased randomized filter - 1/2 hour cycles
-    val sinTime: Long ⇒ Double                   = t ⇒ Math.sin((t / 1000 % 1800) * 1.0 / 1800 * Math.PI)
-    val timeBoundFilter: Long ⇒ Double ⇒ Boolean = t ⇒ prob ⇒ (sinTime(t) + 0.5) > prob
-    val timeFilterUdf                            = udf((ts: java.sql.Timestamp, rng: Double) ⇒ timeBoundFilter(ts.getTime)(rng))
-    val zeroTimestampUdf = udf { (ts: java.sql.Timestamp, rng: Double) ⇒
+    val sinTime: Long => Double = t => Math.sin((t / 1000 % 1800) * 1.0 / 1800 * Math.PI)
+    val timeBoundFilter: Long => Double => Boolean = t => prob => (sinTime(t) + 0.5) > prob
+    val timeFilterUdf = udf((ts: java.sql.Timestamp, rng: Double) => timeBoundFilter(ts.getTime)(rng))
+    val zeroTimestampUdf = udf { (ts: java.sql.Timestamp, rng: Double) =>
       if (rng < ZeroTimestampProb) {
         TS0
       } else {
