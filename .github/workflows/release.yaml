@@ -45,10 +45,10 @@ jobs:
           make all_scaladocs
           make gh-pages
 
-          # git clone --branch gh-pages git@github.com:lightbend/cloudflow-contrib.git cloudflow-contrib-ghpages
-          # rm -rf cloudflow-contrib-ghpages/*
-          # cp -r target/* cloudflow-contrib-ghpages
-          # cd cloudflow-contrib-ghpages
-          # git add .
-          # git commit --allow-empty -m "update"
-          # git push
+          git clone --branch gh-pages git@github.com:lightbend/cloudflow-contrib.git cloudflow-contrib-ghpages
+          rm -rf cloudflow-contrib-ghpages/*
+          cp -r target/* cloudflow-contrib-ghpages
+          cd cloudflow-contrib-ghpages
+          git add .
+          git commit --allow-empty -m "update"
+          git push
