@@ -26,7 +26,7 @@ object Dependencies {
     val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
     val akkaProtobuf = "com.typesafe.akka" %% "akka-protobuf" % Versions.akka
     val akkaDiscovery = "com.typesafe.akka" %% "akka-discovery" % Versions.akka
-    val okio = "com.squareup.okio" % "okio" % "1.13.0"
+    val okio = "com.squareup.okio" % "okio" % "1.17.5"
 
     val flink = "org.apache.flink" %% "flink-scala" % Versions.flinkVersion
     val flinkStreaming = "org.apache.flink" %% "flink-streaming-scala" % Versions.flinkVersion
