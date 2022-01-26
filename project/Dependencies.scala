@@ -10,18 +10,17 @@ object Dependencies {
     val cloudflowVersion = "2.3.0"
 
     val flinkVersion = "1.14.3"
-    val sparkVersion = "3.2.0"
+    val sparkVersion = "3.2.1"
     val akka = "2.6.18"
     val jackson = "2.12.6"
     val fabric8 = "5.0.0"
-    val scalaTest = "3.2.7"
+    val scalaTest = "3.2.11"
     val logbackVersion = "1.2.10"
   }
 
   object Compile {
     val cloudflowStreamlet = "com.lightbend.cloudflow" %% "cloudflow-streamlets" % Versions.cloudflowVersion
     val cloudflowAvro = "com.lightbend.cloudflow" %% "cloudflow-avro" % Versions.cloudflowVersion
-
     val akkaActor = "com.typesafe.akka" %% "akka-actor" % Versions.akka
     val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
     val akkaProtobuf = "com.typesafe.akka" %% "akka-protobuf" % Versions.akka
@@ -45,7 +44,7 @@ object Dependencies {
     val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % Versions.jackson
     val jacksonScala = "com.fasterxml.jackson.module" %% "jackson-module-scala" % Versions.jackson
 
-    val log4jOverSlf4j = "org.slf4j" % "log4j-over-slf4j" % "1.7.30"
+    val log4jOverSlf4j = "org.slf4j" % "log4j-over-slf4j" % "1.7.35"
     val logbackClassic = "ch.qos.logback" % "logback-classic" % Versions.logbackVersion
     val logbackCore = "ch.qos.logback" % "logback-core" % Versions.logbackVersion
 
@@ -54,7 +53,7 @@ object Dependencies {
     // Reference:
     // https://github.com/fabric8io/kubernetes-client/blob/0c4513ff30ac9229426f1481a46fde2eb54933d9/kubernetes-client/src/main/java/io/fabric8/kubernetes/client/dsl/internal/core/v1/PodOperationsImpl.java#L451
     val commonsCodec = "commons-codec" % "commons-codec" % "1.15"
-    val commonsCompress = "org.apache.commons" % "commons-compress" % "1.20"
+    val commonsCompress = "org.apache.commons" % "commons-compress" % "1.21"
 
     val scalatest = "org.scalatest" %% "scalatest" % Versions.scalaTest
   }
@@ -63,7 +62,7 @@ object Dependencies {
 
     val scalatestJunit = "org.scalatestplus" %% "junit-4-13" % s"${Versions.scalaTest}.0" % Test
     val jodaTime = "joda-time" % "joda-time" % "2.10.13"
-
+    val scalaxmlSpark = "org.scala-lang.modules" %% "scala-xml" % "1.2.0"
   }
 
   val flinkStreamlet = Seq(
@@ -109,11 +108,11 @@ object Dependencies {
 
   val sparkTestkit = Seq(
     libraryDependencies ++= Seq(Compile.scalatest, TestDeps.scalatestJunit, TestDeps.jodaTime),
-    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala))
+    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala, TestDeps.scalaxmlSpark))
 
   val sparkTests = Seq(
     libraryDependencies ++= Seq(Compile.cloudflowAvro % Test),
-    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala))
+    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala, TestDeps.scalaxmlSpark))
 
   val cloudflowIt =
     libraryDependencies ++= Seq(
