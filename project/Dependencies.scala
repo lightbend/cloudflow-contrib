@@ -13,7 +13,7 @@ object Dependencies {
     val sparkVersion = "3.2.1"
     val akka = "2.6.18"
     val jackson = "2.12.6"
-    val fabric8 = "5.0.0"
+    val fabric8 = "5.12.0"
     val scalaTest = "3.2.11"
     val logbackVersion = "1.2.10"
   }
