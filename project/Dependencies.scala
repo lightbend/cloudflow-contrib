@@ -108,11 +108,19 @@ object Dependencies {
 
   val sparkTestkit = Seq(
     libraryDependencies ++= Seq(Compile.scalatest, TestDeps.scalatestJunit, TestDeps.jodaTime),
-    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala, TestDeps.scalaxmlSpark))
+    dependencyOverrides ++= Seq(
+        Compile.jacksonCore,
+        Compile.jacksonDatabind,
+        Compile.jacksonScala,
+        TestDeps.scalaxmlSpark))
 
   val sparkTests = Seq(
     libraryDependencies ++= Seq(Compile.cloudflowAvro % Test),
-    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala, TestDeps.scalaxmlSpark))
+    dependencyOverrides ++= Seq(
+        Compile.jacksonCore,
+        Compile.jacksonDatabind,
+        Compile.jacksonScala,
+        TestDeps.scalaxmlSpark))
 
   val cloudflowIt =
     libraryDependencies ++= Seq(
