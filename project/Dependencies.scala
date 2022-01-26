@@ -44,7 +44,7 @@ object Dependencies {
     val jacksonDatabind = "com.fasterxml.jackson.core" % "jackson-databind" % Versions.jackson
     val jacksonScala = "com.fasterxml.jackson.module" %% "jackson-module-scala" % Versions.jackson
 
-    val log4jOverSlf4j = "org.slf4j" % "log4j-over-slf4j" % "1.7.30"
+    val log4jOverSlf4j = "org.slf4j" % "log4j-over-slf4j" % "1.7.35"
     val logbackClassic = "ch.qos.logback" % "logback-classic" % Versions.logbackVersion
     val logbackCore = "ch.qos.logback" % "logback-core" % Versions.logbackVersion
 
