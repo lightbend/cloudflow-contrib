@@ -61,7 +61,7 @@ object Dependencies {
   object TestDeps {
 
     val scalatestJunit = "org.scalatestplus" %% "junit-4-13" % s"${Versions.scalaTest}.0" % Test
-    val jodaTime = "joda-time" % "joda-time" % "2.10.6"
+    val jodaTime = "joda-time" % "joda-time" % "2.10.13"
     val scalaxmlSpark = "org.scala-lang.modules" %% "scala-xml" % "1.2.0"
   }
 
