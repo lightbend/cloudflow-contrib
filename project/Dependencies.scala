@@ -10,11 +10,11 @@ object Dependencies {
     val cloudflowVersion = "2.3.0"
 
     val flinkVersion = "1.14.3"
-    val sparkVersion = "3.2.0"
+    val sparkVersion = "3.2.1"
     val akka = "2.6.18"
     val jackson = "2.12.6"
     val fabric8 = "5.0.0"
-    val scalaTest = "3.2.7"
+    val scalaTest = "3.2.11"
     val logbackVersion = "1.2.10"
   }
 
@@ -54,7 +54,7 @@ object Dependencies {
     // Reference:
     // https://github.com/fabric8io/kubernetes-client/blob/0c4513ff30ac9229426f1481a46fde2eb54933d9/kubernetes-client/src/main/java/io/fabric8/kubernetes/client/dsl/internal/core/v1/PodOperationsImpl.java#L451
     val commonsCodec = "commons-codec" % "commons-codec" % "1.15"
-    val commonsCompress = "org.apache.commons" % "commons-compress" % "1.20"
+    val commonsCompress = "org.apache.commons" % "commons-compress" % "1.21"
 
     val scalatest = "org.scalatest" %% "scalatest" % Versions.scalaTest
   }
