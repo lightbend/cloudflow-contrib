@@ -94,7 +94,7 @@ lazy val sparkTests =
       crossScalaVersions := Vector(Dependencies.Scala212),
       scalafmtOnCompile := true,
       (Test / sourceGenerators) += (Test / avroScalaGenerateSpecific).taskValue,
-      Test / parallelExecution in Test := false)
+      Test / parallelExecution := false)
 
 lazy val sparkSbtPlugin =
   Project(id = "cloudflow-sbt-spark", base = file("cloudflow-sbt-spark"))
