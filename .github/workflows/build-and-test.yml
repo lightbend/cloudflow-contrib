@@ -36,3 +36,19 @@ jobs:
       - name: sbt test
         run: |-
           sbt "test; scripted"
+  fossa-checks:
+    name: "FOSSA checks"
+    runs-on: ubuntu-20.04
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: FOSSA policy check
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |-
+        curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/spectrometer/master/install.sh | bash
+        fossa analyze && fossa test
+      env:
+        FOSSA_API_KEY: "${{secrets.FOSSA_API_KEY}}"
