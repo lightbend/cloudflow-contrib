@@ -160,7 +160,7 @@ lazy val sparkDocs = Project(id = "spark-docs", base = file("spark-docs"))
   .enablePlugins(ScalaUnidocPlugin)
   .settings(
     name := "spark-docs",
-    skip in publish := true,
+    publish / skip := true,
     scalafmtOnCompile := true,
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(spark, sparkTestkit))
   .aggregate(spark, sparkTestkit)

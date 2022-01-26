@@ -7,7 +7,7 @@ lazy val root =
     .enablePlugins(ScalafmtPlugin)
     .settings(
       name := "root",
-      skip in publish := true,
+      publish / skip := true,
       scalafmtOnCompile := true,
     )
     .withId("root")

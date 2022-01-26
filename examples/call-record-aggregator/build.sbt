@@ -7,7 +7,7 @@ lazy val root =
     .settings(
       name := "root",
       scalafmtOnCompile := true,
-      skip in publish := true,
+      publish / skip := true,
     )
     .withId("root")
     .settings(commonSettings)
