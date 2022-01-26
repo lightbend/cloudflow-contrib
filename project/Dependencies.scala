@@ -21,7 +21,6 @@ object Dependencies {
   object Compile {
     val cloudflowStreamlet = "com.lightbend.cloudflow" %% "cloudflow-streamlets" % Versions.cloudflowVersion
     val cloudflowAvro = "com.lightbend.cloudflow" %% "cloudflow-avro" % Versions.cloudflowVersion
-
     val akkaActor = "com.typesafe.akka" %% "akka-actor" % Versions.akka
     val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
     val akkaProtobuf = "com.typesafe.akka" %% "akka-protobuf" % Versions.akka
@@ -63,7 +62,7 @@ object Dependencies {
 
     val scalatestJunit = "org.scalatestplus" %% "junit-4-13" % s"${Versions.scalaTest}.0" % Test
     val jodaTime = "joda-time" % "joda-time" % "2.10.6"
-
+    val scalaxmlSpark = "org.scala-lang.modules" %% "scala-xml" % "1.2.0"
   }
 
   val flinkStreamlet = Seq(
@@ -109,11 +108,11 @@ object Dependencies {
 
   val sparkTestkit = Seq(
     libraryDependencies ++= Seq(Compile.scalatest, TestDeps.scalatestJunit, TestDeps.jodaTime),
-    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala))
+    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala, TestDeps.scalaxmlSpark))
 
   val sparkTests = Seq(
     libraryDependencies ++= Seq(Compile.cloudflowAvro % Test),
-    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala))
+    dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala, TestDeps.scalaxmlSpark))
 
   val cloudflowIt =
     libraryDependencies ++= Seq(
