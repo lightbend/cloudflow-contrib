@@ -37,6 +37,7 @@ jobs:
         run: |-
           sbt "test; scripted"
       - name: FOSSA policy check
+        if: ${{ github.event_name != 'pull_request' }}
         run: |-
           curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/spectrometer/master/install.sh | bash
           fossa analyze && fossa test
