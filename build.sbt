@@ -127,14 +127,14 @@ lazy val cloudflowIt =
     .configs(IntegrationTest.extend(Test))
     .settings(Defaults.itSettings, Dependencies.cloudflowIt)
     .settings(
-      skip in publish := true,
+      publish / skip := true,
       scalaVersion := Dependencies.Scala213,
       crossScalaVersions := Vector(Dependencies.Scala213),
       inConfig(IntegrationTest)(org.scalafmt.sbt.ScalafmtPlugin.scalafmtConfigSettings),
       IntegrationTest / fork := true)
 
 lazy val root = Project(id = "root", base = file("."))
-  .settings(name := "root", skip in publish := true, scalafmtOnCompile := true)
+  .settings(name := "root", publish / skip := true, scalafmtOnCompile := true)
   .withId("root")
   .aggregate(
     flink,
@@ -151,7 +151,7 @@ lazy val flinkDocs = Project(id = "flink-docs", base = file("flink-docs"))
   .enablePlugins(ScalaUnidocPlugin)
   .settings(
     name := "flink-docs",
-    skip in publish := true,
+    publish / skip := true,
     scalafmtOnCompile := true,
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(flink, flinkTestkit))
   .aggregate(flink, flinkTestkit)
