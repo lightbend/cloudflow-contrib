@@ -86,8 +86,8 @@ abstract class FlinkStreamlet extends Streamlet[FlinkStreamletContext] with Seri
         updateStreamExecutionEnvironment(
           createStreamExecutionEnvironment(updatedConfig, streamletDefinition.streamletRef)),
         updatedConfig)
-    }).recoverWith {
-      case th => Failure(new Exception(s"Failed to create context from $config", th))
+    }).recoverWith { case th =>
+      Failure(new Exception(s"Failed to create context from $config", th))
     }.get
 
   /**
@@ -177,7 +177,7 @@ abstract class FlinkStreamlet extends Streamlet[FlinkStreamletContext] with Seri
   /**
    * This checks whether the user, through configuration, has disabled checkpointing
    * by setting flink.execution.checkpointing.interval value to less then 0
-  **/
+   */
   def isDefaultCheckpointingEnabled(config: Config, streamlet: String): Boolean = {
     val runtimePath = "cloudflow.runtimes.flink.config.cloudflow.checkpointing.default"
     val streamletPath = s"cloudflow.streamlet.${streamlet}.config.cloudflow.checkpointing.default"
@@ -224,9 +224,8 @@ abstract class FlinkStreamlet extends Streamlet[FlinkStreamletContext] with Seri
 
   override final def run(context: FlinkStreamletContext): StreamletExecution = {
     val logic = createLogic()
-    val configStr = getFlinkConfigInfo(context.env).foldLeft("\n") {
-      case (acc, (k, v)) =>
-        s"$acc\n$k = $v"
+    val configStr = getFlinkConfigInfo(context.env).foldLeft("\n") { case (acc, (k, v)) =>
+      s"$acc\n$k = $v"
     }
 
     log.info(s"""

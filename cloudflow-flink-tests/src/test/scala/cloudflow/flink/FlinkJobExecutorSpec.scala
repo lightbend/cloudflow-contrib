@@ -50,7 +50,7 @@ class FlinkJobExecutorSpec extends AnyWordSpecLike with Matchers with ScalaFutur
       }
 
       val execution = ClusterFlinkJobExecutor.execute(logic, ctx, readyPromise, completionPromise)
-      execution.completed.futureValue shouldBe (Dun)
+      execution.completed.futureValue shouldBe Dun
     }
 
     "complete on an exception where the cause is a job cancellation" in {
@@ -66,7 +66,7 @@ class FlinkJobExecutorSpec extends AnyWordSpecLike with Matchers with ScalaFutur
       }
 
       val execution = ClusterFlinkJobExecutor.execute(logic, ctx, readyPromise, completionPromise)
-      execution.completed.futureValue shouldBe (Dun)
+      execution.completed.futureValue shouldBe Dun
     }
     "fail on an exception where the cause is not a job cancellation" in {
 

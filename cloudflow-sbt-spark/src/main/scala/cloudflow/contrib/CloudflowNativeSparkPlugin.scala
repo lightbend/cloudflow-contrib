@@ -53,31 +53,31 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
         "com.lightbend.cloudflow" %% "contrib-spark" % contribVersion,
         "com.lightbend.cloudflow" %% "contrib-spark-testkit" % contribVersion % "test"),
     stageAppJars := Def.taskDyn {
-        Def.task {
-          val stagingDir = stage.value
-          val projectJars = (Runtime / internalDependencyAsJars).value.map(_.data)
-          val depJars = (Runtime / externalDependencyClasspath).value.map(_.data)
+      Def.task {
+        val stagingDir = stage.value
+        val projectJars = (Runtime / internalDependencyAsJars).value.map(_.data)
+        val depJars = (Runtime / externalDependencyClasspath).value.map(_.data)
 
-          val appJarDir = new File(stagingDir, AppJarsDir)
-          val depJarDir = new File(stagingDir, DepJarsDir)
+        val appJarDir = new File(stagingDir, AppJarsDir)
+        val depJarDir = new File(stagingDir, DepJarsDir)
 
-          IO.delete(appJarDir)
-          IO.delete(depJarDir)
+        IO.delete(appJarDir)
+        IO.delete(depJarDir)
 
-          projectJars.foreach { jar =>
-            // Logback configuration
-            // dependencies are filtered out here to preserve the behavior in runLocal
-            if (!jar.getName.startsWith("slf4j-log4j12-1.7.16.jar") && !jar.getName.startsWith("log4j-1.2.17.jar"))
-              IO.copyFile(jar, new File(appJarDir, jar.getName))
-          }
-          depJars.foreach { jar =>
-            // Logback configuration
-            // dependencies are filtered out here to preserve the behavior in runLocal
-            if (!jar.getName.startsWith("slf4j-log4j12-1.7.16.jar") && !jar.getName.startsWith("log4j-1.2.17.jar"))
-              IO.copyFile(jar, new File(depJarDir, jar.getName))
-          }
+        projectJars.foreach { jar =>
+          // Logback configuration
+          // dependencies are filtered out here to preserve the behavior in runLocal
+          if (!jar.getName.startsWith("slf4j-log4j12-1.7.16.jar") && !jar.getName.startsWith("log4j-1.2.17.jar"))
+            IO.copyFile(jar, new File(appJarDir, jar.getName))
         }
-      }.value,
+        depJars.foreach { jar =>
+          // Logback configuration
+          // dependencies are filtered out here to preserve the behavior in runLocal
+          if (!jar.getName.startsWith("slf4j-log4j12-1.7.16.jar") && !jar.getName.startsWith("log4j-1.2.17.jar"))
+            IO.copyFile(jar, new File(depJarDir, jar.getName))
+        }
+      }
+    }.value,
     baseDockerInstructions := {
       val appDir: File = stage.value
       val appJarsDir: File = new File(appDir, AppJarsDir)
@@ -193,7 +193,7 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
         Instructions.User(UserInImage),
         Instructions.Expose(Seq(4040)))
     },
-    dockerfile in docker := {
+    docker / dockerfile := {
       val log = streams.value.log
 
       IO.delete(((ThisProject / target).value / "docker"))

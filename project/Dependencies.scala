@@ -66,65 +66,65 @@ object Dependencies {
 
   val flinkStreamlet = Seq(
     libraryDependencies ++= Seq(
-        Compile.cloudflowStreamlet,
-        Compile.flink,
-        Compile.flinkStreaming,
-        Compile.flinkKafka,
-        Compile.flinkAvro,
-        Compile.flinkWeb,
-        Compile.logbackClassic,
-        Compile.logbackCore,
-        Compile.scalatest % Test))
+      Compile.cloudflowStreamlet,
+      Compile.flink,
+      Compile.flinkStreaming,
+      Compile.flinkKafka,
+      Compile.flinkAvro,
+      Compile.flinkWeb,
+      Compile.logbackClassic,
+      Compile.logbackCore,
+      Compile.scalatest % Test))
 
   val flinkTests =
     libraryDependencies ++= Seq(
-        Compile.cloudflowAvro % Test,
-        Compile.scalatest % Test,
-        TestDeps.scalatestJunit,
-        TestDeps.jodaTime)
+      Compile.cloudflowAvro % Test,
+      Compile.scalatest % Test,
+      TestDeps.scalatestJunit,
+      TestDeps.jodaTime)
 
   val sparkStreamlet = Seq(
     libraryDependencies ++= Seq(
-        Compile.cloudflowStreamlet,
-        Compile.cloudflowAvro % Test,
-        Compile.akkaActor,
-        Compile.akkaStream,
-        Compile.akkaProtobuf,
-        Compile.akkaDiscovery,
-        Compile.log4jOverSlf4j,
-        Compile.spark,
-        Compile.sparkMllib,
-        Compile.sparkSql,
-        Compile.sparkSqlKafka,
-        Compile.sparkStreaming,
-        Compile.sparkProto,
-        Compile.logbackClassic,
-        Compile.logbackCore,
-        Compile.scalatest % Test),
+      Compile.cloudflowStreamlet,
+      Compile.cloudflowAvro % Test,
+      Compile.akkaActor,
+      Compile.akkaStream,
+      Compile.akkaProtobuf,
+      Compile.akkaDiscovery,
+      Compile.log4jOverSlf4j,
+      Compile.spark,
+      Compile.sparkMllib,
+      Compile.sparkSql,
+      Compile.sparkSqlKafka,
+      Compile.sparkStreaming,
+      Compile.sparkProto,
+      Compile.logbackClassic,
+      Compile.logbackCore,
+      Compile.scalatest % Test),
     libraryDependencies ~= { _.map(_.exclude("org.slf4j", "slf4j-log4j12")) },
     dependencyOverrides ++= Seq(Compile.jacksonCore, Compile.jacksonDatabind, Compile.jacksonScala))
 
   val sparkTestkit = Seq(
     libraryDependencies ++= Seq(Compile.scalatest, TestDeps.scalatestJunit, TestDeps.jodaTime),
     dependencyOverrides ++= Seq(
-        Compile.jacksonCore,
-        Compile.jacksonDatabind,
-        Compile.jacksonScala,
-        TestDeps.scalaxmlSpark))
+      Compile.jacksonCore,
+      Compile.jacksonDatabind,
+      Compile.jacksonScala,
+      TestDeps.scalaxmlSpark))
 
   val sparkTests = Seq(
     libraryDependencies ++= Seq(Compile.cloudflowAvro % Test),
     dependencyOverrides ++= Seq(
-        Compile.jacksonCore,
-        Compile.jacksonDatabind,
-        Compile.jacksonScala,
-        TestDeps.scalaxmlSpark))
+      Compile.jacksonCore,
+      Compile.jacksonDatabind,
+      Compile.jacksonScala,
+      TestDeps.scalaxmlSpark))
 
   val cloudflowIt =
     libraryDependencies ++= Seq(
-        Compile.scalatest % Test,
-        Compile.cloudflowCli % Test,
-        Compile.commonsCodec % Test,
-        Compile.commonsCompress % Test)
+      Compile.scalatest % Test,
+      Compile.cloudflowCli % Test,
+      Compile.commonsCodec % Test,
+      Compile.commonsCompress % Test)
 
 }

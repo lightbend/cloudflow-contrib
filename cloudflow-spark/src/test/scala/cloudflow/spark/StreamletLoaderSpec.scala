@@ -35,7 +35,8 @@ class StreamletLoaderSpec extends AnyWordSpecLike with StreamletLoader with Matc
   val emptyConfig = ConfigFactory.empty()
 
   def flowConfig(appId: String, appVersion: String, streamletClass: String): StreamletDefinition =
-    ConfigFactory.parseString(s"""
+    ConfigFactory
+      .parseString(s"""
     streamlet-config = {
       class_name = $streamletClass
       streamlet_ref = $streamletRef

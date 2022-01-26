@@ -17,8 +17,8 @@ object CopyrightHeader extends AutoPlugin {
         Seq(
           headerLicense := Some(HeaderLicense.Custom(headerFor(CurrentYear))),
           headerMappings := headerMappings.value ++ Map(
-              HeaderFileType.scala -> cStyleComment,
-              HeaderFileType.java -> cStyleComment)))
+            HeaderFileType.scala -> cStyleComment,
+            HeaderFileType.java -> cStyleComment)))
     })
 
   val CurrentYear = java.time.Year.now.getValue.toString
