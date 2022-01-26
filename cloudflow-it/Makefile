@@ -29,10 +29,10 @@ prepare-swiss-knife:
 prepare-clis:
 	@echo '****** Prepare the runtimes Clis'
 	rm -rf spark
-	wget https://downloads.apache.org/spark/spark-3.2.0/spark-3.2.0-bin-hadoop2.7.tgz
-	tar -xf spark-3.2.0-bin-hadoop2.7.tgz
-	mv spark-3.2.0-bin-hadoop2.7 spark
-	rm spark-3.2.0-bin-hadoop2.7.tgz
+	wget https://downloads.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop2.7.tgz
+	tar -xf spark-3.2.1-bin-hadoop2.7.tgz
+	mv spark-3.2.1-bin-hadoop2.7 spark
+	rm spark-3.2.1-bin-hadoop2.7.tgz
 	rm -rf flink
 	wget https://archive.apache.org/dist/flink/flink-1.14.3/flink-1.14.3-bin-scala_2.12.tgz
 	tar -xf flink-1.14.3-bin-scala_2.12.tgz
