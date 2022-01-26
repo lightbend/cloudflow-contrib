@@ -101,10 +101,10 @@ case class TaxiRideSource(dataFilePath: String, maxEventDelaySecs: Int, servingS
           // insert all events into schedule that might be emitted next
           val curNextDelayedEventTime = if (!emitSchedule.isEmpty()) emitSchedule.peek()._1 else -1
           var rideEventTime = if (ride != null) getEventTime(ride) else -1
-          while (ride != null && (// while there is a ride AND
-                 emitSchedule.isEmpty() || // and no ride in schedule OR
-                 rideEventTime < curNextDelayedEventTime + maxDelayMsecs) // not enough rides in schedule
-                 ) {
+          while (ride != null && ( // while there is a ride AND
+              emitSchedule.isEmpty() || // and no ride in schedule OR
+              rideEventTime < curNextDelayedEventTime + maxDelayMsecs) // not enough rides in schedule
+          ) {
             // insert event into emit schedule
             val delayedEventTime = rideEventTime + getNormalDelayMsecs(rand)
             emitSchedule.add((delayedEventTime, ride))

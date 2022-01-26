@@ -168,7 +168,9 @@ lazy val sparkDocs = Project(id = "spark-docs", base = file("spark-docs"))
 lazy val setVersionFromTag = taskKey[Unit]("Set a stable version from env variable")
 
 setVersionFromTag := {
-  IO.write(file("version.sbt"), s"""ThisBuild / version := "${sys.env
-    .get("VERSION")
-    .getOrElse("0.0.0-SNAPSHOT")}"""")
+  IO.write(
+    file("version.sbt"),
+    s"""ThisBuild / version := "${sys.env
+      .get("VERSION")
+      .getOrElse("0.0.0-SNAPSHOT")}"""")
 }

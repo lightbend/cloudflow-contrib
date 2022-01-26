@@ -107,8 +107,8 @@ object LocalFlinkJobExecutor extends FlinkJobExecutor {
       completionPromise: Promise[Dun]): StreamletExecution = {
 
     val jobResult = Future(logic.executeStreamingQueries(context.env))
-    jobResult.recoverWith {
-      case t: Throwable => Future.failed(t)
+    jobResult.recoverWith { case t: Throwable =>
+      Future.failed(t)
     }
     new StreamletExecution {
       val readyFuture = readyPromise.future
