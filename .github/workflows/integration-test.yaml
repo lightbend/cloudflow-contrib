@@ -1,4 +1,4 @@
-name: Cloudflow Contrib Integration tests
+name: Integration tests
 
 on:
   push:
