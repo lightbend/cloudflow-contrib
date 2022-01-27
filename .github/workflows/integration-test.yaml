@@ -97,6 +97,7 @@ jobs:
         run: |
           export VERSION=$(cat .version)
           cd cloudflow-contrib
+          sudo chown -R $(whoami) examples-scripts
           cd cloudflow-it
           make prepare-clis version=${VERSION}
 
@@ -106,7 +107,7 @@ jobs:
           DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
         run: |
           export VERSION=$(cat .version)
-
+          
           cd cloudflow-contrib
           cd cloudflow-it
           make run-it-tests version=${VERSION}
