@@ -97,7 +97,7 @@ jobs:
         run: |
           export VERSION=$(cat .version)
           cd cloudflow-contrib
-          sudo chown -R $(whoami) examples-scripts
+          sudo chown -R $(whoami) example-scripts
           cd cloudflow-it
           make prepare-clis version=${VERSION}
 
