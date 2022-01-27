@@ -28,6 +28,12 @@ jobs:
       - name: Setup gpg
         uses: olafurpg/setup-gpg@v3
 
+      # Set the release version
+      # https://stackoverflow.com/a/58178121
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
       - name: Release
         env:
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
