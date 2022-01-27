@@ -57,3 +57,10 @@ jobs:
 #          git add .
 #          git commit --allow-empty -m "update"
 #          git push
+
+      - name: Trigger integration tests
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |-
+          git tag "cloudflow_contrib_it_v$RELEASE_VERSION"
+          git push origin "cloudflow_contrib_it_v$RELEASE_VERSION"
