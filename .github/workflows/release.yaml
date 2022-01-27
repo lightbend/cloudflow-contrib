@@ -69,5 +69,5 @@ jobs:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |-
           export CLOUDFLOW_CONTRIB_VERSION=$RELEASE_VERSION
-          git tag cloudflow_contrib_it_v${CLOUDFLOW_CONTRIB_VERSION}
-          git push origin cloudflow_contrib_it_v${CLOUDFLOW_CONTRIB_VERSION}
+          git tag cloudflow_contrib_it_${CLOUDFLOW_CONTRIB_VERSION}
+          git push origin cloudflow_contrib_it_${CLOUDFLOW_CONTRIB_VERSION}
