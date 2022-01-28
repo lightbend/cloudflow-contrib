@@ -41,7 +41,7 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         run: |-
           sbt ci-release
-          
+
       - name: FOSSA policy check
         run: |-
           curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/spectrometer/master/install.sh | bash
@@ -67,9 +67,23 @@ jobs:
 #          git push
 
       - name: Trigger integration tests
+
         env:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |-
+          # TODO maybe update to use GITHUB_TOKEN
+          GIT_KEY: ${{ secrets.GIT_KEY }}
+        run: |
+          mkdir -p ~/.ssh/
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          echo "$GIT_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          git config --global user.email "cloudflow@lightbend.com"
+          git config --global user.name "Cloudflow @Lightbend"
+          rm -rf cloudflow-contrib          
+          git clone git@github.com:lightbend/cloudflow-contrib.git
+          cd cloudflow-contrib
+          git fetch origin "+refs/tags/*:refs/tags/*"
           export CLOUDFLOW_CONTRIB_VERSION=$RELEASE_VERSION
+          echo $CLOUDFLOW_CONTRIB_VERSION
           git tag cloudflow_contrib_it_${CLOUDFLOW_CONTRIB_VERSION}
           git push origin cloudflow_contrib_it_${CLOUDFLOW_CONTRIB_VERSION}
