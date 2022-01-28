@@ -79,6 +79,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           git config --global user.email "cloudflow@lightbend.com"
           git config --global user.name "Cloudflow @Lightbend"
+          
           rm -rf cloudflow-contrib          
           git clone git@github.com:lightbend/cloudflow-contrib.git
           cd cloudflow-contrib
