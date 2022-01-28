@@ -97,7 +97,15 @@ jobs:
         run: |
           export VERSION=$(cat .version)
           cd cloudflow-contrib
+          echo current directory: $(pwd)
+          echo user: $(whoami)
           sudo chown -R $(whoami) example-scripts
+          mkdir example-scripts/flink/deploy/.tmp
+          mkdir example-scripts/flink/undeploy/.tmp
+          mkdir example-scripts/flink/redeploy/.tmp
+          mkdir example-scripts/spark-cli/deploy/.tmp
+          mkdir example-scripts/spark-cli/undeploy/.tmp
+          mkdir example-scripts/spark-cli/redeploy/.tmp
           cd cloudflow-it
           make prepare-clis version=${VERSION}
 
