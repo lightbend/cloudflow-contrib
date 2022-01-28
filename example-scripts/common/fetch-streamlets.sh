@@ -16,7 +16,16 @@ rm -rf ".tmp/${APPLICATION}"
 mkdir -p ".tmp/${APPLICATION}"
 
 CR_FILE=".tmp/${APPLICATION}/cr.json"
+echo "current directory: $(pwd)"
+echo "cat $CR_FILE"
+cat $CR_FILE
+CR_FILE_PWD=$(pwd)/$CR_FILE
+echo "cat $CR_FILE_PWD"
+cat $(pwd)/$CR_FILE
+
 kubectl get cloudflowapplications.cloudflow.lightbend.com --namespace "$APPLICATION" -o json > "${CR_FILE}"
+
+cat $CR_FILE | true
 
 jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployments[] | select(.runtime == \"${RUNTIME}\")" "${CR_FILE}" | \
   while IFS='' read streamlet; do
