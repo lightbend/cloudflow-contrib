@@ -24,6 +24,12 @@ prepare-swiss-knife:
 				clean buildApp)
 	@echo '****** Copy the cr file to the itests relevant folder'
 	(cp swiss-knife/target/swiss-knife.json src/it/resources/ && \
+	mkdir -p 	../../example-scripts/flink/deploy/.tmp/swiss-knife/ && \
+	mkdir -p 	../../example-scripts/flink/undeploy/.tmp/swiss-knife/ && \
+	mkdir -p 	../../example-scripts/flink/redeploy/.tmp/swiss-knife/ && \
+	mkdir -p 	../../example-scripts/spark-cli/deploy/.tmp/swiss-knife/ && \
+	mkdir -p 	../../example-scripts/spark-cli/undeploy/.tmp/swiss-knife/ && \
+	mkdir -p 	../../example-scripts/spark-cli/redeploy/.tmp/swiss-knife/ && \
   cp swiss-knife/target/swiss-knife.json ../../example-scripts/flink/deploy/.tmp/swiss-knife/cr.json && \
   cp swiss-knife/target/swiss-knife.json ../../example-scripts/flink/undeploy/.tmp/swiss-knife/cr.json && \
   cp swiss-knife/target/swiss-knife.json ../../example-scripts/flink/redeploy/.tmp/swiss-knife/cr.json && \
