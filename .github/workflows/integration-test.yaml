@@ -54,7 +54,7 @@ jobs:
           sudo snap install helm --classic
           sudo snap install kubectl --classic
           
-          sudo snap install yq
+          sudo snap install yq --classic
           sudo snap install jq --classic
 
           export VERSION=$(cat .version)
