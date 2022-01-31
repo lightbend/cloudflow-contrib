@@ -25,7 +25,7 @@ echo "cat $CR_FILE_PWD"
 cat $(pwd)/$CR_FILE
 
 kubectl get cloudflowapplications.cloudflow.lightbend.com --namespace "$APPLICATION" -o json > "${CR_FILE}"
-
+echo "cat $CR_FILE after getting the CR from the cluster"
 cat $CR_FILE | true
 
 jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployments[] | select(.runtime == \"${RUNTIME}\")" "${CR_FILE}" | \
