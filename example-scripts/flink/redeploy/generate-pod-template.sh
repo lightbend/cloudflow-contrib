@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 STREAMLET_FOLDER=$1
 if [ -z "$STREAMLET_FOLDER" ]; then
@@ -23,13 +24,13 @@ jq -rc '.kubernetes.pods.pod.containers.container."volume-mounts" | keys[]' "${S
   while IFS='' read volume_name; do
     # echo "Volume name: $volume_name"
 
-    is_pvc=$(jq -rc ".kubernetes.pods.pod.volumes.${volume_name}.pvc" "${STREAMLET_FOLDER}secrets/pods-config.conf")
+    is_pvc=$(jq -rc ".kubernetes.pods.pod.volumes.\"${volume_name}\".pvc" "${STREAMLET_FOLDER}secrets/pods-config.conf")
     if [ -z $is_pvc ] || [ "$is_pvc" = "null" ] || [ "$is_pvc" = "" ]; then
       # Not a PVC
       true
     else
       pvc_name="$volume_name"
-      pvc_claim_name=$(jq -r ".kubernetes.pods.pod.volumes.${volume_name}.pvc.name" "${STREAMLET_FOLDER}secrets/pods-config.conf")
+      pvc_claim_name=$(jq -r ".kubernetes.pods.pod.volumes.\"${volume_name}\".pvc.name" "${STREAMLET_FOLDER}secrets/pods-config.conf")
 
       # Write the ouput file and exit
       # TODO improve especially error handling
