@@ -18,11 +18,7 @@ mkdir -p ".tmp/${APPLICATION}"
 CR_FILE=".tmp/${APPLICATION}/cr.json"
 echo "current directory: $(pwd)"
 ls -als .tmp/${APPLICATION}
-echo "cat $CR_FILE"
-cat $CR_FILE
 CR_FILE_PWD=$(pwd)/$CR_FILE
-echo "cat $CR_FILE_PWD"
-cat $(pwd)/$CR_FILE
 
 kubectl get cloudflowapplications.cloudflow.lightbend.com --namespace "$APPLICATION" -o json > "${CR_FILE}"
 echo "cat $CR_FILE after getting the CR from the cluster"

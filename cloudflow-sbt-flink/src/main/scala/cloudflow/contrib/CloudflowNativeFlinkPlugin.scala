@@ -96,7 +96,6 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
           Instructions.Env("SCALA_VERSION", scalaVersion),
           Instructions.Env("FLINK_HOME", FlinkHome),
           Instructions.Env("PATH", "$FLINK_HOME/bin:$PATH"),
-          Instructions.Env("FLINK_ENV_JAVA_OPTS", "-Dlogback.configurationFile=/opt/logging/logback.xml"),
           Instructions.User("root"),
           Instructions.Copy(CopyFile(flinkEntrypoint), "/docker-entrypoint.sh"),
           Instructions.Run.shell(
