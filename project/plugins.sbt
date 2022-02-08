@@ -10,4 +10,4 @@ addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
 // publishing
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
 
-addSbtPlugin("com.julianpeeters" % "sbt-avrohugger" % "2.0.0-RC29")
+addSbtPlugin("com.julianpeeters" % "sbt-avrohugger" % "2.0.0-RC30")
