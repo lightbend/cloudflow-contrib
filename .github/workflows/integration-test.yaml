@@ -111,9 +111,9 @@ jobs:
           cd cloudflow-it
           make run-it-tests version=${VERSION}
 
-      - name: Cleanup the environment
-        if: ${{ always() }}
-        shell: bash {0}
-        run: |
-          export VERSION=$(cat .version)
-          (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
+      # - name: Cleanup the environment
+      #   if: ${{ always() }}
+      #   shell: bash {0}
+      #   run: |
+      #     export VERSION=$(cat .version)
+      #     (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
