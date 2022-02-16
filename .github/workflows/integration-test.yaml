@@ -6,6 +6,9 @@ on:
       - "cloudflow_contrib_it_v*"
 
 env:
+  #   DELETE TWO LINES BELOW
+  CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+  GOOGLE_PROJECT_NAME: ${{ secrets.GOOGLE_PROJECT_NAME }}
   PROJECT_ID: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
   GKE_REGION: europe-west1
   GKE_ZONE: europe-west1-b
@@ -63,7 +66,8 @@ jobs:
           gcloud config set compute/zone ${GKE_ZONE}
 
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project ${GOOGLE_PROJECT_NAME} 
-      #   DELETE LINE ABOVE
+          gcloud --quiet auth configure-docker
+      #   DELETE TWO LINE ABOVE
       #     export VERSION=$(cat .version)
       #     git clone ${CLOUDFLOW_URL} --branch v${VERSION} --depth 1 --single-branch ./cloudflow-contrib
       #     cat cloudflow-contrib/project/Dependencies.scala | grep 'val cloudflowVersion' | awk '{ print $4}' > .cloudflow-version
