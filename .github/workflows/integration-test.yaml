@@ -62,18 +62,20 @@ jobs:
           gcloud config set compute/region ${GKE_REGION}
           gcloud config set compute/zone ${GKE_ZONE}
 
-          export VERSION=$(cat .version)
-          git clone ${CLOUDFLOW_URL} --branch v${VERSION} --depth 1 --single-branch ./cloudflow-contrib
-          cat cloudflow-contrib/project/Dependencies.scala | grep 'val cloudflowVersion' | awk '{ print $4}' > .cloudflow-version
-          cat .cloudflow-version
-          export CLOUDFLOW_VERSION=$(cat .cloudflow-version)
+          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project ${GOOGLE_PROJECT_NAME} 
+      #   DELETE LINE ABOVE
+      #     export VERSION=$(cat .version)
+      #     git clone ${CLOUDFLOW_URL} --branch v${VERSION} --depth 1 --single-branch ./cloudflow-contrib
+      #     cat cloudflow-contrib/project/Dependencies.scala | grep 'val cloudflowVersion' | awk '{ print $4}' > .cloudflow-version
+      #     cat .cloudflow-version
+      #     export CLOUDFLOW_VERSION=$(cat .cloudflow-version)
 
-          cd cloudflow-contrib
-          cd cloudflow-it
-          make spawn-gke-cluster version=${CLOUDFLOW_VERSION}
+      #     cd cloudflow-contrib
+      #     cd cloudflow-it
+      #     make spawn-gke-cluster version=${CLOUDFLOW_VERSION}
 
-          gcloud --quiet auth configure-docker
-          make prepare-cluster version=${CLOUDFLOW_VERSION}
+      #     gcloud --quiet auth configure-docker
+      #     make prepare-cluster version=${CLOUDFLOW_VERSION}
 
       - name: Cache locally cloudflow-contrib to avoid sonatype delays
         run: |
