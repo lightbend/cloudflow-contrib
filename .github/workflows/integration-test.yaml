@@ -67,9 +67,10 @@ jobs:
 
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project ${GOOGLE_PROJECT_NAME} 
           gcloud --quiet auth configure-docker
-      #   DELETE TWO LINES ABOVE
-      #     export VERSION=$(cat .version)
           git clone ${CLOUDFLOW_URL} --branch v${VERSION} --depth 1 --single-branch ./cloudflow-contrib
+      #   DELETE THREE LINES ABOVE
+      #     export VERSION=$(cat .version)
+      #     git clone ${CLOUDFLOW_URL} --branch v${VERSION} --depth 1 --single-branch ./cloudflow-contrib
       #     cat cloudflow-contrib/project/Dependencies.scala | grep 'val cloudflowVersion' | awk '{ print $4}' > .cloudflow-version
       #     cat .cloudflow-version
       #     export CLOUDFLOW_VERSION=$(cat .cloudflow-version)
