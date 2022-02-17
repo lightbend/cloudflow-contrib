@@ -51,10 +51,9 @@ jobs:
       - name: Setup the cluster
         shell: bash {0}
         run: |
-          sudo snap install helm
-          sudo snap install kubectl
-          
-          sudo snap install yq 
+          brew install helm
+          brew install kubectl
+          brew install yq 
 
           export VERSION=$(cat .version)
 
