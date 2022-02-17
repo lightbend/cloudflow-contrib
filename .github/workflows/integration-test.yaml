@@ -86,6 +86,7 @@ jobs:
           DOCKER_REGISTRY: "eu.gcr.io"
           DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
         run: |
+          brew install docker docker-machine
           export VERSION=$(cat .version)
           cd cloudflow-contrib
           cd cloudflow-it
