@@ -16,7 +16,7 @@ env:
 jobs:
   gke:
     name: Run Cloudflow-contrib Integration tests
-    runs-on: macOS-11.6
+    runs-on: macOS-11
 
     steps:
       - name: Checkout
@@ -51,8 +51,8 @@ jobs:
       - name: Setup the cluster
         shell: bash {0}
         run: |
-          sudo snap install helm 
-          sudo snap install kubectl 
+          sudo snap install helm
+          sudo snap install kubectl
           
           sudo snap install yq 
 
