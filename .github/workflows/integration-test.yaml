@@ -4,6 +4,17 @@ on:
   push:
     tags:
       - "cloudflow_contrib_it_v*"
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning' 
+        type: choice
+        options:
+        - info
+        - warning
+        - debug 
 
 env:
   PROJECT_ID: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
@@ -16,7 +27,7 @@ env:
 jobs:
   gke:
     name: Run Cloudflow-contrib Integration tests
-    runs-on: macOS-11
+    runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
@@ -51,9 +62,11 @@ jobs:
       - name: Setup the cluster
         shell: bash {0}
         run: |
-          brew install helm
-          brew install kubectl
-          brew install yq 
+          sudo snap install helm --classic
+          sudo snap install kubectl --classic
+          
+          sudo snap install yq --classic
+          sudo snap install jq --classic
 
           export VERSION=$(cat .version)
 
@@ -86,7 +99,6 @@ jobs:
           DOCKER_REGISTRY: "eu.gcr.io"
           DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
         run: |
-          brew install docker docker-machine
           export VERSION=$(cat .version)
           cd cloudflow-contrib
           cd cloudflow-it
@@ -110,9 +122,9 @@ jobs:
           cd cloudflow-it
           make run-it-tests version=${VERSION}
 
-      # - name: Cleanup the environment
-      #   if: ${{ always() }}
-      #   shell: bash {0}
-      #   run: |
-      #     export VERSION=$(cat .version)
-      #     (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
+      - name: Cleanup the environment
+        if: ${{ always() }}
+        shell: bash {0}
+        run: |
+          export VERSION=$(cat .version)
+          (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
