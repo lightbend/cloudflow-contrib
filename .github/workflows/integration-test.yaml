@@ -64,10 +64,8 @@ jobs:
         run: |
           sudo snap install helm --classic
           sudo snap install kubectl --classic
+          kubectl version
           
-          sudo snap install yq --classic
-          sudo snap install jq --classic
-
           export VERSION=$(cat .version)
 
           gcloud config set compute/region ${GKE_REGION}
