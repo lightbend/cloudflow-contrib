@@ -4,6 +4,17 @@ on:
   push:
     tags:
       - "cloudflow_contrib_it_v*"
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning' 
+        type: choice
+        options:
+        - info
+        - warning
+        - debug 
 
 env:
   PROJECT_ID: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
@@ -111,9 +122,9 @@ jobs:
           cd cloudflow-it
           make run-it-tests version=${VERSION}
 
-      # - name: Cleanup the environment
-      #   if: ${{ always() }}
-      #   shell: bash {0}
-      #   run: |
-      #     export VERSION=$(cat .version)
-      #     (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
+      - name: Cleanup the environment
+        if: ${{ always() }}
+        shell: bash {0}
+        run: |
+          export VERSION=$(cat .version)
+          (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
