@@ -64,8 +64,9 @@ jobs:
         run: |
           sudo snap install helm --classic
           sudo snap install kubectl --classic
-          snap install jq channel=latest/edge --classic
+          snap install jq --channel=latest/edge --classic
           snap info jq
+          jq --version
           kubectl version
           
           export VERSION=$(cat .version)
