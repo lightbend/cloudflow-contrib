@@ -64,8 +64,8 @@ jobs:
         run: |
           sudo snap install helm --classic
           sudo snap install kubectl --classic
-          apt-get update && apt-get install -y jq
-          jq --version 
+          snap install jq --classic
+          snap find jq
           kubectl version
           
           export VERSION=$(cat .version)
