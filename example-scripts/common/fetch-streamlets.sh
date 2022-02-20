@@ -20,12 +20,10 @@ echo "current directory: $(pwd)"
 ls -als .tmp/${APPLICATION}
 CR_FILE_PWD=$(pwd)/$CR_FILE
 
-echo "content of CR in cloudflow"
-kubectl get cloudflowapplications.cloudflow.lightbend.com --namespace "$APPLICATION" -o json
-
 kubectl get cloudflowapplications.cloudflow.lightbend.com --namespace "$APPLICATION" -o json > "${CR_FILE}"
 echo "cat $CR_FILE after getting the CR from the cluster"
 ls -als .tmp/${APPLICATION}
+tree -L 3
 cat $CR_FILE | true
 
 jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployments[] | select(.runtime == \"${RUNTIME}\")" "${CR_FILE}" | \
