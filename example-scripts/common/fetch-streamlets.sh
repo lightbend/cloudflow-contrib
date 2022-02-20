@@ -23,8 +23,11 @@ CR_FILE_PWD=$(pwd)/$CR_FILE
 kubectl get cloudflowapplications.cloudflow.lightbend.com --namespace "$APPLICATION" -o json > "${CR_FILE}"
 echo "cat $CR_FILE after getting the CR from the cluster"
 ls -als .tmp/${APPLICATION}
+
+head -n 100 $CR_FILE
+echo "tree>>>"
 tree -L 3
-cat $CR_FILE | true
+echo "<<<tree"
 
 jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployments[] | select(.runtime == \"${RUNTIME}\")" "${CR_FILE}" | \
   while IFS='' read streamlet; do
