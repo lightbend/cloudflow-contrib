@@ -24,7 +24,7 @@ kubectl get cloudflowapplications.cloudflow.lightbend.com --namespace "$APPLICAT
 echo "cat $CR_FILE after getting the CR from the cluster"
 ls -als .tmp/${APPLICATION}
 
-head -n 100 $CR_FILE
+head -n 25 $CR_FILE
 echo "tree>>>"
 tree -L 3
 echo "<<<tree"

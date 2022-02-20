@@ -64,12 +64,9 @@ jobs:
         run: |
           sudo snap install helm --classic
           sudo snap install kubectl --classic
-          sudo snap install yq --classic
+          sudo snap install  --classic
           sudo snap install jq --channel=latest/edge
           sudo snap install tree
-          snap info jq 
-          jq --version
-          kubectl version
           
           export VERSION=$(cat .version)
 
