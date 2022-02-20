@@ -26,7 +26,7 @@ ls -als .tmp/${APPLICATION}
 
 head -n 25 $CR_FILE
 echo "tree>>>"
-tree -L 3
+tree -ahpug
 echo "<<<tree"
 
 jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployments[] | select(.runtime == \"${RUNTIME}\")" "${CR_FILE}" | \
