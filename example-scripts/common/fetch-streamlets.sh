@@ -47,3 +47,7 @@ jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployme
         jq -rc ".data.\"${secret_data}\" | @base64d" "${SECRET_FILE}" > ".tmp/${APPLICATION}/${streamlet_name}/secrets/${secret_data}"
       done
   done
+
+echo "tree AFTER creating streamlets and secrets from CR's .items[]>>>"
+tree -ahpug
+echo "<<<tree"
