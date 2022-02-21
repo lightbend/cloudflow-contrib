@@ -28,6 +28,8 @@ head -n 25 $CR_FILE
 echo "tree>>>"
 tree -ahpug
 echo "<<<tree"
+echo "annd whoami"
+whoami
 
 jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployments[] | select(.runtime == \"${RUNTIME}\")" "${CR_FILE}" | \
   while IFS='' read streamlet; do
