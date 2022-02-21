@@ -30,11 +30,6 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Setup jq
-        shell: bash {0}
-        run: |
-          sudo apt-get update && sudo apt-get install -y jq
-          jq --version 
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -63,15 +58,15 @@ jobs:
           version: '290.0.1'
           service_account_key: ${{ secrets.CLOUDFLOW_GKE_SA_KEY }}
           project_id: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
-
+      # jq it's installed with snap to avoid permissions errors
+      ## when reading files. 
       - name: Setup the cluster
         shell: bash {0}
         run: |
           sudo snap install helm --classic
           sudo snap install kubectl --classic
           sudo snap install yq 
-          sudo apt-get update && sudo apt-get install -y jq
-          sudo snap install tree
+          sudo apt-get update && sudo apt-get install -y jq yq
           
           export VERSION=$(cat .version)
 
@@ -127,9 +122,9 @@ jobs:
           cd cloudflow-it
           make run-it-tests version=${VERSION}
 
-      # - name: Cleanup the environment
-      #   if: ${{ always() }}
-      #   shell: bash {0}
-      #   run: |
-      #     export VERSION=$(cat .version)
-      #     (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
+      - name: Cleanup the environment
+        if: ${{ always() }}
+        shell: bash {0}
+        run: |
+          export VERSION=$(cat .version)
+          (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})

@@ -16,20 +16,9 @@ rm -rf ".tmp/${APPLICATION}"
 mkdir -p ".tmp/${APPLICATION}"
 
 CR_FILE=".tmp/${APPLICATION}/cr.json"
-echo "current directory: $(pwd)"
-ls -als .tmp/${APPLICATION}
 CR_FILE_PWD=$(pwd)/$CR_FILE
 
 kubectl get cloudflowapplications.cloudflow.lightbend.com --namespace "$APPLICATION" -o json > "${CR_FILE}"
-echo "cat $CR_FILE after getting the CR from the cluster"
-ls -als .tmp/${APPLICATION}
-
-head -n 25 $CR_FILE
-echo "tree>>>"
-tree -ahpug
-echo "<<<tree"
-echo "annd whoami"
-whoami
 
 jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployments[] | select(.runtime == \"${RUNTIME}\")" "${CR_FILE}" | \
   while IFS='' read streamlet; do
@@ -49,7 +38,3 @@ jq -rc ".items[] | select(.metadata.name == \"${APPLICATION}\") | .spec.deployme
         jq -rc ".data.\"${secret_data}\" | @base64d" "${SECRET_FILE}" > ".tmp/${APPLICATION}/${streamlet_name}/secrets/${secret_data}"
       done
   done
-
-echo "tree AFTER creating streamlets and secrets from CR's .items[]>>>"
-tree -ahpug
-echo "<<<tree"
