@@ -30,6 +30,11 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
+      - name: Setup jq
+        shell: bash {0}
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          jq --version 
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -65,7 +70,7 @@ jobs:
           sudo snap install helm --classic
           sudo snap install kubectl --classic
           sudo snap install yq 
-          sudo apt-get install -y jq
+          sudo apt-get update && sudo apt-get install -y jq
           sudo snap install tree
           
           export VERSION=$(cat .version)
