@@ -128,7 +128,7 @@ jobs:
         shell: bash {0}
         run: |
           export VERSION=$(cat .version)
-          echo y | gcloud container images delete eu.gcr.io/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-akka:$VERSION
-          echo y | gcloud container images delete eu.gcr.io/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-flink:$VERSION
-          echo y | gcloud container images delete eu.gcr.io/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-spark:$VERSION
+          echo y | gcloud container images delete $DOCKER_REGISTRY/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-akka:$VERSION
+          echo y | gcloud container images delete $DOCKER_REGISTRY/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-flink:$VERSION
+          echo y | gcloud container images delete $DOCKER_REGISTRY/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-spark:$VERSION
           (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
