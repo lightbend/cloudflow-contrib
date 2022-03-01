@@ -20,6 +20,8 @@ env:
   PROJECT_ID: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
   GKE_REGION: europe-west1
   GKE_ZONE: europe-west1-b
+  DOCKER_REGISTRY: "eu.gcr.io"
+  DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
   MACHINE_ID: "cicon"
   CLOUDFLOW_URL: "https://github.com/lightbend/cloudflow-contrib.git"
   JAVA_OPTS: -Xms2048M -Xmx4096M -Xss2M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8
@@ -96,9 +98,6 @@ jobs:
           sbt 'set ThisBuild / publishMavenStyle := false' +publishLocal
 
       - name: Prepare swiss-knife
-        env:
-          DOCKER_REGISTRY: "eu.gcr.io"
-          DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
         run: |
           export VERSION=$(cat .version)
           cd cloudflow-contrib
@@ -113,9 +112,6 @@ jobs:
           make prepare-clis version=${VERSION}
 
       - name: Integration test
-        env:
-          DOCKER_REGISTRY: "eu.gcr.io"
-          DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
         run: |
           export VERSION=$(cat .version)
           
