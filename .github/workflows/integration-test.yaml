@@ -20,6 +20,8 @@ env:
   PROJECT_ID: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
   GKE_REGION: europe-west1
   GKE_ZONE: europe-west1-b
+  DOCKER_REGISTRY: "eu.gcr.io"
+  DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
   MACHINE_ID: "cicon"
   CLOUDFLOW_URL: "https://github.com/lightbend/cloudflow-contrib.git"
   JAVA_OPTS: -Xms2048M -Xmx4096M -Xss2M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8
@@ -58,6 +60,7 @@ jobs:
           version: '290.0.1'
           service_account_key: ${{ secrets.CLOUDFLOW_GKE_SA_KEY }}
           project_id: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
+     
       # jq it's installed with snap to avoid permissions errors
       ## when reading files. 
       - name: Setup the cluster
@@ -95,9 +98,6 @@ jobs:
           sbt 'set ThisBuild / publishMavenStyle := false' +publishLocal
 
       - name: Prepare swiss-knife
-        env:
-          DOCKER_REGISTRY: "eu.gcr.io"
-          DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
         run: |
           export VERSION=$(cat .version)
           cd cloudflow-contrib
@@ -112,19 +112,19 @@ jobs:
           make prepare-clis version=${VERSION}
 
       - name: Integration test
-        env:
-          DOCKER_REGISTRY: "eu.gcr.io"
-          DOCKER_REPOSITORY: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
         run: |
           export VERSION=$(cat .version)
           
           cd cloudflow-contrib
           cd cloudflow-it
           make run-it-tests version=${VERSION}
-
+      
       - name: Cleanup the environment
         if: ${{ always() }}
         shell: bash {0}
         run: |
           export VERSION=$(cat .version)
+          echo y | gcloud container images delete $DOCKER_REGISTRY/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-akka:$VERSION
+          echo y | gcloud container images delete $DOCKER_REGISTRY/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-flink:$VERSION
+          echo y | gcloud container images delete $DOCKER_REGISTRY/${{ secrets.CLOUDFLOW_GKE_PROJECT }}/swiss-knife-spark:$VERSION
           (cd cloudflow-contrib/cloudflow-it && make delete-gke-cluster version=${VERSION})
