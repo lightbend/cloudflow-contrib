@@ -5,7 +5,7 @@ addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.5.0")
 // discipline
 addSbtPlugin("com.lightbend.sbt" % "sbt-java-formatter" % "0.7.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
-addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
+addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.5")
 
 // publishing
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
