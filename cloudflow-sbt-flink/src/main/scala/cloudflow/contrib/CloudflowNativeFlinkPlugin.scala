@@ -29,7 +29,7 @@ import cloudflow.sbt.CloudflowBasePlugin._
 
 object CloudflowNativeFlinkPlugin extends AutoPlugin {
   val FlinkHome = "/opt/flink"
-  val FlinkVersion = "1.14.4"
+  val FlinkVersion = "1.15.0"
   val FlinkUsrLib = s"$FlinkHome/usrlib"
 
   val AppJarsDir: String = "app-jars"
