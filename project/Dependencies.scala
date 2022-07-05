@@ -9,9 +9,9 @@ object Dependencies {
   object Versions {
     val cloudflowVersion = "2.3.1-RC1"
 
-    val flinkVersion = "1.14.3"
+    val flinkVersion = "1.14.4"
     val sparkVersion = "3.2.1"
-    val akka = "2.6.18"
+    val akka = "2.6.19"
     val jackson = "2.12.6"
     val fabric8 = "5.0.0"
     val scalaTest = "3.2.11"
@@ -60,7 +60,7 @@ object Dependencies {
   object TestDeps {
 
     val scalatestJunit = "org.scalatestplus" %% "junit-4-13" % s"${Versions.scalaTest}.0" % Test
-    val jodaTime = "joda-time" % "joda-time" % "2.10.13"
+    val jodaTime = "joda-time" % "joda-time" % "2.10.14"
     val scalaxmlSpark = "org.scala-lang.modules" %% "scala-xml" % "1.2.0"
   }
 
