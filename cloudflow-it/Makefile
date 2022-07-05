@@ -69,7 +69,7 @@ prepare-cluster:
 .PHONY: spawn-gke-cluster
 spawn-gke-cluster:
 	@echo '****** Spawn a GKE cluster to run the IT tests on'
-	(bash -c "source ./create-cluster-gke.sh it-${MACHINE_ID}")
+	(bash -c "source ./create-cluster-gke.sh it-${MACHINE_ID} 1.21.12-gke.1500") # 1.22 isn't compatible with Cloudflow at the moment.")
 
 .PHONY: delete-gke-cluster
 delete-gke-cluster:
