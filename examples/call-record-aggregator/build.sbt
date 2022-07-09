@@ -4,79 +4,58 @@ import sbt.Keys._
 lazy val root =
   Project(id = "root", base = file("."))
     .enablePlugins(ScalafmtPlugin)
-    .settings(
-      name := "root",
-      scalafmtOnCompile := true,
-      publish / skip := true,
-    )
+    .settings(name := "root", scalafmtOnCompile := true, publish / skip := true)
     .withId("root")
     .settings(commonSettings)
-    .aggregate(
-      callRecordPipeline,
-      datamodel,
-      akkaCdrIngestor,
-      akkaJavaAggregationOutput,
-      sparkAggregation
-    )
+    .aggregate(callRecordPipeline, datamodel, akkaCdrIngestor, akkaJavaAggregationOutput, sparkAggregation)
 
 //tag::docs-CloudflowApplicationPlugin-example[]
 lazy val callRecordPipeline = appModule("call-record-pipeline")
   .enablePlugins(CloudflowApplicationPlugin)
   .settings(commonSettings)
-  .settings(
-    name := "call-record-aggregator"
-  )
-  
+  .settings(name := "call-record-aggregator")
+
 //end::docs-CloudflowApplicationPlugin-example[]
 
 lazy val datamodel = appModule("datamodel")
   .settings(
     Compile / sourceGenerators += (Compile / avroScalaGenerateSpecific).taskValue,
-    libraryDependencies += Cloudflow.library.CloudflowAvro
-  )
+    libraryDependencies += Cloudflow.library.CloudflowAvro)
 
-lazy val akkaCdrIngestor= appModule("akka-cdr-ingestor")
-    .enablePlugins(CloudflowAkkaPlugin)
-    .settings(
-      commonSettings,
-      libraryDependencies ++= Seq(
-        "com.typesafe.akka"         %% "akka-http-spray-json"   % "10.1.12",
-        "ch.qos.logback"            %  "logback-classic"        % "1.2.10",
-        "org.scalatest"             %% "scalatest"              % "3.0.8"    % "test"
-      )
-    )
-  .dependsOn(datamodel)
-
-lazy val akkaJavaAggregationOutput= appModule("akka-java-aggregation-output")
+lazy val akkaCdrIngestor = appModule("akka-cdr-ingestor")
   .enablePlugins(CloudflowAkkaPlugin)
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
-      "com.typesafe.akka"      %% "akka-http-spray-json"   % "10.1.12",
-      "ch.qos.logback"         %  "logback-classic"        % "1.2.10",
-      "org.scalatest"          %% "scalatest"              % "3.0.8"    % "test"
-    )
-  )
+      "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.12",
+      "ch.qos.logback" % "logback-classic" % "1.2.10",
+      "org.scalatest" %% "scalatest" % "3.0.8" % "test"))
+  .dependsOn(datamodel)
+
+lazy val akkaJavaAggregationOutput = appModule("akka-java-aggregation-output")
+  .enablePlugins(CloudflowAkkaPlugin)
+  .settings(
+    commonSettings,
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.12",
+      "ch.qos.logback" % "logback-classic" % "1.2.10",
+      "org.scalatest" %% "scalatest" % "3.0.8" % "test"))
   .dependsOn(datamodel)
 
 lazy val sparkAggregation = appModule("spark-aggregation")
-    .enablePlugins(CloudflowNativeSparkPlugin)
-    .settings(
-      commonSettings,
-      Test / parallelExecution := false,
-      Test / fork := true,
-      libraryDependencies ++= Seq(
-        "ch.qos.logback" %  "logback-classic" % "1.2.10",
-        "org.scalatest"  %% "scalatest"       % "3.0.8"  % "test"
-      )
-    )
+  .enablePlugins(CloudflowNativeSparkPlugin)
+  .settings(
+    commonSettings,
+    Test / parallelExecution := false,
+    Test / fork := true,
+    libraryDependencies ++= Seq(
+      "ch.qos.logback" % "logback-classic" % "1.2.10",
+      "org.scalatest" %% "scalatest" % "3.0.8" % "test"))
   .dependsOn(datamodel)
 
 def appModule(moduleID: String): Project = {
   Project(id = moduleID, base = file(moduleID))
-    .settings(
-      name := moduleID
-    )
+    .settings(name := moduleID)
     .withId(moduleID)
     .settings(commonSettings)
 }
@@ -84,10 +63,11 @@ def appModule(moduleID: String): Project = {
 lazy val commonSettings = Seq(
   organization := "com.lightbend.cloudflow",
   headerLicense := Some(HeaderLicense.ALv2("(C) 2016-2020", "Lightbend Inc. <https://www.lightbend.com>")),
-  scalaVersion := "2.12.15",
+  scalaVersion := "2.12.16",
   javacOptions += "-Xlint:deprecation",
   scalacOptions ++= Seq(
-    "-encoding", "UTF-8",
+    "-encoding",
+    "UTF-8",
     "-target:jvm-1.8",
     "-Xlog-reflective-calls",
     "-Xlint",
@@ -96,12 +76,8 @@ lazy val commonSettings = Seq(
     "-deprecation",
     "-feature",
     "-language:_",
-    "-unchecked"
-  ),
-
+    "-unchecked"),
   scalacOptions in (Compile, console) --= Seq("-Ywarn-unused", "-Ywarn-unused-import"),
-  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
-
-)
+  scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value)
 
 dynverSeparator in ThisBuild := "-"
