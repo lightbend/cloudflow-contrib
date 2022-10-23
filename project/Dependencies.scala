@@ -14,7 +14,7 @@ object Dependencies {
     val akka = "2.6.19"
     val jackson = "2.12.6"
     val fabric8 = "5.0.0"
-    val scalaTest = "3.2.11"
+    val scalaTest = "3.2.14"
     val logbackVersion = "1.2.10"
   }
 
