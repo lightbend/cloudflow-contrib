@@ -16,22 +16,18 @@
 
 package cloudflow.flink.javadsl;
 
-import org.junit.*;
 import static org.junit.Assert.*;
-import junit.framework.TestCase;
-
-import org.scalatestplus.junit.JUnitSuite;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import cloudflow.flink.testkit.*;
-
-import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 import cloudflow.flink.*;
 import cloudflow.flink.avro.*;
+import cloudflow.flink.testkit.*;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.junit.*;
+import org.scalatestplus.junit.JUnitSuite;
 
 public class FlinkStreamletTest extends JUnitSuite {
 
