@@ -16,13 +16,13 @@
 
 package cloudflow.flink.javadsl;
 
-import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.DataStreamSink;
-import org.apache.flink.api.common.typeinfo.TypeHint;
+import cloudflow.flink.*;
+import cloudflow.flink.avro.*;
 import cloudflow.streamlets.StreamletShape;
 import cloudflow.streamlets.avro.*;
-import cloudflow.flink.avro.*;
-import cloudflow.flink.*;
+import org.apache.flink.api.common.typeinfo.TypeHint;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.DataStreamSink;
 
 public class FlinkProcessor extends FlinkStreamlet {
 
