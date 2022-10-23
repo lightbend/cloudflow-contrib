@@ -8,6 +8,6 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
 
 // publishing
-addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.11")
 
 addSbtPlugin("com.julianpeeters" % "sbt-avrohugger" % "2.0.0-RC29")
