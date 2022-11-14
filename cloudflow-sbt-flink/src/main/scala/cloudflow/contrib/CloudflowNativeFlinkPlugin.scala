@@ -119,7 +119,7 @@ object CloudflowNativeFlinkPlugin extends AutoPlugin {
               Seq("mkdir", "-p", "/prometheus"),
               Seq(
                 "curl",
-                "https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.11.0/jmx_prometheus_javaagent-0.11.0.jar",
+                "https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.17.2/jmx_prometheus_javaagent-0.11.0.jar",
                 "-o",
                 "/prometheus/jmx_prometheus_javaagent.jar"),
               Seq("chmod", "-R", "777", FlinkHome),
