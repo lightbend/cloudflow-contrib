@@ -1,0 +1,26 @@
+name: checking tags
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Fetch tags
+        run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
+     
+      # Set the release version
+      # https://stackoverflow.com/a/58178121
+      - name: Set tag
+        id: vars
+        run: echo "tag=tag::${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Print tag
+        id: step-x
+        run: echo "${{ env.tag }}" 
