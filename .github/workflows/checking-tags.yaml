@@ -1,7 +1,7 @@
 name: checking tags
 
-on:
-  workflow_dispatch:
+on: [push]
+ 
 
 jobs:
   release:
