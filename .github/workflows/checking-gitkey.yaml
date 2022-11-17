@@ -24,11 +24,9 @@ jobs:
       - name: Print tag
         id: step-x
         run: echo "${{ env.tag }}" 
-        
+
       - name: Trigger integration tests
 
-        env:
-          # TODO maybe update to use GITHUB_TOKEN
         run: |
           mkdir -p ~/.ssh/
           ssh-keyscan github.com >> ~/.ssh/known_hosts
