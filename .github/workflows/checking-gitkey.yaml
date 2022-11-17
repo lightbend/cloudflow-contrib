@@ -17,20 +17,23 @@ jobs:
      
       # Set the release version
       # https://stackoverflow.com/a/58178121
-      - name: Set tag
+      - name: Set output
         id: vars
-        run: echo "tag=tag::${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Print tag
         id: step-x
         run: echo "${{ env.tag }}" 
 
       - name: Trigger integration tests
-
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+          # TODO maybe update to use GITHUB_TOKEN
+          GIT_KEY: ${{ secrets.GIT_KEY }}
         run: |
           mkdir -p ~/.ssh/
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          echo "${{ secrets.GIT_KEY }}" > ~/.ssh/id_rsa
+          echo "$GIT_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           git config --global user.email "cloudflow@lightbend.com"
           git config --global user.name "Cloudflow @Lightbend"
@@ -39,7 +42,7 @@ jobs:
           git clone git@github.com:lightbend/cloudflow-contrib.git
           cd cloudflow-contrib
           git fetch origin "+refs/tags/*:refs/tags/*"
-          export CLOUDFLOW_CONTRIB_VERSION=${{ env.tag }}
+          export CLOUDFLOW_CONTRIB_VERSION=$RELEASE_VERSION
           echo $CLOUDFLOW_CONTRIB_VERSION
           git tag cloudflow_contrib_it_${CLOUDFLOW_CONTRIB_VERSION}
           git push origin cloudflow_contrib_it_${CLOUDFLOW_CONTRIB_VERSION}
