@@ -1,5 +1,9 @@
 = Introducing Cloudflow Contrib
 
+== Deprecated - The Cloudflow project is deprecated
+
+If you are an existing customer of Lightbend and we have not contacted, please reach out to support. All existing contacts will be honored and assistance with migration to new tools is available.
+
 :description: Cloudflow's community maintained extensions and integrations
 
 :imagesdir: assets/images
