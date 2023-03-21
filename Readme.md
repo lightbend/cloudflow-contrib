@@ -2,7 +2,7 @@
 
 ```
 If you are an existing customer of Lightbend and we have not contacted, please reach out to support.
-All existing contacts will be honored and assistance with migration to new tools is available.
+All existing contracts will be honored and assistance with migration to new tools is available.
 ```
 
 # Cloudflow Community Supported integrations
