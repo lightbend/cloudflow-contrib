@@ -15,7 +15,7 @@ object Dependencies {
     val jackson = "2.12.6"
     val fabric8 = "5.0.0"
     val scalaTest = "3.2.11"
-    val logbackVersion = "1.2.10"
+    val logbackVersion = "1.2.12"
   }
 
   object Compile {
