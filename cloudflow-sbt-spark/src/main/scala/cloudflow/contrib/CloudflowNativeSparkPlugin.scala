@@ -96,7 +96,7 @@ object CloudflowNativeSparkPlugin extends AutoPlugin {
       IO.write(sparkEntrypointSh, sparkEntrypointShContent)
 
       val scalaVersion = (ThisProject / scalaBinaryVersion).value
-      val sparkVersion = "3.2.2"
+      val sparkVersion = "3.2.4"
       val sparkHome = "/opt/spark"
 
       val sparkTgz = s"spark-${sparkVersion}-bin-hadoop2.7.tgz"
