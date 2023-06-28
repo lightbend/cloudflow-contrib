@@ -10,7 +10,7 @@ object Dependencies {
     val cloudflowVersion = "2.3.1-RC1"
 
     val flinkVersion = "1.14.4"
-    val sparkVersion = "3.2.1"
+    val sparkVersion = "3.4.0"
     val akka = "2.6.19"
     val jackson = "2.12.6"
     val fabric8 = "5.0.0"
