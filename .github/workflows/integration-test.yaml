@@ -7,14 +7,14 @@ on:
   workflow_dispatch:
     inputs:
       logLevel:
-        description: 'Log level'     
+        description: 'Log level'
         required: true
-        default: 'warning' 
+        default: 'warning'
         type: choice
         options:
         - info
         - warning
-        - debug 
+        - debug
 
 env:
   PROJECT_ID: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
@@ -29,7 +29,7 @@ env:
 jobs:
   gke:
     name: Run Cloudflow-contrib Integration tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
@@ -60,17 +60,17 @@ jobs:
           version: '290.0.1'
           service_account_key: ${{ secrets.CLOUDFLOW_GKE_SA_KEY }}
           project_id: ${{ secrets.CLOUDFLOW_GKE_PROJECT }}
-     
+
       # jq it's installed with snap to avoid permissions errors
-      ## when reading files. 
+      ## when reading files.
       - name: Setup the cluster
         shell: bash {0}
         run: |
           sudo snap install helm --classic
           sudo snap install kubectl --classic
-          sudo snap install yq 
+          sudo snap install yq
           sudo apt-get update && sudo apt-get install -y jq
-          
+
           export VERSION=$(cat .version)
 
           gcloud config set compute/region ${GKE_REGION}
@@ -114,11 +114,11 @@ jobs:
       - name: Integration test
         run: |
           export VERSION=$(cat .version)
-          
+
           cd cloudflow-contrib
           cd cloudflow-it
           make run-it-tests version=${VERSION}
-      
+
       - name: Cleanup the environment
         if: ${{ always() }}
         shell: bash {0}
