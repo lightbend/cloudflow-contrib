@@ -34,10 +34,10 @@ prepare-clis:
 	mv spark-3.2.1-bin-hadoop2.7 spark
 	rm spark-3.2.1-bin-hadoop2.7.tgz
 	rm -rf flink
-	wget https://archive.apache.org/dist/flink/flink-1.14.3/flink-1.14.3-bin-scala_2.12.tgz
-	tar -xf flink-1.14.3-bin-scala_2.12.tgz
-	mv flink-1.14.3 flink
-	rm flink-1.14.3-bin-scala_2.12.tgz
+	wget https://archive.apache.org/dist/flink/flink-1.17.2/flink-1.17.2-bin-scala_2.12.tgz
+	tar -xf flink-1.17.2-bin-scala_2.12.tgz
+	mv flink-1.17.2 flink
+	rm flink-1.17.2-bin-scala_2.12.tgz
 
 .PHONY: prepare-cluster
 prepare-cluster:
