@@ -10,6 +10,7 @@ object Dependencies {
     val cloudflowVersion = "2.3.2"
 
     val flinkVersion = "1.17.2"
+    val flinkKafkaVersion = "3.0.2-1.17"
     val sparkVersion = "3.3.4"
     val akka = "2.6.19"
     val jackson = "2.12.6"
@@ -29,7 +30,7 @@ object Dependencies {
     val flink = "org.apache.flink" %% "flink-scala" % Versions.flinkVersion
     val flinkStreaming = "org.apache.flink" %% "flink-streaming-scala" % Versions.flinkVersion
     val flinkAvro = "org.apache.flink" % "flink-avro" % Versions.flinkVersion
-    val flinkKafka = "org.apache.flink" % "flink-connector-kafka" % Versions.flinkVersion
+    val flinkKafka = "org.apache.flink" % "flink-connector-kafka" % Versions.flinkKafkaVersion
     val flinkWeb = "org.apache.flink" % "flink-runtime-web" % Versions.flinkVersion
 
     val spark = "org.apache.spark" %% "spark-core" % Versions.sparkVersion
