@@ -43,13 +43,6 @@ jobs:
         run: |-
           sbt ci-release
 
-      - name: FOSSA policy check
-        run: |-
-          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/spectrometer/master/install.sh | bash
-          fossa analyze && fossa test
-        env:
-          FOSSA_API_KEY: "${{secrets.FOSSA_API_KEY}}"
-
       - name: Update docs
         run: |-
           sudo snap install yq
