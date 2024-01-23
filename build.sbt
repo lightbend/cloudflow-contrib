@@ -33,7 +33,8 @@ lazy val flinkTests =
       crossScalaVersions := Vector(Dependencies.Scala212),
       scalafmtOnCompile := true,
       (Test / sourceGenerators) += (Test / avroScalaGenerateSpecific).taskValue,
-      Test / parallelExecution := false)
+      Test / parallelExecution := false,
+      Test / fork := true)
 
 lazy val flinkSbtPlugin =
   Project(id = "cloudflow-sbt-flink", base = file("cloudflow-sbt-flink"))
