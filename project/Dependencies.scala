@@ -11,8 +11,8 @@ object Dependencies {
 
     val flinkVersion = "1.18.1"
     val flinkKafkaVersion = "3.1.0-1.18"
-    val sparkVersion = "3.3.4"
-    val akka = "2.6.19"
+    val sparkVersion = "3.5.1"
+    val akka = "2.8.5"
     val jackson = "2.12.6"
     val fabric8 = "5.0.0"
     val scalaTest = "3.2.11"
@@ -24,7 +24,7 @@ object Dependencies {
     val cloudflowAvro = "com.lightbend.cloudflow" %% "cloudflow-avro" % Versions.cloudflowVersion
     val akkaActor = "com.typesafe.akka" %% "akka-actor" % Versions.akka
     val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
-    val akkaProtobuf = "com.typesafe.akka" %% "akka-protobuf" % Versions.akka
+    val akkaProtobuf = "com.typesafe.akka" %% "akka-protobuf-v3" % Versions.akka
     val akkaDiscovery = "com.typesafe.akka" %% "akka-discovery" % Versions.akka
 
     val flink = "org.apache.flink" %% "flink-scala" % Versions.flinkVersion
